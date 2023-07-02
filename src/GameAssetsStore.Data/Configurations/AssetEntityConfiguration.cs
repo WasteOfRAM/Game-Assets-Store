@@ -20,7 +20,7 @@ public class AssetEntityConfiguration : IEntityTypeConfiguration<Asset>
         builder
             .HasMany(e => e.Users)
             .WithMany(e => e.PurchasedAssets)
-            .UsingEntity<object> ("Users Assets", e => e.HasOne<ApplicationUser>().WithMany().OnDelete(DeleteBehavior.Restrict),
+            .UsingEntity<object> ("UsersAssets", e => e.HasOne<ApplicationUser>().WithMany().OnDelete(DeleteBehavior.Restrict),
                                                   e => e.HasOne<Asset>().WithMany().OnDelete(DeleteBehavior.Restrict));
 
         builder
