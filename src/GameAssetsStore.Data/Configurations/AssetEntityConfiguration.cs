@@ -20,21 +20,26 @@ public class AssetEntityConfiguration : IEntityTypeConfiguration<Asset>
         builder
             .HasMany(e => e.Users)
             .WithMany(e => e.PurchasedAssets)
-            .UsingEntity("UsersAssets");
+            .UsingEntity<object> ("Users Assets", e => e.HasOne<ApplicationUser>().WithMany().OnDelete(DeleteBehavior.Restrict),
+                                                  e => e.HasOne<Asset>().WithMany().OnDelete(DeleteBehavior.Restrict));
 
         builder
             .HasMany(e => e.GeneralCategories)
             .WithMany(e => e.Assets)
-            .UsingEntity("AssetsCategories");
+            .UsingEntity<object>("AssetsCategories", e => e.HasOne<GeneralCategory>().WithMany().OnDelete(DeleteBehavior.Restrict),
+                                                     e => e.HasOne<Asset>().WithMany().OnDelete(DeleteBehavior.Restrict));
+
 
         builder
             .HasMany(e => e.SubCategories)
             .WithMany(e => e.Assets)
-            .UsingEntity("AssetsSubCategories");
+            .UsingEntity<object>("AssetsSubCategories", e => e.HasOne<SubCategory>().WithMany().OnDelete(DeleteBehavior.Restrict),
+                                                        e => e.HasOne<Asset>().WithMany().OnDelete(DeleteBehavior.Restrict));
 
         builder
             .HasMany(e => e.ArtStyles)
             .WithMany(e => e.Assets)
-            .UsingEntity("AssetsStyles");
+            .UsingEntity<object>("AssetsStyles", e => e.HasOne<ArtStyle>().WithMany().OnDelete(DeleteBehavior.Restrict),
+                                                 e => e.HasOne<Asset>().WithMany().OnDelete(DeleteBehavior.Restrict));
     }
 }

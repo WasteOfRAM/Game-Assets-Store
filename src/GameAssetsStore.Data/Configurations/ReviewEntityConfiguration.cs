@@ -14,5 +14,10 @@ public class ReviewEntityConfiguration : IEntityTypeConfiguration<Review>
             .HasOne(e => e.ReviewedAsset)
             .WithMany(e => e.Reviews)
             .OnDelete(DeleteBehavior.Restrict);
+
+        builder
+            .HasOne(e => e.ReviewCreator)
+            .WithMany(e => e.Reviews)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }
