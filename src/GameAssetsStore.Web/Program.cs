@@ -1,5 +1,7 @@
 using GameAssetsStore.Data;
 using GameAssetsStore.Data.Models;
+using GameAssetsStore.Data.Repositories;
+using GameAssetsStore.Data.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +15,9 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
+
 
 var app = builder.Build();
 

@@ -1,9 +1,10 @@
 ﻿namespace GameAssetsStore.Data.Models;
 
+using GameAssetsStore.Data.Models.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-public class ApplicationUser : IdentityUser<Guid>
+public class ApplicationUser : IdentityUser<Guid>, ISoftDelete
 {
     public ApplicationUser()
     {
@@ -25,9 +26,14 @@ public class ApplicationUser : IdentityUser<Guid>
     /// <param name="PurchasedAssets"></param>
     public virtual ICollection<Asset> PurchasedAssets { get; set; }
 
+    // TODO: Add summary
+    public bool IsDeleted { get; set; }
+    public DateTime? DeletedOn { get; set; }
+
     /// <summary>
     /// User reviews on purchased assets
     /// </summary>
     /// <param name="Reviews"></param>
     public virtual ICollection<Review> Reviews { get; set; }
+    
 }
