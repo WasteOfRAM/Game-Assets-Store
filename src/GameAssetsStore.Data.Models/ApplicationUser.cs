@@ -1,8 +1,9 @@
 ﻿namespace GameAssetsStore.Data.Models;
 
-using GameAssetsStore.Data.Models.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+
+using Interfaces;
 
 public class ApplicationUser : IdentityUser<Guid>, ISoftDelete
 {
@@ -12,7 +13,6 @@ public class ApplicationUser : IdentityUser<Guid>, ISoftDelete
         this.PurchasedAssets = new HashSet<Asset>();
         this.Reviews = new HashSet<Review>();
     }
-
 
     /// <summary>
     /// User seller profile.

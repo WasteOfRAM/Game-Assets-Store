@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using Interfaces;
-using GameAssetsStore.Data.Models.Interfaces;
+using Models.Interfaces;
 
 public class EfRepository<TEntity> : IRepository<TEntity> where TEntity : class, ISoftDelete
 {

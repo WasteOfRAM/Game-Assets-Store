@@ -2,6 +2,14 @@
 
 public static class EntityValidationConstants
 {
+    public static class ApplicationUser
+    {
+        public const int UserNameMinLength = 3;
+        public const int UserNameMaxLength = 10;
+
+        public const string UserNameAllowedCharacters = @"^[a-zA-Z0-9_.]*$";
+    }
+
     public static class Seller
     {
         public const int SellerNameMinLength = 3;

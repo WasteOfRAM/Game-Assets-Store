@@ -20,8 +20,6 @@ public class Asset
         this.Reviews = new HashSet<Review>();
     }
 
-    
-
     [Key]
     public Guid Id { get; set; }
 
