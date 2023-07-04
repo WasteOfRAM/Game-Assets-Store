@@ -12,19 +12,13 @@ public class AccountService : IAccountService
 {
     private readonly SignInManager<ApplicationUser> signInManager;
     private readonly UserManager<ApplicationUser> userManager;
-    private readonly IUserStore<ApplicationUser> userStore;
-    private readonly IUserEmailStore<ApplicationUser> emailStore;
 
     public AccountService(
         SignInManager<ApplicationUser> signInManager,
-        UserManager<ApplicationUser> userManager,
-        IUserStore<ApplicationUser> userStore,
-        IUserEmailStore<ApplicationUser> emailStore)
+        UserManager<ApplicationUser> userManager)
     {
         this.signInManager = signInManager;
         this.userManager = userManager;
-        this.userStore = userStore;
-        this.emailStore = emailStore;
     }
 
     public async Task<IdentityResult> RegisterAsync(SignUpInputModel inputModel)
@@ -36,8 +30,8 @@ public class AccountService : IAccountService
             throw new InvalidOperationException($"Can't create an instance of '{nameof(IdentityUser)}'. ");
         }
 
-        await this.userStore.SetUserNameAsync(user, inputModel.Username, CancellationToken.None);
-        await this.emailStore.SetEmailAsync(user, inputModel.Email, CancellationToken.None);
+        await this.userManager.SetUserNameAsync(user, inputModel.Username);
+        await this.userManager.SetEmailAsync(user, inputModel.Email);
 
         return await this.userManager.CreateAsync(user, inputModel.Password);
     }

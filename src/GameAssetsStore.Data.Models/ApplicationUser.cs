@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 using Interfaces;
 
-public class ApplicationUser : IdentityUser<Guid>, ISoftDelete
+public class ApplicationUser : IdentityUser<Guid>
 {
     public ApplicationUser()
     {
@@ -26,9 +26,9 @@ public class ApplicationUser : IdentityUser<Guid>, ISoftDelete
     /// <param name="PurchasedAssets"></param>
     public virtual ICollection<Asset> PurchasedAssets { get; set; }
 
-    // TODO: Add summary
-    public bool IsDeleted { get; set; }
-    public DateTime? DeletedOn { get; set; }
+    //// TODO: Add summary
+    //public bool IsDeleted { get; set; }
+    //public DateTime? DeletedOn { get; set; }
 
     /// <summary>
     /// User reviews on purchased assets

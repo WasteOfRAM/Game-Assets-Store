@@ -22,6 +22,7 @@ public class AccountController : Controller
     }
 
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> SignUp(SignUpInputModel signUpInputModel)
     {
         if (!ModelState.IsValid)
