@@ -42,8 +42,8 @@ public class AccountService : IAccountService
         return await this.userManager.CreateAsync(user, inputModel.Password);
     }
 
-    public async Task<SignInResult> SignInAsync(SignInInputModel inputModel)
+    public async Task<SignInResult> SignInAsync(string userName, string password, bool isPersistent)
     {
-        return await this.signInManager.PasswordSignInAsync(inputModel.Username, inputModel.Password, inputModel.RememberMe, lockoutOnFailure: false);
+        return await this.signInManager.PasswordSignInAsync(userName, password, isPersistent, lockoutOnFailure: false);
     }
 }

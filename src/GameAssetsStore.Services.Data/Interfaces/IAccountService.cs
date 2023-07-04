@@ -8,5 +8,5 @@ public interface IAccountService
 {
     Task<IdentityResult> RegisterAsync(SignUpInputModel inputModel);
 
-    Task<SignInResult> SignInAsync(SignInInputModel inputModel);
+    Task<SignInResult> SignInAsync(string userName, string password, bool isPersistent);
 }
