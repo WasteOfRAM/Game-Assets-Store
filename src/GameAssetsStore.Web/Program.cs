@@ -1,8 +1,11 @@
+using Microsoft.EntityFrameworkCore;
+
 using GameAssetsStore.Data;
 using GameAssetsStore.Data.Models;
 using GameAssetsStore.Data.Repositories;
 using GameAssetsStore.Data.Repositories.Interfaces;
-using Microsoft.EntityFrameworkCore;
+using GameAssetsStore.Services.Data;
+using GameAssetsStore.Services.Data.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,7 +20,7 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.R
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
-
+builder.Services.AddScoped<IAccountService, AccountService>();
 
 var app = builder.Build();
 
