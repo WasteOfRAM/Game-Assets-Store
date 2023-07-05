@@ -44,7 +44,7 @@ public class AccountController : Controller
                 }
             }
 
-            var signInResult = await this.accountService.SignInAsync(signUpInputModel.Username, signUpInputModel.Password, false);
+            var signInResult = await this.accountService.SignInAsync(signUpInputModel.Username, signUpInputModel.Password, true);
 
             if (!signInResult.Succeeded)
             {
@@ -56,6 +56,8 @@ public class AccountController : Controller
         catch (Exception io)
         {
             // TODO: Notify the user about the error. (Unexpected error try again later or .... etc)
+
+            ModelState.AddModelError(string.Empty, "Unexpected error occurred please try again later.");
 
             return View(signUpInputModel);
         }
