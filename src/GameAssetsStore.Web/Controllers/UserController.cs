@@ -7,8 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 [Authorize]
 public class UserController : Controller
 {
-    [HttpGet]
-    public IActionResult Profile(Guid id)
+    [HttpGet("{controller}/{username}")]
+    public IActionResult Profile(string username)
     {
         
         return View();
@@ -25,7 +25,7 @@ public class UserController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(Guid id, )
+    public async Task<IActionResult> Edit()
     {
 
 

@@ -27,7 +27,7 @@ public class AccountService : IAccountService
 
         if (user == null)
         {
-            throw new InvalidOperationException($"Can't create an instance of '{nameof(IdentityUser)}'. ");
+            throw new InvalidOperationException($"Can't create an instance of '{nameof(ApplicationUser)}'. ");
         }
 
         await this.userManager.SetUserNameAsync(user, inputModel.Username);

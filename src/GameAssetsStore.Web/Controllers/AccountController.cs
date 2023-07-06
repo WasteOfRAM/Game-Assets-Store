@@ -14,7 +14,7 @@ public class AccountController : Controller
         this.accountService = accountService;
     }
 
-    [HttpGet]
+    [HttpGet("{action}")]
     public IActionResult SignUp()
     {
         if (User.Identity?.IsAuthenticated ?? false)
@@ -27,7 +27,7 @@ public class AccountController : Controller
         return View(model);
     }
 
-    [HttpPost]
+    [HttpPost("{action}")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> SignUp(SignUpInputModel signUpInputModel)
     {
@@ -74,7 +74,7 @@ public class AccountController : Controller
         }
     }
 
-    [HttpGet]
+    [HttpGet("{action}")]
     public IActionResult SignIn()
     {
         if (User.Identity?.IsAuthenticated ?? false)
@@ -87,7 +87,7 @@ public class AccountController : Controller
         return View(inputModel);
     }
 
-    [HttpPost]
+    [HttpPost("{action}")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> SignIn(SignInInputModel inputModel)
     {
@@ -124,7 +124,7 @@ public class AccountController : Controller
     }
 
 
-    [HttpPost]
+    [HttpPost("{action}")]
     public async Task<IActionResult> SignOut()
     {
         if (User.Identity?.IsAuthenticated ?? false)
