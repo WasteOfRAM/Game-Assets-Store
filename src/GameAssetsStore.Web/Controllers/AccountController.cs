@@ -1,9 +1,9 @@
 ﻿namespace GameAssetsStore.Web.Controllers;
 
-using GameAssetsStore.Services.Data.Interfaces;
-using GameAssetsStore.Web.ViewModels.Account;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+
+using Services.Data.Interfaces;
+using ViewModels.Account;
 
 public class AccountController : Controller
 {
@@ -101,5 +101,13 @@ public class AccountController : Controller
 
             return View(inputModel);
         }
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> SignOut()
+    {
+        await this.accountService.SignOutAsync();
+
+        return RedirectToAction("Index", "Home");
     }
 }

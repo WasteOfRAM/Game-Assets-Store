@@ -40,4 +40,9 @@ public class AccountService : IAccountService
     {
         return await this.signInManager.PasswordSignInAsync(userName, password, isPersistent, lockoutOnFailure: false);
     }
+
+    public async Task SignOutAsync()
+    {
+        await this.signInManager.SignOutAsync();
+    }
 }

@@ -9,4 +9,6 @@ public interface IAccountService
     Task<IdentityResult> RegisterAsync(SignUpInputModel inputModel);
 
     Task<SignInResult> SignInAsync(string userName, string password, bool isPersistent);
+
+    Task SignOutAsync();
 }
