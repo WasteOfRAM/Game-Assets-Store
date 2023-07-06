@@ -17,6 +17,7 @@ public class ApplicationUser : IdentityUser<Guid>
     /// <summary>
     /// User seller profile.
     /// </summary>
+    /// <param name="OwnedSellerProfile"></param>
     [Comment("Seller profile if created")]
     public virtual Seller? OwnedSellerProfile { get; set; }
 
