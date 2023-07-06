@@ -17,6 +17,11 @@ public class AccountController : Controller
     [HttpGet]
     public IActionResult SignUp()
     {
+        if (User.Identity?.IsAuthenticated ?? false)
+        {
+            return RedirectToAction("Index", "Home");
+        }
+
         SignUpInputModel model = new SignUpInputModel();
 
         return View(model);
@@ -26,6 +31,11 @@ public class AccountController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> SignUp(SignUpInputModel signUpInputModel)
     {
+        if (User.Identity?.IsAuthenticated ?? false)
+        {
+            return RedirectToAction("Index", "Home");
+        }
+
         if (!ModelState.IsValid)
         {
             return View(signUpInputModel);
@@ -67,6 +77,11 @@ public class AccountController : Controller
     [HttpGet]
     public IActionResult SignIn()
     {
+        if (User.Identity?.IsAuthenticated ?? false)
+        {
+            return RedirectToAction("Index", "Home");
+        }
+
         SignInInputModel inputModel = new SignInInputModel();
 
         return View(inputModel);
@@ -76,6 +91,11 @@ public class AccountController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> SignIn(SignInInputModel inputModel)
     {
+        if (User.Identity?.IsAuthenticated ?? false)
+        {
+            return RedirectToAction("Index", "Home");
+        }
+
         if (!ModelState.IsValid)
         {
             return View(inputModel);
@@ -103,10 +123,14 @@ public class AccountController : Controller
         }
     }
 
+
     [HttpPost]
     public async Task<IActionResult> SignOut()
     {
-        await this.accountService.SignOutAsync();
+        if (User.Identity?.IsAuthenticated ?? false)
+        {
+            await this.accountService.SignOutAsync();
+        }
 
         return RedirectToAction("Index", "Home");
     }
