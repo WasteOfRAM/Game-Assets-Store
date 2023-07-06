@@ -2,6 +2,7 @@
 
 using GameAssetsStore.Services.Data.Interfaces;
 using GameAssetsStore.Web.ViewModels.Account;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 public class AccountController : Controller
@@ -53,13 +54,52 @@ public class AccountController : Controller
 
             return RedirectToAction("Index", "Home");
         }
-        catch (Exception io)
+        catch (Exception)
         {
             // TODO: Notify the user about the error. (Unexpected error try again later or .... etc)
 
             ModelState.AddModelError(string.Empty, "Unexpected error occurred please try again later.");
 
             return View(signUpInputModel);
+        }
+    }
+
+    [HttpGet]
+    public IActionResult SignIn()
+    {
+        SignInInputModel inputModel = new SignInInputModel();
+
+        return View(inputModel);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> SignIn(SignInInputModel inputModel)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(inputModel);
+        }
+
+        try
+        {
+            var result = await this.accountService.SignInAsync(inputModel.Username, inputModel.Password, inputModel.RememberMe);
+
+            if (!result.Succeeded)
+            {
+                ModelState.AddModelError(string.Empty, "Invalid SignIn.");
+
+                return View(inputModel);
+            }
+
+            return RedirectToAction("Index", "Home");
+        }
+        catch (Exception)
+        {
+            // TODO: Notify the user about the error. (Unexpected error try again later or .... etc)
+            ModelState.AddModelError(string.Empty, "Unexpected error occurred please try again later.");
+
+            return View(inputModel);
         }
     }
 }
