@@ -17,7 +17,7 @@ public class UserController : Controller
     [HttpGet]
     public async Task<IActionResult> Edit(Guid id)
     {
-
+        
 
         return View();
     }
