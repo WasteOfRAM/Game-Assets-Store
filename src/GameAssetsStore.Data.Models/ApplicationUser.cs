@@ -15,11 +15,11 @@ public class ApplicationUser : IdentityUser<Guid>
     }
 
     /// <summary>
-    /// User seller profile.
+    /// User shop profile.
     /// </summary>
-    /// <param name="OwnedSellerProfile"></param>
-    [Comment("Seller profile if created")]
-    public virtual Seller? OwnedSellerProfile { get; set; }
+    /// <param name="OwnedShop"></param>
+    [Comment("Shop profile if created")]
+    public virtual Shop? OwnedShop { get; set; }
 
     /// <summary>
     /// Asset that the user have purchased

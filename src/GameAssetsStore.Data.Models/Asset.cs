@@ -24,14 +24,14 @@ public class Asset
     public Guid Id { get; set; }
 
     /// <summary>
-    /// Seller profile owning the asset.
+    /// Shop profile owning the asset.
     /// </summary>
-    /// <param name="SellerId"></param>
+    /// <param name="ShopId"></param>
     [Comment("Seller profile owning the asset.")]
     [Required]
-    public Guid SellerId { get; set; }
-    [ForeignKey(nameof(SellerId))]
-    public virtual Seller Seller { get; set; } = null!;
+    public Guid ShopId { get; set; }
+    [ForeignKey(nameof(ShopId))]
+    public virtual Shop Shop { get; set; } = null!;
 
     /// <summary>
     /// The name that will be displayed on the public pages.

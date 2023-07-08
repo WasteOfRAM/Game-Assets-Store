@@ -4,23 +4,23 @@ using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-using static Common.EntityValidationConstants.Seller;
+using static Common.EntityValidationConstants.Shop;
 
-public class Seller
+public class Shop
 {
-    public Seller()
+    public Shop()
     {
         this.Id = Guid.NewGuid();
-        this.SellerAssets = new HashSet<Asset>();
+        this.ShopAssets = new HashSet<Asset>();
     }
 
     [Key]
     public Guid Id { get; set; }
     
     /// <summary>
-    /// ApplicationUser that is the owner of the seller profile
+    /// ApplicationUser that is the owner of the shop profile
     /// </summary>
-    [Comment("User owning the seller profile.")]
+    [Comment("User owning the shop profile.")]
     [Required]
     public Guid OwningUserId { get; set; }
     [ForeignKey(nameof(OwningUserId))]
@@ -29,10 +29,10 @@ public class Seller
     /// <summary>
     /// Optional name fot the seller page. If not provided ApplicationUser UserName will be used
     /// </summary>
-    /// <param name="SellerName"></param>
+    /// <param name="ShopName"></param>
     [Comment("Optional name for the seller page.")]
-    [MaxLength(SellerNameMaxLength)]
-    public string? SellerName { get; set; }
+    [MaxLength(ShopNameMaxLength)]
+    public string? ShopName { get; set; }
 
     /// <summary>
     /// Optional email address for asset questions and support.
@@ -45,9 +45,9 @@ public class Seller
     /// <summary>
     /// All assets uploaded by the seller profile
     /// </summary>
-    /// <param name="SellerAssets"></param>
-    public virtual ICollection<Asset> SellerAssets { get; set; }
+    /// <param name="ShopAssets"></param>
+    public virtual ICollection<Asset> ShopAssets { get; set; }
 
 
-    // TODO: Payout info (Where the seller will receive the earnings)
+    // TODO: Payout info (Where the shop will receive the earnings)
 }

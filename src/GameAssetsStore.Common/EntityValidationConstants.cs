@@ -10,10 +10,10 @@ public static class EntityValidationConstants
         public const string UserNameAllowedCharacters = @"^[a-zA-Z0-9_.]*$";
     }
 
-    public static class Seller
+    public static class Shop
     {
-        public const int SellerNameMinLength = 3;
-        public const int SellerNameMaxLength = 50;
+        public const int ShopNameMinLength = 3;
+        public const int ShopNameMaxLength = 50;
     }
 
     public static class Asset
