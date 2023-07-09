@@ -10,6 +10,7 @@ public class UserProfile
     public UserProfile()
     {
         this.Id = Guid.NewGuid();
+        this.ExternalLinks = new HashSet<ExternalLink>();
         this.Reviews = new HashSet<Review>();
     }
 
@@ -20,10 +21,10 @@ public class UserProfile
     [ForeignKey(nameof(UserId))]
     public virtual ApplicationUser User { get; set; } = null!;
 
-    public Guid? SocialsID { get; set; }
-
     [MaxLength(AboutMaxLength)]
     public string? About { get; set; }
+
+    public virtual ICollection<ExternalLink> ExternalLinks { get; set; }
 
     /// <summary>
     /// User reviews on purchased assets
