@@ -11,8 +11,14 @@ public class ApplicationUser : IdentityUser<Guid>
     {
         this.Id = Guid.NewGuid();
         this.PurchasedAssets = new HashSet<Asset>();
-        this.Reviews = new HashSet<Review>();
     }
+
+    /// <summary>
+    /// User profile
+    /// </summary>
+    /// <param name="Profile"></param>
+    [Comment("User profile")]
+    public virtual UserProfile Profile { get; set; } = null!;
 
     /// <summary>
     /// User shop profile.
@@ -30,11 +36,4 @@ public class ApplicationUser : IdentityUser<Guid>
     //// TODO: Add summary
     //public bool IsDeleted { get; set; }
     //public DateTime? DeletedOn { get; set; }
-
-    /// <summary>
-    /// User reviews on purchased assets
-    /// </summary>
-    /// <param name="Reviews"></param>
-    public virtual ICollection<Review> Reviews { get; set; }
-    
 }

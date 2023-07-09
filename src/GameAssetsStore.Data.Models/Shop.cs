@@ -42,6 +42,8 @@ public class Shop
     [EmailAddress]
     public string? SupportEmail { get; set; }
 
+    public Guid? SocialsID { get; set; }
+
     /// <summary>
     /// All assets uploaded by the seller profile
     /// </summary>

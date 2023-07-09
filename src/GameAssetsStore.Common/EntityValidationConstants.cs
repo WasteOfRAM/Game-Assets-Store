@@ -39,4 +39,14 @@ public static class EntityValidationConstants
         public const int TextMinLength = 4;
         public const int TextMaxLength = 500;
     }
+
+    public static class UserProfile
+    {
+        public const int AboutMaxLength = 1500;
+    }
+
+    public static class Socials
+    {
+        public const int LinksMaxLength = 75;
+    }
 }

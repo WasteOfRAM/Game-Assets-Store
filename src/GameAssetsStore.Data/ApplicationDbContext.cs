@@ -17,6 +17,10 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
 
     public DbSet<Asset> Assets { get; set; } = null!;
 
+    public DbSet<UserProfile> Profiles { get; set; } = null!;
+
+    public DbSet<Socials> Socials { get; set; } = null!;
+
     public DbSet<Shop> Shops { get; set; } = null!;
 
     public DbSet<GeneralCategory> GeneralCategories { get; set; } = null!;

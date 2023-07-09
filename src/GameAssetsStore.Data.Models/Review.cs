@@ -17,14 +17,14 @@ public class Review
     public Guid Id { get; set; }
 
     /// <summary>
-    /// ApplicationUser that created the review.
+    /// Profile that created the review.
     /// </summary>
     /// <param name="ReviewCreatorId"></param>
     [Comment("Review creator")]
     [Required]
     public Guid ReviewCreatorId { get; set; }
     [ForeignKey(nameof(ReviewCreatorId))]
-    public ApplicationUser ReviewCreator { get; set; } = null!;
+    public virtual UserProfile ReviewCreator { get; set; } = null!;
 
     /// <summary>
     /// Reviewed asset.
@@ -34,7 +34,7 @@ public class Review
     [Required]
     public Guid ReviewedAssetId { get; set; }
     [ForeignKey(nameof(ReviewedAssetId))]
-    public Asset ReviewedAsset { get; set; } = null!;
+    public virtual Asset ReviewedAsset { get; set; } = null!;
 
     /// <summary>
     /// Review text content
