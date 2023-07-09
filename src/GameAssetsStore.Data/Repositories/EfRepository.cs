@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Interfaces;
 using Models.Interfaces;
 
-public class EfRepository<TEntity> : IRepository<TEntity> where TEntity : class, ISoftDelete
+public class EfRepository<TEntity> : IRepository<TEntity> where TEntity : class
 {
     public EfRepository(ApplicationDbContext dbContext)
     {
@@ -36,18 +36,7 @@ public class EfRepository<TEntity> : IRepository<TEntity> where TEntity : class,
         entry.State = EntityState.Modified;
     }
 
-    public void Delete(TEntity entity)
-    {
-        if (entity is ISoftDelete)
-        {
-            entity.IsDeleted = true;
-            entity.DeletedOn = DateTime.UtcNow;
-        }
-        else
-        {
-            this.DbSet.Remove(entity);
-        }
-    }
+    public void Delete(TEntity entity) => this.DbSet.Remove(entity);
 
     public async Task<int> SaveChangesAsync() => await this.dbContext.SaveChangesAsync();
 }

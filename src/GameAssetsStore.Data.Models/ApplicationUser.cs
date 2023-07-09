@@ -18,7 +18,7 @@ public class ApplicationUser : IdentityUser<Guid>
     /// </summary>
     /// <param name="Profile"></param>
     [Comment("User profile")]
-    public virtual UserProfile Profile { get; set; } = null!;
+    public virtual UserProfile? Profile { get; set; }
 
     /// <summary>
     /// User shop profile.
