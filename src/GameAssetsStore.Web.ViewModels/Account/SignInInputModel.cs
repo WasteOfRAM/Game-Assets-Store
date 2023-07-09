@@ -9,7 +9,7 @@ public class SignInInputModel
     [Required]
     [StringLength(UserNameMaxLength, MinimumLength = UserNameMinLength)]
     [RegularExpression(UserNameAllowedCharacters, ErrorMessage = "The {0} must contain only letter, number, \".\" or \"-\" characters.")]
-    [Display(Name = "User Name")]
+    [Display(Name = "Username")]
     public string Username { get; set; } = null!;
 
     [Required]

@@ -10,8 +10,4 @@
     <ProjectReference Include="..\GameAssetsStore.Common\GameAssetsStore.Common.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="User\" />
-  </ItemGroup>
-
 </Project>

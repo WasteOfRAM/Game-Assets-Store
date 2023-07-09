@@ -2,6 +2,7 @@
 
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
+
 using static Common.EntityValidationConstants.Socials;
 
 public class Socials
@@ -21,6 +22,9 @@ public class Socials
 
     [MaxLength(LinksMaxLength)]
     public string? Website { get; set; }
+
+    [MaxLength(LinksMaxLength)]
+    public string? LinkedIn { get; set; }
 
     [MaxLength(LinksMaxLength)]
     public string? Twitter { get; set; }

@@ -23,8 +23,4 @@
     <ProjectReference Include="..\GameAssetsStore.Web.ViewModels\GameAssetsStore.Web.ViewModels.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Views\User\" />
-  </ItemGroup>
-
 </Project>

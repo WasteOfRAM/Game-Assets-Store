@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 [Authorize]
 public class UserController : Controller
 {
+    [AllowAnonymous]
     [HttpGet("{controller}/{username}")]
     public IActionResult Profile(string username)
     {
