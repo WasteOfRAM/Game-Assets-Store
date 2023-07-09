@@ -7,28 +7,27 @@ using Microsoft.AspNetCore.Identity;
 using Interfaces;
 using Web.ViewModels.Account;
 using GameAssetsStore.Data.Models;
+using GameAssetsStore.Data.Repositories.Interfaces;
 
 public class AccountService : IAccountService
 {
     private readonly SignInManager<ApplicationUser> signInManager;
     private readonly UserManager<ApplicationUser> userManager;
+    private readonly IRepository<UserProfile> profileRepository;
 
     public AccountService(
         SignInManager<ApplicationUser> signInManager,
-        UserManager<ApplicationUser> userManager)
+        UserManager<ApplicationUser> userManager,
+        IRepository<UserProfile> profileRepository)
     {
         this.signInManager = signInManager;
         this.userManager = userManager;
+        this.profileRepository = profileRepository;
     }
 
     public async Task<IdentityResult> RegisterAsync(SignUpInputModel inputModel)
     {
-        var user = Activator.CreateInstance<ApplicationUser?>();
-
-        if (user == null)
-        {
-            throw new InvalidOperationException($"Can't create an instance of '{nameof(ApplicationUser)}'. ");
-        }
+        var user = await this.CreateUser();
 
         await this.userManager.SetUserNameAsync(user, inputModel.Username);
         await this.userManager.SetEmailAsync(user, inputModel.Email);
@@ -44,5 +43,29 @@ public class AccountService : IAccountService
     public async Task SignOutAsync()
     {
         await this.signInManager.SignOutAsync();
+    }
+
+    private async Task<ApplicationUser> CreateUser()
+    {
+        var user = Activator.CreateInstance<ApplicationUser?>();
+
+        if (user == null)
+        {
+            throw new InvalidOperationException($"Can't create an instance of '{nameof(ApplicationUser)}'. ");
+        }
+
+        //TODO: Add some exception handling and validation for userProfile
+
+        var userProfile = new UserProfile
+        {
+            UserId = user.Id,
+            User = user
+        };
+
+        user.Profile = userProfile;
+
+        await this.profileRepository.AddAsync(userProfile);
+
+        return user;
     }
 }
