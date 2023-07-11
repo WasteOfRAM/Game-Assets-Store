@@ -4,3 +4,24 @@
     ViewData["Title"] = "Profile";
 }
 
+<div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <h2 class="col-1">@Model.Username</h2>
+            @if ((User.Identity?.IsAuthenticated ?? false) && User.Identity.Name == Model.Username)
+            {
+                <a class="col-1">Edit</a>
+            }
+        </div>
+    </div>
+    @if (Model.About != null)
+    {
+        <p>@Model.About</p>
+    }
+
+    @foreach (var link in Model.Links)
+    {
+        <p>@link.Key</p>
+        <p>@link.Value</p>
+    }
+</div>

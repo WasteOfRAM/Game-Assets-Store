@@ -34,7 +34,7 @@ namespace GameAssetsStore.Data.Migrations
 
                     b.HasIndex("GeneralCategoriesId");
 
-                    b.ToTable("AssetsCategories");
+                    b.ToTable("AssetsCategories", (string)null);
                 });
 
             modelBuilder.Entity("AssetsStyles", b =>
@@ -49,7 +49,7 @@ namespace GameAssetsStore.Data.Migrations
 
                     b.HasIndex("AssetsId");
 
-                    b.ToTable("AssetsStyles");
+                    b.ToTable("AssetsStyles", (string)null);
                 });
 
             modelBuilder.Entity("AssetsSubCategories", b =>
@@ -64,7 +64,7 @@ namespace GameAssetsStore.Data.Migrations
 
                     b.HasIndex("SubCategoriesId");
 
-                    b.ToTable("AssetsSubCategories");
+                    b.ToTable("AssetsSubCategories", (string)null);
                 });
 
             modelBuilder.Entity("ExternalLinkShop", b =>
@@ -79,7 +79,7 @@ namespace GameAssetsStore.Data.Migrations
 
                     b.HasIndex("ShopsId");
 
-                    b.ToTable("ExternalLinkShop");
+                    b.ToTable("ExternalLinkShop", (string)null);
                 });
 
             modelBuilder.Entity("ExternalLinkUserProfile", b =>
@@ -94,7 +94,7 @@ namespace GameAssetsStore.Data.Migrations
 
                     b.HasIndex("UserProfilesId");
 
-                    b.ToTable("ExternalLinkUserProfile");
+                    b.ToTable("ExternalLinkUserProfile", (string)null);
                 });
 
             modelBuilder.Entity("GameAssetsStore.Data.Models.ApplicationUser", b =>
@@ -177,7 +177,7 @@ namespace GameAssetsStore.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Art Style");
+                    b.ToTable("Art Style", (string)null);
                 });
 
             modelBuilder.Entity("GameAssetsStore.Data.Models.Asset", b =>
@@ -234,7 +234,7 @@ namespace GameAssetsStore.Data.Migrations
 
                     b.HasIndex("ShopId");
 
-                    b.ToTable("Assets");
+                    b.ToTable("Assets", (string)null);
                 });
 
             modelBuilder.Entity("GameAssetsStore.Data.Models.ExternalLink", b =>
@@ -253,7 +253,7 @@ namespace GameAssetsStore.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ExternalLinks");
+                    b.ToTable("ExternalLinks", (string)null);
                 });
 
             modelBuilder.Entity("GameAssetsStore.Data.Models.GeneralCategory", b =>
@@ -270,7 +270,7 @@ namespace GameAssetsStore.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("General Category");
+                    b.ToTable("General Category", (string)null);
                 });
 
             modelBuilder.Entity("GameAssetsStore.Data.Models.Review", b =>
@@ -315,7 +315,7 @@ namespace GameAssetsStore.Data.Migrations
 
                     b.HasIndex("ReviewedAssetId");
 
-                    b.ToTable("Reviews");
+                    b.ToTable("Reviews", (string)null);
                 });
 
             modelBuilder.Entity("GameAssetsStore.Data.Models.Shop", b =>
@@ -342,7 +342,7 @@ namespace GameAssetsStore.Data.Migrations
                     b.HasIndex("OwningUserId")
                         .IsUnique();
 
-                    b.ToTable("Shops");
+                    b.ToTable("Shops", (string)null);
                 });
 
             modelBuilder.Entity("GameAssetsStore.Data.Models.SubCategory", b =>
@@ -359,7 +359,7 @@ namespace GameAssetsStore.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Sub Category");
+                    b.ToTable("Sub Category", (string)null);
                 });
 
             modelBuilder.Entity("GameAssetsStore.Data.Models.UserProfile", b =>
@@ -380,7 +380,7 @@ namespace GameAssetsStore.Data.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("Profiles");
+                    b.ToTable("Profiles", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", b =>
@@ -530,7 +530,7 @@ namespace GameAssetsStore.Data.Migrations
 
                     b.HasIndex("UsersId");
 
-                    b.ToTable("UsersAssets");
+                    b.ToTable("UsersAssets", (string)null);
                 });
 
             modelBuilder.Entity("AssetsCategories", b =>

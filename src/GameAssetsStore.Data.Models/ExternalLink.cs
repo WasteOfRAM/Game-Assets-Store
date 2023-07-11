@@ -1,9 +1,7 @@
 ﻿namespace GameAssetsStore.Data.Models;
 
+using GameAssetsStore.Common.Enumerators;
 using System.ComponentModel.DataAnnotations;
-
-using Enumerators;
-
 using static Common.EntityValidationConstants.ExternalLink;
 
 public class ExternalLink

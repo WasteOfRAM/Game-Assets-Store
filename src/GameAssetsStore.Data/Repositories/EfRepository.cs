@@ -1,11 +1,9 @@
 ﻿namespace GameAssetsStore.Data.Repositories;
 
+using Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
-
-using Interfaces;
-using Models.Interfaces;
 
 public class EfRepository<TEntity> : IRepository<TEntity> where TEntity : class
 {

@@ -1,4 +1,4 @@
-﻿namespace GameAssetsStore.Data.Models.Enumerators;
+﻿namespace GameAssetsStore.Common.Enumerators;
 
 public enum ExternalLinkType
 {
