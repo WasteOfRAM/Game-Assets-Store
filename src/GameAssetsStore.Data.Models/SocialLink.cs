@@ -2,11 +2,11 @@
 
 using GameAssetsStore.Common.Enumerators;
 using System.ComponentModel.DataAnnotations;
-using static Common.EntityValidationConstants.ExternalLink;
+using static Common.EntityValidationConstants.SocialLink;
 
-public class ExternalLink
+public class SocialLink
 {
-    public ExternalLink()
+    public SocialLink()
     {
         this.Id = Guid.NewGuid();
         this.UserProfiles = new HashSet<UserProfile>();
@@ -16,7 +16,7 @@ public class ExternalLink
     public Guid Id { get; set; }
 
     [Required]
-    public ExternalLinkType LinkType { get; set; }
+    public SocialType SocialType { get; set; }
 
     [Required]
     [MaxLength(LinksMaxLength)]

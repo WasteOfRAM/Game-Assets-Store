@@ -16,7 +16,7 @@ public class UserController : Controller
     }
 
     [AllowAnonymous]
-    [HttpGet("{controller}/{username}")]
+    [HttpGet("{username}")]
     public async Task<IActionResult> Profile(string username)
     {
         var viewModel = await this.userService.GetUserProfileAsync(username);
@@ -27,23 +27,5 @@ public class UserController : Controller
         }
 
         return View(viewModel);
-    }
-
-    [HttpGet]
-    public async Task<IActionResult> Edit(Guid id)
-    {
-        
-
-        return View();
-    }
-
-
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit()
-    {
-
-
-        return View();
     }
 }

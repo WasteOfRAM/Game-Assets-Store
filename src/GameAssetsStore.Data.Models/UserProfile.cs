@@ -10,7 +10,7 @@ public class UserProfile
     public UserProfile()
     {
         this.Id = Guid.NewGuid();
-        this.ExternalLinks = new HashSet<ExternalLink>();
+        this.SocialLinks = new HashSet<SocialLink>();
         this.Reviews = new HashSet<Review>();
     }
 
@@ -24,7 +24,12 @@ public class UserProfile
     [MaxLength(AboutMaxLength)]
     public string? About { get; set; }
 
-    public virtual ICollection<ExternalLink> ExternalLinks { get; set; }
+    [EmailAddress]
+    public string? PublicEmail { get; set; }
+
+    public string? Website { get; set; }
+
+    public virtual ICollection<SocialLink> SocialLinks { get; set; }
 
     /// <summary>
     /// User reviews on purchased assets

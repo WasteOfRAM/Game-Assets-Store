@@ -45,7 +45,7 @@ public static class EntityValidationConstants
         public const int AboutMaxLength = 1500;
     }
 
-    public static class ExternalLink
+    public static class SocialLink
     {
         public const int LinksMaxLength = 75;
     }

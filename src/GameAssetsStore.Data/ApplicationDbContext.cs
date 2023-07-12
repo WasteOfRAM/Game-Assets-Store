@@ -19,7 +19,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
 
     public DbSet<UserProfile> Profiles { get; set; } = null!;
 
-    public DbSet<ExternalLink> ExternalLinks { get; set; } = null!;
+    public DbSet<SocialLink> SocialLinks { get; set; } = null!;
 
     public DbSet<Shop> Shops { get; set; } = null!;
 

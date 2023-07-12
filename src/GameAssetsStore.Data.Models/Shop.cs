@@ -11,7 +11,7 @@ public class Shop
     public Shop()
     {
         this.Id = Guid.NewGuid();
-        this.ExternalLinks = new HashSet<ExternalLink>();
+        this.ExternalLinks = new HashSet<SocialLink>();
         this.ShopAssets = new HashSet<Asset>();
     }
 
@@ -43,7 +43,7 @@ public class Shop
     [EmailAddress]
     public string? SupportEmail { get; set; }
 
-    public virtual ICollection<ExternalLink> ExternalLinks { get; set; }
+    public virtual ICollection<SocialLink> ExternalLinks { get; set; }
 
     /// <summary>
     /// All assets uploaded by the seller profile

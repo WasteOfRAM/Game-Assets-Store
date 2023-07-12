@@ -1,9 +1,7 @@
 ﻿namespace GameAssetsStore.Common.Enumerators;
 
-public enum ExternalLinkType
+public enum SocialType
 {
-    PublicEmail,
-    Website,
     LinkedIn,
     Twitter,
     Facebook,

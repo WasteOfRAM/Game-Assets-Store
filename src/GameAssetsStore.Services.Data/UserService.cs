@@ -21,7 +21,7 @@ public class UserService : IUserService
     {
         return Task.FromResult(this.profileRepo.GetAll()
             .Where(up => up.User.UserName == username)
-            .Include(up => up.ExternalLinks)
+            .Include(up => up.SocialLinks)
             .AsNoTracking()
             .AsEnumerable()
             .Select(up => new UserProfileViewModel
@@ -29,7 +29,7 @@ public class UserService : IUserService
                 Id = up.Id,
                 Username = username,
                 About = up.About,
-                Links = up.ExternalLinks.ToDictionary(l => l.LinkType.ToString(), l => l.LinkUrl)
+                SocialLinks = up.SocialLinks.ToDictionary(l => l.SocialType.ToString(), l => l.LinkUrl)
             }).FirstOrDefault());
     }
 }

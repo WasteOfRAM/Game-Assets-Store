@@ -4,7 +4,7 @@ public class UserProfileViewModel
 {
     public UserProfileViewModel()
     {
-        this.Links = new Dictionary<string, string>();
+        this.SocialLinks = new Dictionary<string, string>();
     }
 
     public Guid Id { get; set; }
@@ -13,5 +13,9 @@ public class UserProfileViewModel
 
     public string? About { get; set; }
 
-    public Dictionary<string, string> Links { get; set; }
+    public string? PublicEmail { get; set; }
+
+    public string? Website { get; set; }
+
+    public Dictionary<string, string> SocialLinks { get; set; }
 }
