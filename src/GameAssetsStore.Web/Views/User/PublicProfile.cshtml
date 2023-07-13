@@ -18,10 +18,13 @@
     {
         <p>@Model.About</p>
     }
-
-    @foreach (var link in Model.SocialLinks)
+    @if (Model.PublicEmail != null)
     {
-        <p>@link.Key</p>
-        <p>@link.Value</p>
+        <p>@Model.PublicEmail</p>
     }
+    @if (Model.Website != null)
+    {
+        <p>@Model.Website</p>
+    }
+    
 </div>

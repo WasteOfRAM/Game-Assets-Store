@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using GameAssetsStore.Data.Models;
 using GameAssetsStore.Data.Repositories.Interfaces;
 using GameAssetsStore.Web.ViewModels.User;
+using GameAssetsStore.Web.ViewModels.Settings;
 
 public class UserService : IUserService
 {
@@ -33,5 +34,34 @@ public class UserService : IUserService
                 Website = up.Website,
                 SocialLinks = up.SocialLinks.ToDictionary(l => l.SocialType.ToString(), l => l.LinkUrl)
             }).FirstOrDefault());
+    }
+
+    public async Task<ProfileSettingsFormModel> GetUserPublicProfileAsync(string userId)
+    {
+        return await this.profileRepo.GetAll()
+            .Where(p => p.UserId.ToString() == userId)
+            .Select(p => new ProfileSettingsFormModel
+            {
+                Id = p.Id,
+                About = p.About,
+                PublicEmail = p.PublicEmail,
+                Website = p.Website
+            })
+            .FirstAsync();
+    }
+
+    public async Task UpdateUserPublicProfileAsync(ProfileSettingsFormModel model, string userId)
+    {
+        var entity = await this.profileRepo.GetAll()
+            .Where(p => p.UserId.ToString() == userId)
+            .FirstAsync();
+
+        entity.About = model.About;
+        entity.PublicEmail = model.PublicEmail; 
+        entity.Website = model.Website;
+
+        this.profileRepo.Update(entity);
+
+        await this.profileRepo.SaveChangesAsync();
     }
 }

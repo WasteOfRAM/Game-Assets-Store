@@ -1,6 +1,8 @@
 ﻿namespace GameAssetsStore.Web.Controllers;
 
 using GameAssetsStore.Services.Data.Interfaces;
+using GameAssetsStore.Web.Infrastructure.Extensions;
+using GameAssetsStore.Web.ViewModels.Settings;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,9 +25,22 @@ public class SettingsController : Controller
             return Unauthorized();
         }
 
-           
+        var model = await this.userService.GetUserPublicProfileAsync(User.GetId()!);
 
-        return View();
+        return View(model);
+    }
+
+    [HttpPost("{controller}/{action}")]
+    public async Task<IActionResult> Profile(ProfileSettingsFormModel model)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(model);
+        }
+
+        await this.userService.UpdateUserPublicProfileAsync(model, User.GetId()!);
+
+        return View(model);
     }
 
     [HttpGet]
