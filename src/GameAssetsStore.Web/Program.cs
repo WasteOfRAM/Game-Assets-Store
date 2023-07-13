@@ -9,6 +9,7 @@ using GameAssetsStore.Data.Repositories.Interfaces;
 using GameAssetsStore.Services.Data;
 using GameAssetsStore.Services.Data.Interfaces;
 using GameAssetsStore.Web.Infrastructure.ModelBinders;
+using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,6 +30,7 @@ builder.Services.AddControllersWithViews()
     .AddMvcOptions(options =>
     {
         options.ModelBinderProviders.Insert(0, new DecimalModelBinderProvider());
+        options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
     });
 
 builder.Services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));

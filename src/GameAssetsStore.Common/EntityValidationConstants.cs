@@ -47,6 +47,7 @@ public static class EntityValidationConstants
 
     public static class SocialLink
     {
-        public const int LinksMaxLength = 75;
+        public const int LinkMinLength = 3;
+        public const int LinkMaxLength = 75;
     }
 }

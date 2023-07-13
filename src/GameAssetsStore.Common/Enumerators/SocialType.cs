@@ -2,12 +2,12 @@
 
 public enum SocialType
 {
-    LinkedIn,
-    Twitter,
-    Facebook,
-    Instagram,
     ArtStation,
     DeviantArt,
+    LinkedIn,
     GitHub,
-    YouTube
+    Twitter,
+    YouTube,
+    Facebook,
+    Instagram
 }

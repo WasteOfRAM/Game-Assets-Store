@@ -17,7 +17,7 @@ public class UserController : Controller
 
     [AllowAnonymous]
     [HttpGet("{username}")]
-    public async Task<IActionResult> Profile(string username)
+    public async Task<IActionResult> PublicProfile(string username)
     {
         var viewModel = await this.userService.GetUserProfileAsync(username);
 

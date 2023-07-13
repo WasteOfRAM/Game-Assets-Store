@@ -28,7 +28,6 @@ public class AccountController : Controller
     }
 
     [HttpPost("{action}")]
-    [ValidateAntiForgeryToken]
     public async Task<IActionResult> SignUp(SignUpInputModel signUpInputModel)
     {
         if (User.Identity?.IsAuthenticated ?? false)
@@ -88,7 +87,6 @@ public class AccountController : Controller
     }
 
     [HttpPost("{action}")]
-    [ValidateAntiForgeryToken]
     public async Task<IActionResult> SignIn(SignInInputModel inputModel)
     {
         if (User.Identity?.IsAuthenticated ?? false)

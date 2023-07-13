@@ -19,7 +19,7 @@ public class SocialLink
     public SocialType SocialType { get; set; }
 
     [Required]
-    [MaxLength(LinksMaxLength)]
+    [MaxLength(LinkMaxLength)]
     public string LinkUrl { get; set; } = null!;
 
     public virtual ICollection<UserProfile> UserProfiles { get; set; }
