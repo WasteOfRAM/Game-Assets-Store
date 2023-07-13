@@ -2,7 +2,6 @@
 
 using System.ComponentModel.DataAnnotations;
 
-using static Common.EntityValidationConstants.ApplicationUser;
 using static Common.EntityValidationConstants.SocialLink;
 using static Common.EntityValidationConstants.UserProfile;
 
@@ -22,7 +21,6 @@ public class ProfileSettingsFormModel
 
     [MaxLength(AboutMaxLength)]
     public string? About { get; set; }
-
 
     [EmailAddress]
     public string? PublicEmail { get; set; }

@@ -1,8 +1,8 @@
 ﻿namespace GameAssetsStore.Web.ViewModels.User;
 
-public class UserProfileViewModel
+public class PublicProfileViewModel
 {
-    public UserProfileViewModel()
+    public PublicProfileViewModel()
     {
         this.SocialLinks = new Dictionary<string, string>();
     }

@@ -1,4 +1,4 @@
-﻿@model UserProfileViewModel
+﻿@model PublicProfileViewModel
 
 @{
     ViewData["Title"] = "Profile";
@@ -10,7 +10,7 @@
             <h2 class="col-1">@Model.Username</h2>
             @if ((User.Identity?.IsAuthenticated ?? false) && User.Identity.Name == Model.Username)
             {
-                <a class="col-1">Edit</a>
+                <a class="col-1" asp-controller="Settings" asp-action="Profile">Edit</a>
             }
         </div>
     </div>

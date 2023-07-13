@@ -17,18 +17,20 @@ public class UserService : IUserService
         this.profileRepo = profileRepo;
     }
 
-    public Task<UserProfileViewModel?> GetUserProfileAsync(string username)
+    public Task<PublicProfileViewModel?> GetUserProfileAsync(string username)
     {
         return Task.FromResult(this.profileRepo.GetAll()
             .Where(up => up.User.UserName == username)
             .Include(up => up.SocialLinks)
             .AsNoTracking()
             .AsEnumerable()
-            .Select(up => new UserProfileViewModel
+            .Select(up => new PublicProfileViewModel
             {
                 Id = up.Id,
                 Username = username,
                 About = up.About,
+                PublicEmail = up.PublicEmail,
+                Website = up.Website,
                 SocialLinks = up.SocialLinks.ToDictionary(l => l.SocialType.ToString(), l => l.LinkUrl)
             }).FirstOrDefault());
     }

@@ -1,23 +1,29 @@
 ﻿namespace GameAssetsStore.Web.Controllers;
 
+using GameAssetsStore.Services.Data.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 [Authorize]
-[AutoValidateAntiforgeryToken]
 public class SettingsController : Controller
 {
+    private readonly IUserService userService;
 
-    [HttpGet]
-    public IActionResult Profile(string username)
+    public SettingsController(IUserService userService)
     {
-        if ((!User.Identity?.IsAuthenticated ?? true) || User.Identity!.Name != username)
+        this.userService = userService;
+    }
+
+    [HttpGet("{controller}/{action}")]
+    public async Task<IActionResult> Profile()
+    {
+        if (!User.Identity?.IsAuthenticated ?? true)
         {
             // TODO: Handel it for better UX
             return Unauthorized();
         }
 
-
+           
 
         return View();
     }
