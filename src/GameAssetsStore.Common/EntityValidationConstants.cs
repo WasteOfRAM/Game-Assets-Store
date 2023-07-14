@@ -42,7 +42,7 @@ public static class EntityValidationConstants
 
     public static class UserProfile
     {
-        public const int AboutMaxLength = 1000;
+        public const int AboutMaxLength = 500;
     }
 
     public static class SocialLink

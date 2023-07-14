@@ -25,9 +25,20 @@ public class SettingsController : Controller
             return Unauthorized();
         }
 
-        var model = await this.userService.GetUserPublicProfileAsync(User.GetId()!);
+        try
+        {
+            var model = await this.userService.GetUserPublicProfileAsync(User.GetId()!);
 
-        return View(model);
+            return View(model);
+        }
+        catch (Exception)
+        {
+            // TODO: Handle it properly
+
+            ModelState.AddModelError(string.Empty, "Unexpected error occurred please try again later.");
+
+            return RedirectToAction("PublicProfile", "User", User.GetId());
+        }
     }
 
     [HttpPost("{controller}/{action}")]
@@ -38,7 +49,19 @@ public class SettingsController : Controller
             return View(model);
         }
 
-        await this.userService.UpdateUserPublicProfileAsync(model, User.GetId()!);
+        try
+        {
+            await this.userService.UpdateUserPublicProfileAsync(model, User.GetId()!);
+        }
+        catch (Exception)
+        {
+            // TODO: Handle it properly
+
+            ModelState.AddModelError(string.Empty, "Unexpected error occurred please try again later.");
+
+            return RedirectToAction("PublicProfile", "User", User.GetId());
+        }
+        
 
         return View(model);
     }

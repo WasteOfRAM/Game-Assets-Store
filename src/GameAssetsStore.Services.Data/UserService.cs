@@ -8,6 +8,7 @@ using GameAssetsStore.Data.Models;
 using GameAssetsStore.Data.Repositories.Interfaces;
 using GameAssetsStore.Web.ViewModels.User;
 using GameAssetsStore.Web.ViewModels.Settings;
+using System.Net;
 
 public class UserService : IUserService
 {
@@ -56,7 +57,9 @@ public class UserService : IUserService
             .Where(p => p.UserId.ToString() == userId)
             .FirstAsync();
 
-        entity.About = model.About;
+        var aboutEncoded = WebUtility.HtmlEncode(model.About);
+
+        entity.About = aboutEncoded;
         entity.PublicEmail = model.PublicEmail; 
         entity.Website = model.Website;
 
