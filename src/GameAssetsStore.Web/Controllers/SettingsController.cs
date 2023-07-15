@@ -37,7 +37,7 @@ public class SettingsController : Controller
 
             ModelState.AddModelError(string.Empty, "Unexpected error occurred please try again later.");
 
-            return RedirectToAction("PublicProfile", "User", User.GetId());
+            return RedirectToAction("PublicProfile", "User", new { username = User.Identity!.Name });
         }
     }
 
@@ -59,7 +59,7 @@ public class SettingsController : Controller
 
             ModelState.AddModelError(string.Empty, "Unexpected error occurred please try again later.");
 
-            return RedirectToAction("PublicProfile", "User", User.GetId());
+            return RedirectToAction("PublicProfile", "User", new { username = User.Identity!.Name });
         }
         
 
@@ -69,7 +69,7 @@ public class SettingsController : Controller
     [HttpGet]
     public IActionResult Account()
     {
-
+        
 
         return View();
     }
@@ -77,6 +77,7 @@ public class SettingsController : Controller
     [HttpGet]
     public IActionResult Socials()
     {
+        
 
         return View();
     }

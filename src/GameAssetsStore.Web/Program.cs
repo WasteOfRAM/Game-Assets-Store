@@ -1,7 +1,3 @@
-using Microsoft.EntityFrameworkCore;
-
-using Microsoft.AspNetCore.Identity;
-
 using GameAssetsStore.Data;
 using GameAssetsStore.Data.Models;
 using GameAssetsStore.Data.Repositories;
@@ -9,7 +5,9 @@ using GameAssetsStore.Data.Repositories.Interfaces;
 using GameAssetsStore.Services.Data;
 using GameAssetsStore.Services.Data.Interfaces;
 using GameAssetsStore.Web.Infrastructure.ModelBinders;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,10 +19,19 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
-    .AddUserManager<UserManager<ApplicationUser>>()
-    .AddSignInManager<SignInManager<ApplicationUser>>()
+builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
+{
+    options.SignIn.RequireConfirmedAccount = false;
+    options.User.RequireUniqueEmail = true;
+})
+    .AddRoles<IdentityRole<Guid>>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
+
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/SignIn";
+    options.LogoutPath = "/SignOut";
+});
 
 builder.Services.AddControllersWithViews()
     .AddMvcOptions(options =>
