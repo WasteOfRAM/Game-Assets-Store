@@ -10,4 +10,6 @@ public interface IUserService
     Task<ProfileSettingsFormModel> GetUserPublicProfileAsync(string userId);
 
     Task UpdateUserPublicProfileAsync(ProfileSettingsFormModel model, string userId);
+
+    Task<Guid> CreateShopAsync(CreateShopInputModel model, string userId);
 }

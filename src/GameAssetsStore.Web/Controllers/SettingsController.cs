@@ -10,10 +10,12 @@ using Microsoft.AspNetCore.Mvc;
 public class SettingsController : Controller
 {
     private readonly IUserService userService;
+    private readonly IAccountService accountService;
 
-    public SettingsController(IUserService userService)
+    public SettingsController(IUserService userService, IAccountService accountService)
     {
         this.userService = userService;
+        this.accountService = accountService;
     }
 
     [HttpGet("{controller}/{action}")]
@@ -80,5 +82,50 @@ public class SettingsController : Controller
         
 
         return View();
+    }
+
+    [HttpGet]
+    public IActionResult Shop()
+    {
+        if (!User.HasClaim(c => c.Type == "urn:shop:shopId"))
+        {
+            return RedirectToAction("CreateShop");
+        }
+
+        return View();
+    }
+
+    [HttpGet]
+    public IActionResult CreateShop()
+    {
+        var model = new CreateShopInputModel();
+
+        return View(model);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> CreateShop(CreateShopInputModel model)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(model);
+        }
+
+        try
+        {
+            var shopId = await this.userService.CreateShopAsync(model, User.GetId()!);
+
+            await this.accountService.SignOutAsync();
+
+            return RedirectToAction("SignIn", "Account");
+        }
+        catch (Exception)
+        {
+            // TODO: Handle it properly
+
+            ModelState.AddModelError(string.Empty, "Unexpected error occurred please try again later.");
+
+            return RedirectToAction("PublicProfile", "User", new { username = User.Identity!.Name });
+        }
     }
 }

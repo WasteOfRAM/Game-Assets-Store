@@ -1,0 +1,44 @@
+﻿@model CreateShopInputModel
+
+@{
+    ViewData["Title"] = "Create Shop";
+}
+
+<div class="row p-0">
+    <span class="col-md-2"></span>
+    <div class="col-md-2">
+        <partial name="_SettingsNavigationPartial" />
+    </div>
+    <div class="col-md-4 border">
+        <h1>
+            @User.Identity!.Name
+        </h1>
+        <br />
+        <div>
+            @*TODO: Add Licence agrement*@
+            <p>Add Licence agrement</p>
+        </div>
+        <br />
+        <div>
+            <p>
+                Add a name for your Shop. This is the name that will be displayed on the Shop page, assets you have for sale and Shop page url.
+                If left blank your Username will be used. It can be changed later.
+            </p>
+        </div>
+        <div>
+            <p>You will need to log in again after creating the shop</p>
+        </div>
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form">
+                <input asp-for="@Model.ShopName" class="form-control" autocomplete="ShopName" />
+                <span asp-validation-for="@Model.ShopName" class="text-danger"></span>
+            </div>
+            <br />
+            <div class="d-flex justify-content-center">
+                <button type="submit" class="btn btn-primary">Create Shop</button>
+            </div>
+            <br />
+        </form>
+    </div>
+</div>

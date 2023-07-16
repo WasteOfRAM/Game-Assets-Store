@@ -33,6 +33,11 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.LogoutPath = "/SignOut";
 });
 
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("ShopOwner", policy => policy.RequireClaim("urn:shop:shopId"));
+});
+
 builder.Services.AddControllersWithViews()
     .AddMvcOptions(options =>
     {

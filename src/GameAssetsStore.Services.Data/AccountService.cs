@@ -8,6 +8,7 @@ using Interfaces;
 using Web.ViewModels.Account;
 using GameAssetsStore.Data.Models;
 using GameAssetsStore.Data.Repositories.Interfaces;
+using System.Security.Claims;
 
 public class AccountService : IAccountService
 {
@@ -23,6 +24,13 @@ public class AccountService : IAccountService
         this.signInManager = signInManager;
         this.userManager = userManager;
         this.profileRepository = profileRepository;
+    }
+
+    public async Task<bool> AddUserClaim(ApplicationUser user, string claimType, string claimValue)
+    {
+        var result = await userManager.AddClaimAsync(user, new Claim(claimType, claimValue));
+
+        return result.Succeeded;
     }
 
     public async Task<IdentityResult> RegisterAsync(SignUpInputModel inputModel)

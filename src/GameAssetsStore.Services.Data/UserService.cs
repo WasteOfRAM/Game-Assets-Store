@@ -12,16 +12,25 @@ using System.Net;
 
 public class UserService : IUserService
 {
-    private readonly IRepository<UserProfile> profileRepo;
+    private readonly IRepository<UserProfile> profileRepository;
+    private readonly IRepository<ApplicationUser> userRepository;
+    private readonly IAccountService accountService;
+    private readonly IRepository<Shop> shopRepository;
 
-    public UserService(IRepository<UserProfile> profileRepo)
+    public UserService(IRepository<UserProfile> profileRepository, 
+        IRepository<ApplicationUser> userRepository,
+        IAccountService accountService,
+        IRepository<Shop> shopRepository)
     {
-        this.profileRepo = profileRepo;
+        this.profileRepository = profileRepository;
+        this.userRepository = userRepository;
+        this.accountService = accountService;
+        this.shopRepository = shopRepository;
     }
 
     public Task<PublicProfileViewModel?> GetUserProfileAsync(string username)
     {
-        return Task.FromResult(this.profileRepo.GetAll()
+        return Task.FromResult(this.profileRepository.GetAll()
             .Where(up => up.User.UserName == username)
             .Include(up => up.SocialLinks)
             .AsNoTracking()
@@ -39,7 +48,7 @@ public class UserService : IUserService
 
     public async Task<ProfileSettingsFormModel> GetUserPublicProfileAsync(string userId)
     {
-        return await this.profileRepo.GetAll()
+        return await this.profileRepository.GetAll()
             .Where(p => p.UserId.ToString() == userId)
             .Select(p => new ProfileSettingsFormModel
             {
@@ -53,18 +62,44 @@ public class UserService : IUserService
 
     public async Task UpdateUserPublicProfileAsync(ProfileSettingsFormModel model, string userId)
     {
-        var entity = await this.profileRepo.GetAll()
+        var entity = await this.profileRepository.GetAll()
             .Where(p => p.UserId.ToString() == userId)
             .FirstAsync();
 
         var aboutEncoded = WebUtility.HtmlEncode(model.About);
 
-        entity.About = aboutEncoded;
-        entity.PublicEmail = model.PublicEmail; 
-        entity.Website = model.Website;
+        if (entity.About != aboutEncoded ||
+            entity.PublicEmail != model.PublicEmail ||
+            entity.Website != model.Website)
+        {
+            entity.About = aboutEncoded;
+            entity.PublicEmail = model.PublicEmail;
+            entity.Website = model.Website;
 
-        this.profileRepo.Update(entity);
+            this.profileRepository.Update(entity);
 
-        await this.profileRepo.SaveChangesAsync();
+            await this.profileRepository.SaveChangesAsync();
+        }
+    }
+
+    public async Task<Guid> CreateShopAsync(CreateShopInputModel model, string userId)
+    {
+        var user = await this.userRepository.GetAll().FirstAsync(u => u.Id.ToString() == userId);
+        
+        var shop = new Shop
+        {
+            OwningUser = user,
+            OwningUserId = Guid.Parse(userId),
+            ShopName = model.ShopName ?? user.UserName
+        };
+
+        user.OwnedShop = shop;
+
+        await this.shopRepository.AddAsync(shop);
+        await this.shopRepository.SaveChangesAsync();
+
+        await this.accountService.AddUserClaim(user, "urn:shop:shopId", shop.Id.ToString());
+
+        return shop.Id;
     }
 }
