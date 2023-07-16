@@ -10,6 +10,10 @@ using GameAssetsStore.Data.Models;
 using GameAssetsStore.Data.Repositories.Interfaces;
 using System.Security.Claims;
 
+
+/// <summary>
+/// Responsible for the users account management e.g. register, log in, log out, adding claims and roles
+/// </summary>
 public class AccountService : IAccountService
 {
     private readonly SignInManager<ApplicationUser> signInManager;
@@ -53,6 +57,11 @@ public class AccountService : IAccountService
         await this.signInManager.SignOutAsync();
     }
 
+    /// <summary>
+    /// Creating the ApplicationUser entity and creating the user profile entity and adding it to the user
+    /// </summary>
+    /// <returns></returns>
+    /// <exception cref="InvalidOperationException"></exception>
     private async Task<ApplicationUser> CreateUser()
     {
         var user = Activator.CreateInstance<ApplicationUser?>();

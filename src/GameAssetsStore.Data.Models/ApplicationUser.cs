@@ -14,7 +14,7 @@ public class ApplicationUser : IdentityUser<Guid>
     }
 
     /// <summary>
-    /// User profile
+    /// User profile with addition public information
     /// </summary>
     /// <param name="Profile"></param>
     [Comment("User profile")]

@@ -10,6 +10,9 @@ using GameAssetsStore.Web.ViewModels.User;
 using GameAssetsStore.Web.ViewModels.Settings;
 using System.Net;
 
+/// <summary>
+/// Handling users public profile sections settings.
+/// </summary>
 public class UserService : IUserService
 {
     private readonly IRepository<UserProfile> profileRepository;
