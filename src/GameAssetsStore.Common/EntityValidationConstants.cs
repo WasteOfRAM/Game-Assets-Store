@@ -15,7 +15,7 @@ public static class EntityValidationConstants
         public const int ShopNameMinLength = 3;
         public const int ShopNameMaxLength = 50;
 
-        public const string ShopNameAllowedCharacters = @"^[a-zA-Z0-9_.]*$";
+        public const string ShopNameAllowedCharacters = @"^([a-zA-Z0-9.]*)([ \-_][a-zA-Z0-9.]+)*$";
     }
 
     public static class Asset

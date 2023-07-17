@@ -105,4 +105,16 @@ public class UserService : IUserService
 
         return shop.Id;
     }
+
+    public async Task<bool> IsShopNameAvailableAsync(string? shopName)
+    {
+        if (shopName != null &&
+            await this.userRepository.GetAll().AnyAsync(u => u.UserName == shopName) ||
+            await this.shopRepository.GetAll().AnyAsync(s => s.ShopName == shopName))
+        {
+            return false;
+        }
+
+        return true;
+    }
 }

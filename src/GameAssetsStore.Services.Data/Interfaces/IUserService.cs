@@ -12,4 +12,6 @@ public interface IUserService
     Task UpdateUserPublicProfileAsync(ProfileSettingsFormModel model, string userId);
 
     Task<Guid> CreateShopAsync(CreateShopInputModel model, string userId);
+
+    Task<bool> IsShopNameAvailableAsync(string? shopName);
 }

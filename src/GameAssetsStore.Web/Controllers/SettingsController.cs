@@ -106,13 +106,18 @@ public class SettingsController : Controller
     [HttpPost]
     public async Task<IActionResult> CreateShop(CreateShopInputModel model)
     {
-        if (!ModelState.IsValid)
-        {
-            return View(model);
-        }
-
         try
         {
+            if (!await this.userService.IsShopNameAvailableAsync(model.ShopName))
+            {
+                ModelState.AddModelError("", "Shop name already in use. Please chose another one.");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
             var shopId = await this.userService.CreateShopAsync(model, User.GetId()!);
 
             await this.accountService.SignOutAsync();

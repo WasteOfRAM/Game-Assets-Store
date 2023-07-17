@@ -8,6 +8,6 @@ public class CreateShopInputModel
 {
     [Display(Name = "Shop Name")]
     [StringLength(ShopNameMaxLength, MinimumLength = ShopNameMinLength)]
-    [RegularExpression(ShopNameAllowedCharacters)]
+    [RegularExpression(ShopNameAllowedCharacters, ErrorMessage = "The {0} must contain only letter, number, space, \".\", \"-\" or \"_\" characters.")]
     public string? ShopName { get; set; }
 }
