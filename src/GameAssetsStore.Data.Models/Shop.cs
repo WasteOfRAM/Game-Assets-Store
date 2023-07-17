@@ -6,6 +6,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 using static Common.EntityValidationConstants.Shop;
 
+
+[Index(nameof(ShopName), IsUnique = true)]
 public class Shop
 {
     public Shop()
@@ -28,12 +30,13 @@ public class Shop
     public virtual ApplicationUser OwningUser { get; set; } = null!;
 
     /// <summary>
-    /// Optional name fot the seller page. If not provided ApplicationUser UserName will be used
+    /// Optional name fot the seller page. If not provided ApplicationUser UserName will be used.
+    /// It is a Unique index.
     /// </summary>
     /// <param name="ShopName"></param>
     [Comment("Optional name for the seller page.")]
     [MaxLength(ShopNameMaxLength)]
-    public string? ShopName { get; set; }
+    public string ShopName { get; set; } = null!;
 
     /// <summary>
     /// Optional email address for asset questions and support.
@@ -42,6 +45,13 @@ public class Shop
     [Comment("Optional email address for asset questions and support.")]
     [EmailAddress]
     public string? SupportEmail { get; set; }
+
+    /// <summary>
+    /// Shop company or personal website to be displayed on the public shop page. Optional.
+    /// </summary>
+    /// <param name="Website"></param>
+    public string? Website { get; set; }
+
 
     public virtual ICollection<SocialLink> Socials { get; set; }
 
