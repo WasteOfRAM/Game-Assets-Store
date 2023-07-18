@@ -1,14 +1,13 @@
 ﻿namespace GameAssetsStore.Services.Data;
 
-using Microsoft.EntityFrameworkCore;
-using Services.Data.Interfaces;
-using System.Threading.Tasks;
-
 using GameAssetsStore.Data.Models;
 using GameAssetsStore.Data.Repositories.Interfaces;
-using GameAssetsStore.Web.ViewModels.User;
 using GameAssetsStore.Web.ViewModels.Settings;
+using GameAssetsStore.Web.ViewModels.User;
+using Microsoft.EntityFrameworkCore;
+using Services.Data.Interfaces;
 using System.Net;
+using System.Threading.Tasks;
 
 /// <summary>
 /// Handling users public profile sections settings.

@@ -1,0 +1,31 @@
+﻿@model AccountSettingsViewModel
+
+@{
+    ViewData["Title"] = "Account";
+}
+
+<div class="row p-0">
+    <span class="col-md-2"></span>
+    <div class="col-md-2">
+        <partial name="_SettingsNavigationPartial" />
+    </div>
+    <div class="col-md-4 border">
+        <h1>
+            @User.Identity!.Name
+        </h1>
+        
+        <partial name="_UsernameChangePartial" model="@Model.UsernameChange" />
+
+        <hr />
+
+        <partial name="_EmailChangePartial" model="@Model.EmailChange" />
+
+        <hr />
+
+        <partial name="_PasswordChangePartial" model="@Model.PasswordChange" />
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,7 +1,6 @@
 ﻿namespace GameAssetsStore.Web.Controllers;
 
 using Microsoft.AspNetCore.Mvc;
-
 using Services.Data.Interfaces;
 using ViewModels.Account;
 

@@ -2,6 +2,7 @@
 
 using GameAssetsStore.Services.Data.Interfaces;
 using GameAssetsStore.Web.Infrastructure.Extensions;
+using GameAssetsStore.Web.ViewModels.Account;
 using GameAssetsStore.Web.ViewModels.Settings;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -71,17 +72,162 @@ public class SettingsController : Controller
     [HttpGet]
     public IActionResult Account()
     {
-        
+        AccountSettingsViewModel model = new AccountSettingsViewModel
+        {
+            UsernameChange = new UsernameChangeInputModel(),
+            EmailChange = new AccountEmailChangeInputModel(),
+            PasswordChange = new PasswordChangeInputModel()
+        };
 
-        return View();
+        return View(model);
     }
 
-    [HttpGet]
-    public IActionResult Socials()
+    [HttpPost]
+    public async Task<IActionResult> ChangeUsername(UsernameChangeInputModel model)
     {
-        
+        try
+        {
+            // TODO: Notify the user about success.
 
-        return View();
+            if (await this.accountService.IsUsernameInUseAsync(model.Username))
+            {
+                ModelState.AddModelError("", "Username is already in use");
+            }
+
+            AccountSettingsViewModel viewModel = new AccountSettingsViewModel
+            {
+                UsernameChange = model,
+                EmailChange = new AccountEmailChangeInputModel(),
+                PasswordChange = new PasswordChangeInputModel()
+            };
+
+            if (!ModelState.IsValid)
+            {
+                return View("Account", viewModel);
+            }
+
+            var result = await this.accountService.ChangeUsernameAsync(User, model.Username);
+
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+
+                //TODO: not sure if i like this.
+
+                return View("Account", viewModel);
+            }
+
+            return View("Account");
+        }
+        catch (Exception)
+        {
+
+            // TODO: Notify the user about the error. (Unexpected error try again later or .... etc)
+            ModelState.AddModelError(string.Empty, "Unexpected error occurred please try again later.");
+
+            return RedirectToAction("Account", "Settings");
+        }
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> ChangeEmail(AccountEmailChangeInputModel model)
+    {
+        try
+        {
+            // TODO: Notify the user about success.
+
+            if (await this.accountService.IsEmailInUseAsync(model.Email))
+            {
+                ModelState.AddModelError("", "Email is already in use");
+            }
+
+            AccountSettingsViewModel viewModel = new AccountSettingsViewModel
+            {
+                UsernameChange = new UsernameChangeInputModel(),
+                EmailChange = model,
+                PasswordChange = new PasswordChangeInputModel()
+            };
+
+            if (!ModelState.IsValid)
+            {
+                return View("Account", viewModel);
+            }
+
+            var result = await this.accountService.ChangeEmailAsync(User, model.Email);
+
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+
+                //TODO: not sure if i like this.
+
+               
+                return View("Account", viewModel);
+            }
+
+            return View("Account");
+        }
+        catch (Exception)
+        {
+
+            // TODO: Notify the user about the error. (Unexpected error try again later or .... etc)
+            ModelState.AddModelError(string.Empty, "Unexpected error occurred please try again later.");
+
+            return View("Account");
+        }
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> ChangePassword(PasswordChangeInputModel model)
+    {
+        try
+        {
+            // TODO: Notify the user about success.
+
+            AccountSettingsViewModel viewModel = new AccountSettingsViewModel
+            {
+                UsernameChange = new UsernameChangeInputModel(),
+                EmailChange = new AccountEmailChangeInputModel(),
+                PasswordChange = model
+            };
+
+            if (!ModelState.IsValid)
+            {
+                return View("Account", viewModel);
+            }
+
+            var result = await this.accountService.ChangePasswordAsync(User, model.OldPassword, model.NewPassword);
+
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+
+                //TODO: not sure if i like this.
+
+                
+
+                return View("Account", viewModel);
+            }
+
+            return View("Account");
+        }
+        catch (Exception)
+        {
+
+            // TODO: Notify the user about the error. (Unexpected error try again later or .... etc)
+            ModelState.AddModelError(string.Empty, "Unexpected error occurred please try again later.");
+
+            return View("Account");
+        }
     }
 
     [HttpGet]

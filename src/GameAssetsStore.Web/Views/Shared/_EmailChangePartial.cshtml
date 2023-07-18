@@ -1,0 +1,26 @@
+﻿@model AccountEmailChangeInputModel
+
+@{
+    ViewData["Title"] = "Email Change";
+}
+
+<h4>
+    Change your account email address.
+</h4>
+
+<form method="post" asp-controller="Settings" asp-action="ChangeEmail">
+    @if (Model.Email != null)
+    {
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    }
+    <div class="form">
+        <label asp-for="@Model.Email" class="form-label"></label>
+        <input asp-for="@Model.Email" class="form-control" autocomplete="Email" />
+        <span asp-validation-for="@Model.Email" class="text-danger"></span>
+    </div>
+    <br />
+    <div class="d-flex justify-content-end">
+        <button type="submit" class="btn btn-primary">Save</button>
+    </div>
+    <br />
+</form>

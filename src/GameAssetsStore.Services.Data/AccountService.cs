@@ -9,6 +9,7 @@ using Web.ViewModels.Account;
 using GameAssetsStore.Data.Models;
 using GameAssetsStore.Data.Repositories.Interfaces;
 using System.Security.Claims;
+using Microsoft.EntityFrameworkCore;
 
 
 /// <summary>
@@ -19,15 +20,18 @@ public class AccountService : IAccountService
     private readonly SignInManager<ApplicationUser> signInManager;
     private readonly UserManager<ApplicationUser> userManager;
     private readonly IRepository<UserProfile> profileRepository;
+    private readonly IRepository<ApplicationUser> userRepository;
 
     public AccountService(
         SignInManager<ApplicationUser> signInManager,
         UserManager<ApplicationUser> userManager,
-        IRepository<UserProfile> profileRepository)
+        IRepository<UserProfile> profileRepository,
+        IRepository<ApplicationUser> userRepository)
     {
         this.signInManager = signInManager;
         this.userManager = userManager;
         this.profileRepository = profileRepository;
+        this.userRepository = userRepository;
     }
 
     public async Task<bool> AddUserClaim(ApplicationUser user, string claimType, string claimValue)
@@ -35,6 +39,38 @@ public class AccountService : IAccountService
         var result = await userManager.AddClaimAsync(user, new Claim(claimType, claimValue));
 
         return result.Succeeded;
+    }
+
+    public async Task<IdentityResult> ChangeEmailAsync(ClaimsPrincipal userPrincipal, string email)
+    {
+        var user = await this.userManager.GetUserAsync(userPrincipal);
+        var securityToken = await this.userManager.GenerateChangeEmailTokenAsync(user, email);
+
+        return await this.userManager.ChangeEmailAsync(user, email, securityToken);
+    }
+
+    public async Task<IdentityResult> ChangePasswordAsync(ClaimsPrincipal userPrincipal, string oldPassword, string newPassword)
+    {
+        var user = await this.userManager.GetUserAsync(userPrincipal);
+
+        return await this.userManager.ChangePasswordAsync(user, oldPassword, newPassword);
+    }
+
+    public async Task<IdentityResult> ChangeUsernameAsync(ClaimsPrincipal userPrincipal, string username)
+    {
+        var user = await this.userManager.GetUserAsync(userPrincipal);
+
+        return await this.userManager.SetUserNameAsync(user, username);
+    }
+
+    public Task<bool> IsEmailInUseAsync(string email)
+    {
+        return this.userRepository.GetAll().AnyAsync(u => u.Email == email);
+    }
+
+    public async Task<bool> IsUsernameInUseAsync(string userName)
+    {
+        return await this.userRepository.GetAll().AnyAsync(u => u.UserName == userName);
     }
 
     public async Task<IdentityResult> RegisterAsync(SignUpInputModel inputModel)

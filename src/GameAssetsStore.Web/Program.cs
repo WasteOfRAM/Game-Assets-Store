@@ -17,10 +17,9 @@ var connectionString = builder.Configuration.GetConnectionString("AssetsStoreTes
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 
-builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-
 builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
 {
+    options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._";
     options.SignIn.RequireConfirmedAccount = false;
     options.User.RequireUniqueEmail = true;
 })
@@ -55,6 +54,7 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseMigrationsEndPoint();
+    app.UseDeveloperExceptionPage();
 }
 else
 {
