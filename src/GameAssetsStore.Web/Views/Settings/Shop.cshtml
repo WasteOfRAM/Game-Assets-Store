@@ -2,18 +2,20 @@
     ViewData["Title"] = "Shop";
 }
 
-<div class="row p-0">
-    <span class="col-md-2"></span>
-    <div class="col-md-2">
-        <partial name="_SettingsNavigationPartial" />
-    </div>
-    <div class="col-md-4 border">
-        <h1>
-            @User.Identity!.Name
-        </h1>
-        <br />
-        <div class="d-flex justify-content-center">
-            <a asp-area="Shop" asp-controller="Manage" asp-action="Assets" class="btn btn-warning">Shop Manager</a>
+<div class="container">
+    <div class="row p-0">
+        <span class="col-md-2"></span>
+        <div class="col-md-2">
+            <partial name="_SettingsNavigationPartial" />
+        </div>
+        <div class="col-md-4 border">
+            <h1>
+                @User.Identity!.Name
+            </h1>
+            <br />
+            <div class="d-flex justify-content-center">
+                <a asp-area="Shop" asp-controller="Manage" asp-action="Assets" class="btn btn-warning">Shop Manager</a>
+            </div>
         </div>
     </div>
 </div>

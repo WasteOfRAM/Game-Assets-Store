@@ -4,25 +4,27 @@
     ViewData["Title"] = "Account";
 }
 
-<div class="row p-0">
-    <span class="col-md-2"></span>
-    <div class="col-md-2">
-        <partial name="_SettingsNavigationPartial" />
-    </div>
-    <div class="col-md-4 border">
-        <h1>
-            @User.Identity!.Name
-        </h1>
-        
-        <partial name="_UsernameChangePartial" model="@Model.UsernameChange" />
+<div class="container">
+    <div class="row p-0">
+        <span class="col-md-2"></span>
+        <div class="col-md-2">
+            <partial name="_SettingsNavigationPartial" />
+        </div>
+        <div class="col-md-4 border">
+            <h1>
+                @User.Identity!.Name
+            </h1>
 
-        <hr />
+            <partial name="_UsernameChangePartial" model="@Model.UsernameChange" />
 
-        <partial name="_EmailChangePartial" model="@Model.EmailChange" />
+            <hr />
 
-        <hr />
+            <partial name="_EmailChangePartial" model="@Model.EmailChange" />
 
-        <partial name="_PasswordChangePartial" model="@Model.PasswordChange" />
+            <hr />
+
+            <partial name="_PasswordChangePartial" model="@Model.PasswordChange" />
+        </div>
     </div>
 </div>
 

@@ -4,37 +4,39 @@
     ViewData["Title"] = "Profile";
 }
 
-<div class="row p-0">
-    <span class="col-md-2"></span>
-    <div class="col-md-2">
-        <partial name="_SettingsNavigationPartial" />
-    </div>
-    <div class="col-md-4 border">
-        <h1>
-            @User.Identity!.Name
-        </h1>
-        <form method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form">
-                <label asp-for="@Model.About" class="form-label"></label>
-                <textarea asp-for="@Model.About" class="form-control" autocomplete="About" rows="5"></textarea>
-                <span asp-validation-for="@Model.About" class="text-danger"></span>
-            </div>
-            <div class="form">
-                <label asp-for="@Model.PublicEmail" class="form-label"></label>
-                <input asp-for="@Model.PublicEmail" class="form-control" autocomplete="publicemail" />
-                <span asp-validation-for="@Model.PublicEmail" class="text-danger"></span>
-            </div>
-            <div class="form">
-                <label asp-for="@Model.Website" class="form-label"></label>
-                <input asp-for="@Model.Website" class="form-control" autocomplete="website" />
-                <span asp-validation-for="@Model.Website" class="text-danger"></span>
-            </div>
-            <br />
-            <div class="d-flex justify-content-center">
-                <button type="submit" class="btn btn-primary">Save Changes</button>
-            </div>
-            <br />
-        </form>
+<div class="container">
+    <div class="row p-0">
+        <span class="col-md-2"></span>
+        <div class="col-md-2">
+            <partial name="_SettingsNavigationPartial" />
+        </div>
+        <div class="col-md-4 border">
+            <h1>
+                @User.Identity!.Name
+            </h1>
+            <form method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form">
+                    <label asp-for="@Model.About" class="form-label"></label>
+                    <textarea asp-for="@Model.About" class="form-control" autocomplete="About" rows="5"></textarea>
+                    <span asp-validation-for="@Model.About" class="text-danger"></span>
+                </div>
+                <div class="form">
+                    <label asp-for="@Model.PublicEmail" class="form-label"></label>
+                    <input asp-for="@Model.PublicEmail" class="form-control" autocomplete="publicemail" />
+                    <span asp-validation-for="@Model.PublicEmail" class="text-danger"></span>
+                </div>
+                <div class="form">
+                    <label asp-for="@Model.Website" class="form-label"></label>
+                    <input asp-for="@Model.Website" class="form-control" autocomplete="website" />
+                    <span asp-validation-for="@Model.Website" class="text-danger"></span>
+                </div>
+                <br />
+                <div class="d-flex justify-content-center">
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+                <br />
+            </form>
+        </div>
     </div>
 </div>
