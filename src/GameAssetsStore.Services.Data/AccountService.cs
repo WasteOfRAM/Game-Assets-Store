@@ -65,12 +65,12 @@ public class AccountService : IAccountService
 
     public Task<bool> IsEmailInUseAsync(string email)
     {
-        return this.userRepository.GetAll().AnyAsync(u => u.Email == email);
+        return this.userRepository.GetAllAsNoTracking().AnyAsync(u => u.Email == email);
     }
 
     public async Task<bool> IsUsernameInUseAsync(string userName)
     {
-        return await this.userRepository.GetAll().AnyAsync(u => u.UserName == userName);
+        return await this.userRepository.GetAllAsNoTracking().AnyAsync(u => u.UserName == userName);
     }
 
     public async Task<IdentityResult> RegisterAsync(SignUpInputModel inputModel)

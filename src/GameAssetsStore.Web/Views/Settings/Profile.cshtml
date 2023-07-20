@@ -10,7 +10,7 @@
         <div class="col-md-2">
             <partial name="_SettingsNavigationPartial" />
         </div>
-        <div class="col-md-4 border">
+        <div class="col-md-4 bg-dark shadow">
             <h1>
                 @User.Identity!.Name
             </h1>
@@ -18,7 +18,7 @@
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form">
                     <label asp-for="@Model.About" class="form-label"></label>
-                    <textarea asp-for="@Model.About" class="form-control" autocomplete="About" rows="5"></textarea>
+                    <textarea asp-for="@Model.About" class="form-control bg-secondary text-light border-0" autocomplete="About" rows="5"></textarea>
                     <span asp-validation-for="@Model.About" class="text-danger"></span>
                 </div>
                 <div class="form">

@@ -19,7 +19,7 @@ public class EfRepository<TEntity> : IRepository<TEntity> where TEntity : class
 
     public IQueryable<TEntity> GetAll() => this.DbSet;
 
-    public IQueryable<TEntity> GetAllAsNoTracking() => this.GetAllAsNoTracking().AsNoTracking();
+    public IQueryable<TEntity> GetAllAsNoTracking() => this.DbSet.AsNoTracking();
 
     public async Task AddAsync(TEntity entity) => await this.DbSet.AddAsync(entity);
 

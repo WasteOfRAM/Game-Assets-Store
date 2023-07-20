@@ -120,7 +120,9 @@ public class SettingsController : Controller
                 return View("Account", viewModel);
             }
 
-            return View("Account");
+            await this.accountService.SignOutAsync();
+
+            return RedirectToAction("SignIn", "Account");
         }
         catch (Exception)
         {
@@ -171,7 +173,7 @@ public class SettingsController : Controller
                 return View("Account", viewModel);
             }
 
-            return View("Account");
+            return View("Account", viewModel);
         }
         catch (Exception)
         {
@@ -218,7 +220,7 @@ public class SettingsController : Controller
                 return View("Account", viewModel);
             }
 
-            return View("Account");
+            return View("Account", viewModel);
         }
         catch (Exception)
         {

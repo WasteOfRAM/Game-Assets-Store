@@ -32,10 +32,9 @@ public class UserService : IUserService
 
     public Task<PublicProfileViewModel?> GetUserProfileAsync(string username)
     {
-        return Task.FromResult(this.profileRepository.GetAll()
+        return Task.FromResult(this.profileRepository.GetAllAsNoTracking()
             .Where(up => up.User.UserName == username)
             .Include(up => up.SocialLinks)
-            .AsNoTracking()
             .AsEnumerable()
             .Select(up => new PublicProfileViewModel
             {
@@ -50,7 +49,7 @@ public class UserService : IUserService
 
     public async Task<ProfileSettingsFormModel> GetUserPublicProfileAsync(string userId)
     {
-        return await this.profileRepository.GetAll()
+        return await this.profileRepository.GetAllAsNoTracking()
             .Where(p => p.UserId.ToString() == userId)
             .Select(p => new ProfileSettingsFormModel
             {
@@ -108,8 +107,8 @@ public class UserService : IUserService
     public async Task<bool> IsShopNameAvailableAsync(string? shopName)
     {
         if (shopName != null &&
-            await this.userRepository.GetAll().AnyAsync(u => u.UserName == shopName) ||
-            await this.shopRepository.GetAll().AnyAsync(s => s.ShopName == shopName))
+            await this.userRepository.GetAllAsNoTracking().AnyAsync(u => u.UserName == shopName) ||
+            await this.shopRepository.GetAllAsNoTracking().AnyAsync(s => s.ShopName == shopName))
         {
             return false;
         }
