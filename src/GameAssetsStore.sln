@@ -21,7 +21,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{D2
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameAssetsStore.Services.Data", "GameAssetsStore.Services.Data\GameAssetsStore.Services.Data.csproj", "{E8F84365-BE38-4C2D-8740-821B4D3397FF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameAssetsStore.Web.Infrastructure", "GameAssetsStore.Web.Infrastructure\GameAssetsStore.Web.Infrastructure.csproj", "{45BD49D1-4147-4048-96D1-75F6831C2860}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameAssetsStore.Web.Infrastructure", "GameAssetsStore.Web.Infrastructure\GameAssetsStore.Web.Infrastructure.csproj", "{45BD49D1-4147-4048-96D1-75F6831C2860}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameAssetsStore.Web.Area.ViewModels", "GameAssetsStore.Web.Area.ViewModels\GameAssetsStore.Web.Area.ViewModels.csproj", "{CBF73DED-481C-43AE-A9A8-DE33DD87983A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +59,10 @@ Global
 		{45BD49D1-4147-4048-96D1-75F6831C2860}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{45BD49D1-4147-4048-96D1-75F6831C2860}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{45BD49D1-4147-4048-96D1-75F6831C2860}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CBF73DED-481C-43AE-A9A8-DE33DD87983A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBF73DED-481C-43AE-A9A8-DE33DD87983A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBF73DED-481C-43AE-A9A8-DE33DD87983A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBF73DED-481C-43AE-A9A8-DE33DD87983A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -68,6 +74,7 @@ Global
 		{7461CC0D-B91F-4399-AE74-5D2DFC4529E8} = {A45B27D3-D898-42E5-A5FB-7748E6A4D1E1}
 		{E8F84365-BE38-4C2D-8740-821B4D3397FF} = {D2FAA2C7-1BD0-4ED1-9D09-BCD613FC1A8F}
 		{45BD49D1-4147-4048-96D1-75F6831C2860} = {A45B27D3-D898-42E5-A5FB-7748E6A4D1E1}
+		{CBF73DED-481C-43AE-A9A8-DE33DD87983A} = {A45B27D3-D898-42E5-A5FB-7748E6A4D1E1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CA587AC5-2473-47FF-A999-E44AB860B5FB}
