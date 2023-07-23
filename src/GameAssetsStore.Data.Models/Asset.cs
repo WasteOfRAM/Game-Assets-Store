@@ -43,13 +43,23 @@ public class Asset
     public string AssetName { get; set; } = null!;
 
     /// <summary>
+    /// Encoded name of the user uploaded asset file.
+    /// </summary>
+    /// /// <param name="FileName"></param>
+    [Required]
+    [MaxLength(FileNameMaxLength)]
+    [Comment("Encoded name of the user uploaded asset file.")]
+    public string FileName { get; set; } = null!;
+
+    /// <summary>
     /// Seller provided detailed description of the asset.
     /// Visible ont the asset public store page.
     /// </summary>
     /// <param name="Description"></param>
     [Comment("Asset asset description for the public store page.")]
     [Required]
-    public string Description { get; set; } = null!;
+    [MaxLength(DescriptionMaxLength)]
+    public string? Description { get; set; }
 
     /// <summary>
     /// Price of the asset. NULL is possible to allow free assets.

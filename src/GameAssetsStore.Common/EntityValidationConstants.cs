@@ -21,7 +21,14 @@ public static class EntityValidationConstants
     public static class Asset
     {
         public const int AssetNameMinLength = 3;
-        public const int AssetNameMaxLength = 15;
+        public const int AssetNameMaxLength = 30;
+
+        public const string AssetNameAllowedCharacters = @"^([a-zA-Z0-9.]*)([ \-_][a-zA-Z0-9.]+)*$";
+
+        public const int FileNameMinLength = 5;
+        public const int FileNameMaxLength = 20;
+
+        public const int DescriptionMaxLength = 1000;
 
         public const int VersionMaxLength = 10;
     }
