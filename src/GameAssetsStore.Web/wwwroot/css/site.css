@@ -11,7 +11,7 @@ select:-webkit-autofill:focus {
     transition: background-color 5000s ease-in-out 0s;
 }
 
-input::-webkit-file-upload-button{
+input::-webkit-file-upload-button {
     display: none;
 }
 
@@ -36,4 +36,5 @@ html {
 
 body {
   margin-bottom: 60px;
+  padding-top: 70px;
 }
