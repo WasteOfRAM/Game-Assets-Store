@@ -27,6 +27,10 @@ public class SubCategory
     [MaxLength(NameMaxLength)]
     public string Name { get; set; } = null!;
 
+    public Guid CategoryId { get; set; }
+    [ForeignKey(nameof(CategoryId))]
+    public virtual GeneralCategory Category { get; set; }
+
     /// <summary>
     /// All assets in this sub category
     /// </summary>

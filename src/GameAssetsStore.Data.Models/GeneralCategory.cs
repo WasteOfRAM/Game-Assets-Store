@@ -13,6 +13,7 @@ public class GeneralCategory
     {
         this.Id = Guid.NewGuid();
         this.Assets = new HashSet<Asset>();
+        this.SubCategories = new HashSet<SubCategory>();
     }
 
     [Key]
@@ -24,4 +25,6 @@ public class GeneralCategory
     public string Name { get; set; } = null!;
 
     public virtual ICollection<Asset> Assets { get; set; }
+
+    public virtual ICollection<SubCategory> SubCategories { get; set; }
 }

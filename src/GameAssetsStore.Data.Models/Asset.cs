@@ -57,7 +57,6 @@ public class Asset
     /// </summary>
     /// <param name="Description"></param>
     [Comment("Asset asset description for the public store page.")]
-    [Required]
     [MaxLength(DescriptionMaxLength)]
     public string? Description { get; set; }
 
