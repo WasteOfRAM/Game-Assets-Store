@@ -158,8 +158,8 @@ namespace GameAssetsStore.Data.Migrations
 
                     b.Property<string>("AssetName")
                         .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)")
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)")
                         .HasComment("Asset public display name.");
 
                     b.Property<DateTime>("CreatedOn")
@@ -168,15 +168,8 @@ namespace GameAssetsStore.Data.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)")
+                        .HasColumnType("nvarchar(max)")
                         .HasComment("Asset asset description for the public store page.");
-
-                    b.Property<string>("FileName")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)")
-                        .HasComment("Encoded name of the user uploaded asset file.");
 
                     b.Property<bool>("IsPublic")
                         .ValueGeneratedOnAdd()
