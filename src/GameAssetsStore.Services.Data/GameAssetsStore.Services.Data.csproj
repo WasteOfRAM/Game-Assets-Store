@@ -14,6 +14,7 @@
     <ProjectReference Include="..\GameAssetsStore.Common\GameAssetsStore.Common.csproj" />
     <ProjectReference Include="..\GameAssetsStore.Data.Models\GameAssetsStore.Data.Models.csproj" />
     <ProjectReference Include="..\GameAssetsStore.Data\GameAssetsStore.Data.csproj" />
+    <ProjectReference Include="..\GameAssetsStore.Web.Area.ViewModels\GameAssetsStore.Web.Area.ViewModels.csproj" />
     <ProjectReference Include="..\GameAssetsStore.Web.ViewModels\GameAssetsStore.Web.ViewModels.csproj" />
   </ItemGroup>
 

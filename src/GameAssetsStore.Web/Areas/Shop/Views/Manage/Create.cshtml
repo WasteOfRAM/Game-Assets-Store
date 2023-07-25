@@ -1,5 +1,99 @@
-﻿
-<form  method="post" enctype="multipart/form-data">
-    <input type="file">
-    <button type="submit" class="btn btn-outline-primary">Create</button>
-</form>
+﻿@model CreateAssetFormModel
+
+@{
+    ViewData["Title"] = "Create";
+    string activeGroup = "active";
+    string activeTab = "active";
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6 bg-dark shadow">
+            <form method="post" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="mb-3">
+                    <label asp-for="@Model.AssetTitle" class="form-label"></label>
+                    <input asp-for="@Model.AssetTitle" class="form-control bg-black text-light border-secondary mb-md-3" autocomplete="assettitle" />
+                    <span asp-validation-for="@Model.AssetTitle" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="@Model.AssetFile" class="form-label"></label>
+                    <input asp-for="@Model.AssetFile" class="form-control bg-black text-light border-secondary mb-md-3" type="file">
+                    <span asp-validation-for="@Model.AssetFile" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="@Model.CoverImage" class="form-label"></label>
+                    <input asp-for="@Model.CoverImage" class="form-control bg-black text-light border-secondary mb-md-3" type="file">
+                    <span asp-validation-for="@Model.CoverImage" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="@Model.Images" class="form-label"></label>
+                    <input asp-for="@Model.Images" class="form-control bg-black text-light border-secondary mb-md-3" type="file" multiple>
+                    <span asp-validation-for="@Model.Images" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="@Model.Description" class="form-label"></label>
+                    <textarea asp-for="@Model.Description" class="form-control bg-black text-light border-secondary mb-md-3" autocomplete="Description" rows="14"></textarea>
+                    <span asp-validation-for="@Model.Description" class="text-danger"></span>
+                </div>
+
+                <p class="mb-3">Category</p>
+                <div class="container mb-3">
+                    <div class="row" role="tabpanel">
+                        <!-- List group -->
+                        <div class="list-group col-4" id="myList" role="tablist">
+                            @for (int i = 0; i < Model.Categories.Count(); i++)
+                            {
+                                <a class="list-group-item list-group-item-dark border-secondary list-group-item-action @activeGroup" data-bs-toggle="list" href="#category-@Model.Categories[i].Id" role="tab">
+                                    @Model.Categories[i].Name
+                                </a>
+                                <input type="hidden" asp-for="@Model.Categories[i].Name">
+                                <input type="hidden" asp-for="@Model.Categories[i].Id">
+                                activeGroup = string.Empty;
+                            }
+                        </div>
+
+                        <!-- Tab panes -->
+                        <div class="tab-content col-8">
+                            @for (int i = 0; i < Model.Categories.Count(); i++)
+                            {
+                                <div class="tab-pane @activeTab" id="category-@Model.Categories[i].Id" role="tabpanel">
+                                    @for (int j = 0; j < Model.Categories[i].SubCategories.Count(); j++)
+                                    {
+                                        <div class="form-check">
+                                            <label asp-for="@Model.Categories[i].SubCategories[j].IsChecked" class="form-label">@Model.Categories[i].SubCategories[j].Name</label>
+                                            <input asp-for="@Model.Categories[i].SubCategories[j].IsChecked" class="form-check-input custom-checkbox" type="checkbox" />
+                                            <input type="hidden" asp-for="@Model.Categories[i].SubCategories[j].Name">
+                                            <input type="hidden" asp-for="@Model.Categories[i].SubCategories[j].Id">
+                                            <span asp-validation-for="@Model.Version" class="text-danger"></span>
+                                        </div>
+                                    }
+                                </div>
+
+                                activeTab = string.Empty;
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="@Model.Version" class="form-label"></label>
+                    <input asp-for="@Model.Version" class="form-control bg-black text-light border-secondary mb-md-3" autocomplete="Version" />
+                    <span asp-validation-for="@Model.Version" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="@Model.Price" class="form-label"></label>
+                    <input asp-for="@Model.Price" class="form-control bg-black text-light border-secondary mb-md-3" />
+                    <span asp-validation-for="@Model.Price" class="text-danger"></span>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <button type="submit" class="btn btn-outline-light mb-md-3">Create</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

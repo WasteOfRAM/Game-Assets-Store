@@ -23,7 +23,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameAssetsStore.Services.Da
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameAssetsStore.Web.Infrastructure", "GameAssetsStore.Web.Infrastructure\GameAssetsStore.Web.Infrastructure.csproj", "{45BD49D1-4147-4048-96D1-75F6831C2860}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameAssetsStore.Web.Area.ViewModels", "GameAssetsStore.Web.Area.ViewModels\GameAssetsStore.Web.Area.ViewModels.csproj", "{CBF73DED-481C-43AE-A9A8-DE33DD87983A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameAssetsStore.Web.Area.ViewModels", "GameAssetsStore.Web.Area.ViewModels\GameAssetsStore.Web.Area.ViewModels.csproj", "{CBF73DED-481C-43AE-A9A8-DE33DD87983A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

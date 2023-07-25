@@ -47,6 +47,10 @@ builder.Services.AddControllersWithViews()
 builder.Services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IAssetService, AssetService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+
+builder.Services.AddScoped<IObjectStoreService, LocalStorageService>();
 
 var app = builder.Build();
 
@@ -55,6 +59,8 @@ if (app.Environment.IsDevelopment())
 {
     app.UseMigrationsEndPoint();
     app.UseDeveloperExceptionPage();
+
+    
 }
 else
 {
