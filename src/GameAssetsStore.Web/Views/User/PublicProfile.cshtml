@@ -11,7 +11,7 @@
                 @Model.Username
                 @if ((User.Identity?.IsAuthenticated ?? false) && User.Identity.Name == Model.Username)
                 {
-                    <a class="col-md-2 btn btn-outline-primary" asp-controller="Settings" asp-action="Profile">Edit</a>
+                    <a class="col-md-2 btn btn-outline-light" asp-controller="Settings" asp-action="Profile">Edit</a>
                 }
             </h1>
 
