@@ -16,7 +16,6 @@ public class Asset
         this.Users = new HashSet<ApplicationUser>();
         this.GeneralCategories = new HashSet<GeneralCategory>();
         this.SubCategories = new HashSet<SubCategory>();
-        this.ArtStyles = new HashSet<ArtStyle>();
         this.Reviews = new HashSet<Review>();
     }
 
@@ -59,6 +58,15 @@ public class Asset
     [Comment("Asset asset description for the public store page.")]
     [MaxLength(DescriptionMaxLength)]
     public string? Description { get; set; }
+
+    /// <summary>
+    /// Asset art style.
+    /// </summary>
+    /// /// <param name="ArtStyleId"></param>
+    [Comment("Asset art style")]
+    [Required]
+    public Guid ArtStyleId { get; set; }
+    public virtual ArtStyle ArtStyle { get; set; } = null!;
 
     /// <summary>
     /// Price of the asset. NULL is possible to allow free assets.
@@ -119,12 +127,6 @@ public class Asset
     /// </summary>
     /// <param name="SubCategories"></param>
     public virtual ICollection<SubCategory> SubCategories { get; set; }
-
-    /// <summary>
-    /// All art styles that the asset belongs to.
-    /// </summary>
-    /// <param name="ArtStyles"></param>
-    public virtual ICollection<ArtStyle> ArtStyles { get; set; }
 
     /// <summary>
     /// All reviews for the asset.

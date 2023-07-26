@@ -18,6 +18,11 @@ public class AssetEntityConfiguration : IEntityTypeConfiguration<Asset>
             .HasDefaultValue(false);
 
         builder
+            .HasOne(e => e.ArtStyle)
+            .WithMany(e => e.Assets)
+            .OnDelete(DeleteBehavior.NoAction);
+
+        builder
             .HasMany(e => e.Users)
             .WithMany(e => e.PurchasedAssets)
             .UsingEntity<object> ("UsersAssets", e => e.HasOne<ApplicationUser>().WithMany().OnDelete(DeleteBehavior.Restrict),
@@ -35,11 +40,5 @@ public class AssetEntityConfiguration : IEntityTypeConfiguration<Asset>
             .WithMany(e => e.Assets)
             .UsingEntity<object>("AssetsSubCategories", e => e.HasOne<SubCategory>().WithMany().OnDelete(DeleteBehavior.Restrict),
                                                         e => e.HasOne<Asset>().WithMany().OnDelete(DeleteBehavior.Restrict));
-
-        builder
-            .HasMany(e => e.ArtStyles)
-            .WithMany(e => e.Assets)
-            .UsingEntity<object>("AssetsStyles", e => e.HasOne<ArtStyle>().WithMany().OnDelete(DeleteBehavior.Restrict),
-                                                 e => e.HasOne<Asset>().WithMany().OnDelete(DeleteBehavior.Restrict));
     }
 }

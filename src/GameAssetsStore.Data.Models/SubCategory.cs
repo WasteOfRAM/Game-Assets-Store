@@ -29,7 +29,7 @@ public class SubCategory
 
     public Guid CategoryId { get; set; }
     [ForeignKey(nameof(CategoryId))]
-    public virtual GeneralCategory Category { get; set; }
+    public virtual GeneralCategory Category { get; set; } = null!;
 
     /// <summary>
     /// All assets in this sub category
