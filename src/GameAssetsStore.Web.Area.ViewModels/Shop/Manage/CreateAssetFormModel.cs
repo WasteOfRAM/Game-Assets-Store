@@ -10,6 +10,7 @@ public class CreateAssetFormModel
     public CreateAssetFormModel()
     {
         this.Categories = new List<AssetCategoryFormModel>();
+        this.ArtStyles = new List<ArtStyleFormModel>();
     }
 
     [Required]
@@ -38,4 +39,8 @@ public class CreateAssetFormModel
     public IFormFile CoverImage { get; set; } = null!;
 
     public List<AssetCategoryFormModel> Categories { get; set; }
+
+    public List<ArtStyleFormModel> ArtStyles { get; set; }
+
+    public Guid SelectedStyleId { get; set; }
 }

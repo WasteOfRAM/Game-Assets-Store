@@ -49,6 +49,7 @@ builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IAssetService, AssetService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IArtStyleService, ArtStyleService>();
 
 builder.Services.AddScoped<IObjectStoreService, LocalStorageService>();
 

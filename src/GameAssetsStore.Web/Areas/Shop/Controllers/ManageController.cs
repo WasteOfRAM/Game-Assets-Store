@@ -14,14 +14,17 @@ public class ManageController : Controller
     private readonly IAssetService assetService;
     private readonly ICategoryService categoryService;
     private readonly IObjectStoreService objectStoreService;
+    private readonly IArtStyleService artStyleService;
 
     public ManageController(IAssetService assetService,
         IObjectStoreService objectStoreService,
-        ICategoryService categoryService)
+        ICategoryService categoryService,
+        IArtStyleService artStyleService)
     {
         this.assetService = assetService;
         this.objectStoreService = objectStoreService;
         this.categoryService = categoryService;
+        this.artStyleService = artStyleService;
     }
 
     public IActionResult Assets()
@@ -34,7 +37,8 @@ public class ManageController : Controller
     {
         var model = new CreateAssetFormModel
         {
-            Categories = await this.categoryService.GetAllCategoriesWithSubCategoriesAsync()
+            Categories = await this.categoryService.GetAllCategoriesWithSubCategoriesAsync(),
+            ArtStyles = await this.artStyleService.GetArtStylesAsync()
         };
 
         return View(model);
