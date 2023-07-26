@@ -2,9 +2,9 @@
 
 using GameAssetsStore.Services.Data.Interfaces;
 using GameAssetsStore.Web.Area.ViewModels.Shop.Manage;
+using GameAssetsStore.Web.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using static Common.GlobalConstants;
 
 [Area("Shop")]
@@ -29,6 +29,8 @@ public class ManageController : Controller
 
     public IActionResult Assets()
     {
+
+
         return View();
     }
 
@@ -59,7 +61,7 @@ public class ManageController : Controller
                 return View(model);
             }
             
-            var isUploadSuccessful = await this.assetService.CreateAssetAsync(model, User.Claims.FirstOrDefault(c => c.Type == "urn:shop:shopId")!.Value);
+            var isUploadSuccessful = await this.assetService.CreateAssetAsync(model, User.GetShopId()!);
 
             if (!isUploadSuccessful)
             {

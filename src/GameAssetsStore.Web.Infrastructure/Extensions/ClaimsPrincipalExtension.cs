@@ -14,4 +14,9 @@ public static class ClaimsPrincipalExtension
     {
         return user.FindFirstValue(ClaimTypes.NameIdentifier);
     }
+
+    public static string? GetShopId(this ClaimsPrincipal user)
+    {
+        return user.Claims.FirstOrDefault(c => c.Type == "urn:shop:shopId")?.Value;
+    }
 }
