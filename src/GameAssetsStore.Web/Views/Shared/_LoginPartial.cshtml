@@ -6,13 +6,23 @@
 <ul class="navbar-nav">
     @if (SignInManager.IsSignedIn(User))
     {
-        <li class="nav-item">
-            <a class="nav-link text-white" asp-controller="User" asp-action="PublicProfile" asp-route-username="@User.Identity?.Name">@User.Identity?.Name</a>
-        </li>
-        <li class="nav-item">
-            <form class="form-inline" asp-area="" asp-controller="Account" asp-action="SignOut">
-                <button type="submit" class="nav-link btn btn-link text-white">Sign Out</button>
-            </form>
+        <li class="nav-item dropdown">
+            <a class="nav-link text-white dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">@User.Identity?.Name</a>
+            <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-lg-end">
+                <li><a class="dropdown-item" asp-area="" asp-controller="User" asp-action="PublicProfile" asp-route-username="@User.Identity?.Name">Profile</a></li>
+                <li><a class="dropdown-item" asp-area="" asp-controller="" asp-action="">Asset Library</a></li>
+                <li><a class="dropdown-item" asp-area="" asp-controller="Settings" asp-action="Profile">Settings</a></li>
+                @if (User.HasClaim(c => c.Type == "urn:shop:shopId"))
+                {
+                    <li><a class="dropdown-item" asp-area="Shop" asp-controller="Manage" asp-action="Assets">Shop</a></li>
+                }
+                <li><hr class="dropdown-divider"></li>
+                <li class="nav-item dropdown-item">
+                    <form class="form-inline g-0" asp-area="" asp-controller="Account" asp-action="SignOut">
+                        <button type="submit" class="nav-link btn btn-link text-white">Sign Out</button>
+                    </form>
+                </li>
+            </ul>
         </li>
     }
     else
