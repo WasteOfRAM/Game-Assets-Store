@@ -1,4 +1,4 @@
-﻿namespace GameAssetsStore.Web.Area.ViewModels.Shop.Manage;
+﻿namespace GameAssetsStore.Web.ViewModels.Manage;
 
 using System.ComponentModel.DataAnnotations;
 

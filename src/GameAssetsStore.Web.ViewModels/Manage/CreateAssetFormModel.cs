@@ -1,4 +1,4 @@
-﻿namespace GameAssetsStore.Web.Area.ViewModels.Shop.Manage;
+﻿namespace GameAssetsStore.Web.ViewModels.Manage;
 
 using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
@@ -9,8 +9,8 @@ public class CreateAssetFormModel
 {
     public CreateAssetFormModel()
     {
-        this.Categories = new List<AssetCategoryFormModel>();
-        this.ArtStyles = new List<ArtStyleFormModel>();
+        Categories = new List<AssetCategoryFormModel>();
+        ArtStyles = new List<ArtStyleFormModel>();
     }
 
     [Required]
@@ -31,7 +31,7 @@ public class CreateAssetFormModel
     public List<IFormFile> Images { get; set; } = null!;
 
     [Required]
-    [Display(Name ="Asset file")]
+    [Display(Name = "Asset file")]
     public IFormFile AssetFile { get; set; } = null!;
 
     [Required]

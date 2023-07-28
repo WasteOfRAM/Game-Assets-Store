@@ -1,10 +1,10 @@
-﻿namespace GameAssetsStore.Web.Area.ViewModels.Shop.Manage;
+﻿namespace GameAssetsStore.Web.ViewModels.Manage;
 
 public class AssetCategoryFormModel
 {
     public AssetCategoryFormModel()
     {
-        this.SubCategories = new List<SubCategoryFormModel>();
+        SubCategories = new List<SubCategoryFormModel>();
     }
 
     public Guid Id { get; set; }
