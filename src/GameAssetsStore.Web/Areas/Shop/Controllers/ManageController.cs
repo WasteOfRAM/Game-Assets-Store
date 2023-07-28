@@ -1,8 +1,8 @@
 ﻿namespace GameAssetsStore.Web.Areas.Shop.Controllers;
 
 using GameAssetsStore.Services.Data.Interfaces;
-using GameAssetsStore.Web.Area.ViewModels.Shop.Manage;
 using GameAssetsStore.Web.Infrastructure.Extensions;
+using GameAssetsStore.Web.ViewModels.Manage;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static Common.GlobalConstants;
@@ -27,11 +27,14 @@ public class ManageController : Controller
         this.artStyleService = artStyleService;
     }
 
-    public IActionResult Assets()
+    public async Task<IActionResult> Assets()
     {
+        var model = new ManageAssetsViewModel
+        {
+            ShopAssets = await this.assetService.GetShopManagerAssetCarsAsync(User.GetShopId()!)
+        };
 
-
-        return View();
+        return View(model);
     }
 
     [HttpGet("{area}/{controller}/Assets/{action}")]

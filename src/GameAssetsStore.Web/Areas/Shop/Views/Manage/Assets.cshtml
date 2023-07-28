@@ -3,12 +3,13 @@
     ViewData["Title"] = "Assets";
 }
 
-<div>
-    <a asp-area="Shop" asp-controller="Manage" asp-action="Create" class="btn btn-outline-light">Create</a>
-</div>
+
 
 <div class="container">
     <div class="row">
+        <div class="mb-2">
+            <a asp-area="Shop" asp-controller="Manage" asp-action="Create" class="btn btn-outline-light">Create</a>
+        </div>
         @foreach (var asset in Model.ShopAssets)
         {
             <div class="col-md-12">
