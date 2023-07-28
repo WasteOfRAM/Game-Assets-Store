@@ -1,6 +1,6 @@
 ﻿namespace GameAssetsStore.Services.Data.Interfaces;
 
-using GameAssetsStore.Web.Area.ViewModels.Shop.Manage;
+using GameAssetsStore.Web.ViewModels.Manage;
 
 public interface ICategoryService
 {

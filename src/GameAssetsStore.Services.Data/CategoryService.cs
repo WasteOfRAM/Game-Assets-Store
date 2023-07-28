@@ -4,6 +4,7 @@ using GameAssetsStore.Data.Models;
 using GameAssetsStore.Data.Repositories.Interfaces;
 using GameAssetsStore.Services.Data.Interfaces;
 using GameAssetsStore.Web.Area.ViewModels.Shop.Manage;
+using GameAssetsStore.Web.ViewModels.Manage;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
