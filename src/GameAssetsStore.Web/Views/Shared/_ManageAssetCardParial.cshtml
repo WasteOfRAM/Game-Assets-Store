@@ -1,0 +1,30 @@
+﻿@model ManageAssetCardViewModel
+
+@{
+    var published = Model.IsPublic ? "published" : "private";
+    var price = Model.Price == null ? "FREE" : $"{Model.Price:f2}";
+}
+
+<div class="card text-white bg-black shadow border-light mb-3" style="max-height: 540px;">
+    <div class="row">
+        <div class="col-md-4">
+            <img src="@Model.CoverImageUrl" class="img-fluid rounded-start ratio ratio-16x9" alt="...">
+        </div>
+        <div class="col-md-6">
+            <div class="card-body">
+                <h5 class="card-title">@Model.AssetName</h5>
+                <p class="card-text">Status: @published</p>
+                <p class="card-text">Price: @price</p>
+                <p class="card-text">Sales coutn: @Model.SalesCount</p>
+                <p class="card-text"><small class="text-muted">Created on: @Model.CreatedOn.ToString("d")</small></p>
+            </div>
+        </div>
+        <div class="col-md-2 mt-md-4">
+            <div class="d-grid btn-group">
+                <a asp-area="" asp-controller="" asp-action="" class="btn btn-outline-light m-md-2" >Details</a>
+                <a asp-area="" asp-controller="" asp-action="" class="btn btn-outline-light m-md-2" >Edit</a>
+                <a asp-area="" asp-controller="" asp-action="" class="btn btn-outline-light m-md-2">Download</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,7 +1,19 @@
-﻿@{
+﻿@model ManageAssetsViewModel
+@{
     ViewData["Title"] = "Assets";
 }
 
 <div>
     <a asp-area="Shop" asp-controller="Manage" asp-action="Create" class="btn btn-outline-light">Create</a>
+</div>
+
+<div class="container">
+    <div class="row">
+        @foreach (var asset in Model.ShopAssets)
+        {
+            <div class="col-md-12">
+                <partial name="_ManageAssetCardParial" model="@asset" />
+            </div>
+        }
+    </div>
 </div>
