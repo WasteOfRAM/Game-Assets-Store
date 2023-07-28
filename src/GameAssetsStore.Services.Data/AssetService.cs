@@ -3,8 +3,9 @@
 using GameAssetsStore.Data.Models;
 using GameAssetsStore.Data.Repositories.Interfaces;
 using GameAssetsStore.Services.Data.Interfaces;
-using GameAssetsStore.Web.Area.ViewModels.Shop.Manage;
+using GameAssetsStore.Web.ViewModels.Manage;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -30,6 +31,17 @@ public class AssetService : IAssetService
         this.categoriesRepository = categoriesRepository;
         this.subCategoriesRepository = subCategoriesRepository;
         this.artStyleRepository = artStyleRepository;
+    }
+
+    public async Task ChangeAssetVisibilityAsync(string assetId)
+    {
+        var assetEntity = await this.assetRepository.GetAll().FirstAsync(a => a.Id.ToString() == assetId);
+
+        assetEntity.IsPublic = !assetEntity.IsPublic;
+
+        this.assetRepository.Update(assetEntity);
+
+        await this.assetRepository.SaveChangesAsync();
     }
 
     public async Task<bool> CreateAssetAsync(CreateAssetFormModel model, string shopId)
@@ -90,5 +102,43 @@ public class AssetService : IAssetService
         }
 
         return true;
+    }
+
+    public Task<List<ManageAssetCardViewModel>> GetShopManagerAssetCarsAsync(string shopId)
+    {
+        return this.assetRepository.GetAllAsNoTracking()
+            .Where(a => a.ShopId.ToString() == shopId)
+            .Select(a => new ManageAssetCardViewModel
+            {
+                Id = a.Id,
+                AssetName = a.AssetName,
+                FileName = a.FileName,
+                Description = a.Description,
+                CoverImageUrl = this.objectStoreService.GetAssetCoverImagePath(a.Id.ToString()),
+                ArtStyle = a.ArtStyle.Name,
+                Price = a.Price,
+                Version = a.Version,
+                SalesCount = a.SalesCount,
+                CreatedOn = a.CreatedOn,
+                ModifiedOn = a.ModifiedOn,
+                IsPublic = a.IsPublic
+            })
+            .ToListAsync();
+
+    }
+
+    public async Task<bool> IsUserAssetOwnerAsync(string? userShopId, string assetId)
+    {
+        if (userShopId != null)
+        {
+            var assetEntity = await this.assetRepository.GetAllAsNoTracking().FirstAsync(a => a.Id.ToString() == assetId);
+
+            if (assetEntity.ShopId.ToString() == userShopId)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
