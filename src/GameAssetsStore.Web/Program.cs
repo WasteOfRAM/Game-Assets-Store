@@ -1,3 +1,5 @@
+using Amazon.Extensions.NETCore.Setup;
+using Amazon.Runtime;
 using Amazon.S3;
 using GameAssetsStore.Data;
 using GameAssetsStore.Data.Models;
@@ -45,7 +47,13 @@ builder.Services.AddControllersWithViews()
         options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
     });
 
-builder.Services.AddDefaultAWSOptions(builder.Configuration.GetAWSOptions());
+var awsOptions = new AWSOptions
+{
+    Credentials = new BasicAWSCredentials(builder.Configuration["AWS:AWS_ACCESS_KEY_ID"], builder.Configuration["AWS:AWS_SECRET_ACCESS_KEY"]),
+    Region = Amazon.RegionEndpoint.EUCentral1
+};
+
+builder.Services.AddDefaultAWSOptions(awsOptions);
 builder.Services.AddAWSService<IAmazonS3>();
 
 builder.Services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
@@ -55,7 +63,7 @@ builder.Services.AddScoped<IAssetService, AssetService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IArtStyleService, ArtStyleService>();
 
-builder.Services.AddScoped<IObjectStoreService, LocalStorageService>();
+builder.Services.AddScoped<IStorageService, S3Storage>();
 
 var app = builder.Build();
 

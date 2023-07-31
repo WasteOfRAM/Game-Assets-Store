@@ -26,7 +26,7 @@ public static class EntityValidationConstants
         public const string AssetNameAllowedCharacters = @"^([a-zA-Z0-9.]*)([ \-_][a-zA-Z0-9.]+)*$";
 
         public const int FileNameMinLength = 5;
-        public const int FileNameMaxLength = 20;
+        public const int FileNameMaxLength = 30;
 
         public const int DescriptionMaxLength = 1000;
 
