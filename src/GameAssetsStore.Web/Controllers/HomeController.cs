@@ -6,11 +6,11 @@ using System.Diagnostics;
 
 public class HomeController : Controller
 {
-    private readonly ILogger<HomeController> _logger;
+    private readonly ILogger<HomeController> logger;
 
     public HomeController(ILogger<HomeController> logger)
     {
-        _logger = logger;
+        this.logger = logger;
     }
 
     public IActionResult Index()
@@ -18,7 +18,7 @@ public class HomeController : Controller
         return View();
     }
 
-    public IActionResult Privacy()
+    public IActionResult Browse()
     {
         return View();
     }
