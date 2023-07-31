@@ -6,6 +6,7 @@ using GameAssetsStore.Web.ViewModels.Manage;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static Common.GlobalConstants;
+using static GameAssetsStore.Common.EntityValidationConstants;
 
 [Area("Shop")]
 [Authorize(Policy = "ShopOwner")]
@@ -31,7 +32,7 @@ public class ManageController : Controller
     {
         var model = new ManageAssetsViewModel
         {
-            ShopAssets = await this.assetService.GetShopManagerAssetCarsAsync(User.GetShopId()!)
+            ShopAssets = await this.assetService.GetShopManagerAssetCardsAsync(User.GetShopId()!)
         };
 
         return View(model);
@@ -59,11 +60,19 @@ public class ManageController : Controller
                 ModelState.AddModelError(string.Empty, "Exceeded maximum allowed asset images.");
             }
 
+            if (!model.Categories.Any(c => c.SubCategories.Any(sc => sc.IsChecked)))
+            {
+                ModelState.AddModelError(string.Empty, "Atleast one category must be selected.");
+            }
+
             if (!ModelState.IsValid)
             {
+                model.Categories = await this.categoryService.GetAllCategoriesWithSubCategoriesAsync();
+                model.ArtStyles = await this.artStyleService.GetArtStylesAsync();
+
                 return View(model);
             }
-            
+
             var isUploadSuccessful = await this.assetService.CreateAssetAsync(model, User.GetShopId()!);
 
             if (!isUploadSuccessful)
@@ -72,7 +81,7 @@ public class ManageController : Controller
                 return View(model);
             }
 
-            return View(nameof(Assets));
+            return RedirectToAction(nameof(Assets));
         }
         catch (Exception)
         {
@@ -81,6 +90,39 @@ public class ManageController : Controller
             ModelState.AddModelError(string.Empty, "Unexpected error occurred please try again later.");
 
             return View(model);
+        }
+    }
+
+    [HttpGet("{area}/{controller}/Assets/{action}")]
+    public IActionResult Edit(string assetId)
+    {
+        
+
+        var model = new EditAssetFormModel
+        {
+
+        };
+
+        return View(model);
+    }
+
+    [HttpPost("{area}/{controller}/Assets/{action}")]
+    public async Task<IActionResult> Publish(string assetId)
+    {
+        try
+        {
+            if (await this.assetService.IsUserAssetOwnerAsync(User.GetShopId(), assetId))
+            {
+                await this.assetService.ChangeAssetVisibilityAsync(assetId);
+            }
+
+            return RedirectToAction(nameof(Assets));
+        }
+        catch (Exception)
+        {
+            // TODO: Handle it properly
+
+            return RedirectToAction(nameof(Assets));
         }
     }
 }

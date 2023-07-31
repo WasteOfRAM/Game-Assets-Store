@@ -6,7 +6,7 @@ public interface IAssetService
 {
     Task<bool> CreateAssetAsync(CreateAssetFormModel model, string shopId);
 
-    Task<List<ManageAssetCardViewModel>> GetShopManagerAssetCarsAsync(string shopId);
+    Task<List<ManageAssetCardViewModel>> GetShopManagerAssetCardsAsync(string shopId);
 
     Task ChangeAssetVisibilityAsync(string assetId);
 

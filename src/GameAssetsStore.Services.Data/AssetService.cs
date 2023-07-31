@@ -104,7 +104,7 @@ public class AssetService : IAssetService
         return true;
     }
 
-    public Task<List<ManageAssetCardViewModel>> GetShopManagerAssetCarsAsync(string shopId)
+    public Task<List<ManageAssetCardViewModel>> GetShopManagerAssetCardsAsync(string shopId)
     {
         return this.assetRepository.GetAllAsNoTracking()
             .Where(a => a.ShopId.ToString() == shopId)
