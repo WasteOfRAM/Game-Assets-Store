@@ -114,7 +114,7 @@ public class AssetService : IAssetService
                 AssetName = a.AssetName,
                 FileName = a.FileName,
                 Description = a.Description,
-                CoverImageUrl = this.objectStoreService.GetAssetCoverImagePath(a.Id.ToString()),
+                CoverImageUrl = "",
                 ArtStyle = a.ArtStyle.Name,
                 Price = a.Price,
                 Version = a.Version,

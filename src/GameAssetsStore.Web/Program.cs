@@ -1,3 +1,4 @@
+using Amazon.S3;
 using GameAssetsStore.Data;
 using GameAssetsStore.Data.Models;
 using GameAssetsStore.Data.Repositories;
@@ -43,6 +44,9 @@ builder.Services.AddControllersWithViews()
         options.ModelBinderProviders.Insert(0, new DecimalModelBinderProvider());
         options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
     });
+
+builder.Services.AddDefaultAWSOptions(builder.Configuration.GetAWSOptions());
+builder.Services.AddAWSService<IAmazonS3>();
 
 builder.Services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
 builder.Services.AddScoped<IAccountService, AccountService>();
