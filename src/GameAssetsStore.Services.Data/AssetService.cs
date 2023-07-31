@@ -9,6 +9,8 @@ using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 
+using static Common.GlobalConstants;
+
 public class AssetService : IAssetService
 {
     private readonly IRepository<Asset> assetRepository;
@@ -16,21 +18,21 @@ public class AssetService : IAssetService
     private readonly IRepository<GeneralCategory> categoriesRepository;
     private readonly IRepository<SubCategory> subCategoriesRepository;
     private readonly IRepository<ArtStyle> artStyleRepository;
-    private readonly IObjectStoreService objectStoreService;
+    private readonly IStorageService storageService;
 
     public AssetService(IRepository<Asset> assetRepository,
         IRepository<Shop> shopRepository,
-        IObjectStoreService objectStoreService,
         IRepository<GeneralCategory> categoriesRepository,
         IRepository<SubCategory> subCategoriesRepository,
-        IRepository<ArtStyle> artStyleRepository)
+        IRepository<ArtStyle> artStyleRepository,
+        IStorageService storageService)
     {
         this.assetRepository = assetRepository;
         this.shopRepository = shopRepository;
-        this.objectStoreService = objectStoreService;
         this.categoriesRepository = categoriesRepository;
         this.subCategoriesRepository = subCategoriesRepository;
         this.artStyleRepository = artStyleRepository;
+        this.storageService = storageService;
     }
 
     public async Task ChangeAssetVisibilityAsync(string assetId)
@@ -85,20 +87,15 @@ public class AssetService : IAssetService
             assetEntity.GeneralCategories.Add(category);
         }
 
-        bool isUploadSuccessful = await this.objectStoreService.UploadAsync(model.AssetFile, assetEntity.Id.ToString(), "asset");
-
-        if (!isUploadSuccessful)
-        {
-            return false;
-        }
+        await this.storageService.UploadAsync(model.AssetFile, assetEntity.Id.ToString(), AWSS3AssetsBucketName, assetEntity.FileName);
 
         await this.assetRepository.SaveChangesAsync();
 
-        await this.objectStoreService.UploadAsync(model.CoverImage, assetEntity.Id.ToString(), "cover");
+        await this.storageService.UploadAsync(model.CoverImage, assetEntity.Id.ToString(), AWSS3ImagesBucketName, "cover");
 
         for (int i = 0; i < model.Images.Count(); i++)
         {
-            await this.objectStoreService.UploadAsync(model.Images[i], assetEntity.Id.ToString(), $"media{i + 1}");
+            await this.storageService.UploadAsync(model.Images[i], assetEntity.Id.ToString(), AWSS3ImagesBucketName, $"media{i + 1}");
         }
 
         return true;
@@ -114,7 +111,7 @@ public class AssetService : IAssetService
                 AssetName = a.AssetName,
                 FileName = a.FileName,
                 Description = a.Description,
-                CoverImageUrl = "",
+                CoverImageUrl = string.Format(AWSS3ImageUrl, AWSS3Region, a.Id.ToString().ToLower(), "cover"),
                 ArtStyle = a.ArtStyle.Name,
                 Price = a.Price,
                 Version = a.Version,

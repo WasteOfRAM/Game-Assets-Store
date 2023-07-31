@@ -63,7 +63,7 @@ builder.Services.AddScoped<IAssetService, AssetService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IArtStyleService, ArtStyleService>();
 
-builder.Services.AddScoped<IStorageService, S3Storage>();
+builder.Services.AddScoped<IStorageService, S3StorageService>();
 
 var app = builder.Build();
 

@@ -14,16 +14,13 @@ public class ManageController : Controller
 {
     private readonly IAssetService assetService;
     private readonly ICategoryService categoryService;
-    private readonly IObjectStoreService objectStoreService;
     private readonly IArtStyleService artStyleService;
 
     public ManageController(IAssetService assetService,
-        IObjectStoreService objectStoreService,
         ICategoryService categoryService,
         IArtStyleService artStyleService)
     {
         this.assetService = assetService;
-        this.objectStoreService = objectStoreService;
         this.categoryService = categoryService;
         this.artStyleService = artStyleService;
     }
@@ -83,7 +80,7 @@ public class ManageController : Controller
 
             return RedirectToAction(nameof(Assets));
         }
-        catch (Exception)
+        catch (Exception e)
         {
             // TODO: Handle it properly
 
