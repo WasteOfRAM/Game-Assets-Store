@@ -8,9 +8,13 @@ using GameAssetsStore.Data.Repositories.Interfaces;
 using GameAssetsStore.Services.Data;
 using GameAssetsStore.Services.Data.Interfaces;
 using GameAssetsStore.Web.Infrastructure.ModelBinders;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
+
+using static GameAssetsStore.Common.GlobalConstants;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -47,6 +51,9 @@ builder.Services.AddControllersWithViews()
         options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
     });
 
+builder.Configuration.AddEnvironmentVariables()
+    .AddUserSecrets(Assembly.GetExecutingAssembly(), true);
+
 var awsOptions = new AWSOptions
 {
     Credentials = new BasicAWSCredentials(builder.Configuration["AWS:AWS_ACCESS_KEY_ID"], builder.Configuration["AWS:AWS_SECRET_ACCESS_KEY"]),
@@ -62,8 +69,17 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IAssetService, AssetService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IArtStyleService, ArtStyleService>();
-
 builder.Services.AddScoped<IStorageService, S3StorageService>();
+
+builder.Services.Configure<FormOptions>(options =>
+{
+    options.MultipartBodyLengthLimit = MaxFileUploadSize;
+});
+
+builder.WebHost.UseKestrel(options =>
+{
+    options.Limits.MaxRequestBodySize = MaxFileUploadSize;
+});
 
 var app = builder.Build();
 
