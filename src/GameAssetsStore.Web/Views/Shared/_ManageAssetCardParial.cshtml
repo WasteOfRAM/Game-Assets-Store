@@ -8,7 +8,9 @@
 <div class="card text-white bg-black shadow border-light mb-3" style="max-height: 540px;">
     <div class="row">
         <div class="col-md-4">
-            <img src="@Model.CoverImageUrl" class="img-fluid rounded-start ratio ratio-16x9" alt="...">
+            <div class="ratio ratio-16x9">
+                <img src="@Model.CoverImageUrl" class="img-fluid rounded-start" alt="...">
+            </div>
         </div>
         <div class="col-md-6">
             <div class="card-body">
@@ -21,9 +23,9 @@
         </div>
         <div class="col-md-2 mt-md-4">
             <div class="d-grid btn-group">
-                <a asp-area="" asp-controller="" asp-action="" class="btn btn-outline-light m-md-2" >Details</a>
-                <a asp-area="Shop" asp-controller="Manage" asp-action="Edit" asp-route-assetId="@Model.Id.ToString()" class="btn btn-outline-light m-md-2" >Edit</a>
-                <a asp-area="" asp-controller="" asp-action="" class="btn btn-outline-light m-md-2">Download</a>
+                <a asp-area="" asp-controller="" asp-action="" class="btn btn-outline-light m-md-2">Details</a>
+                <a asp-area="Shop" asp-controller="Manage" asp-action="Edit" asp-route-assetId="@Model.Id.ToString()" class="btn btn-outline-light m-md-2">Edit</a>
+                <a asp-area="" asp-controller="Asset" asp-action="Download" asp-route-assetId="@Model.Id.ToString()" class="btn btn-outline-light m-md-2">Download</a>
             </div>
         </div>
     </div>
