@@ -52,7 +52,7 @@ public class Asset
 
     /// <summary>
     /// Seller provided detailed description of the asset.
-    /// Visible ont the asset public store page.
+    /// Visible on the asset public store page.
     /// </summary>
     /// <param name="Description"></param>
     [Comment("Asset asset description for the public store page.")]

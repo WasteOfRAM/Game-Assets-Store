@@ -1,12 +1,12 @@
 ﻿namespace GameAssetsStore.Web.Areas.Shop.Controllers;
 
 using GameAssetsStore.Services.Data.Interfaces;
+using GameAssetsStore.Utilities;
 using GameAssetsStore.Web.Infrastructure.Extensions;
 using GameAssetsStore.Web.ViewModels.Manage;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static Common.GlobalConstants;
-using static GameAssetsStore.Common.EntityValidationConstants;
 
 [Area("Shop")]
 [Authorize(Policy = "ShopOwner")]
@@ -55,6 +55,14 @@ public class ManageController : Controller
             if (model.Images.Count() > AssetImagesMaxCount)
             {
                 ModelState.AddModelError(string.Empty, "Exceeded maximum allowed asset images.");
+            }
+
+            FileHelpers.FileValidation(model.AssetFile, ModelState, MaxFileUploadSize);
+            FileHelpers.FileValidation(model.CoverImage, ModelState, MaxImageUploadSize);
+
+            foreach (var file in model.Images)
+            {
+                FileHelpers.FileValidation(file, ModelState, MaxImageUploadSize);
             }
 
             if (!model.Categories.Any(c => c.SubCategories.Any(sc => sc.IsChecked)))

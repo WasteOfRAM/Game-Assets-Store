@@ -22,6 +22,12 @@ public static class GlobalConstants
     /// <summary>
     /// Max upload size in bytes.
     /// </summary>
-    /// /// <prop name="MaxFileUploadSize"></prop>
+    /// <prop name="MaxFileUploadSize"></prop>
     public const int MaxFileUploadSize = 524288000;
+
+    /// <summary>
+    /// Max image upload size in bytes.
+    /// </summary>
+    /// <prop name="MaxImageUploadSize"></prop>
+    public const int MaxImageUploadSize = 2097152;
 }
