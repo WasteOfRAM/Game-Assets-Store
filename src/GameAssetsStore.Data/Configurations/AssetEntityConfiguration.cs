@@ -25,20 +25,26 @@ public class AssetEntityConfiguration : IEntityTypeConfiguration<Asset>
         builder
             .HasMany(e => e.Users)
             .WithMany(e => e.PurchasedAssets)
-            .UsingEntity<object> ("UsersAssets", e => e.HasOne<ApplicationUser>().WithMany().OnDelete(DeleteBehavior.Restrict),
-                                                  e => e.HasOne<Asset>().WithMany().OnDelete(DeleteBehavior.Restrict));
+            .UsingEntity(
+                "UsersAssets", 
+                e => e.HasOne(typeof(ApplicationUser)).WithMany().HasForeignKey("UserId").OnDelete(DeleteBehavior.Restrict),
+                e => e.HasOne(typeof(Asset)).WithMany().HasForeignKey("AssetId").OnDelete(DeleteBehavior.Restrict));
 
         builder
             .HasMany(e => e.GeneralCategories)
             .WithMany(e => e.Assets)
-            .UsingEntity<object>("AssetsCategories", e => e.HasOne<GeneralCategory>().WithMany().OnDelete(DeleteBehavior.Restrict),
-                                                     e => e.HasOne<Asset>().WithMany().OnDelete(DeleteBehavior.Restrict));
+            .UsingEntity(
+                "AssetsCategories", 
+                e => e.HasOne(typeof(GeneralCategory)).WithMany().HasForeignKey("CategoryId").OnDelete(DeleteBehavior.Restrict), 
+                e => e.HasOne(typeof(Asset)).WithMany().HasForeignKey("UserId").OnDelete(DeleteBehavior.Restrict));
 
 
         builder
             .HasMany(e => e.SubCategories)
             .WithMany(e => e.Assets)
-            .UsingEntity<object>("AssetsSubCategories", e => e.HasOne<SubCategory>().WithMany().OnDelete(DeleteBehavior.Restrict),
-                                                        e => e.HasOne<Asset>().WithMany().OnDelete(DeleteBehavior.Restrict));
+            .UsingEntity(
+                "AssetsSubCategories", 
+                e => e.HasOne(typeof(SubCategory)).WithMany().HasForeignKey("SubCategoryId").OnDelete(DeleteBehavior.Restrict), 
+                e => e.HasOne(typeof(Asset)).WithMany().HasForeignKey("AssetId").OnDelete(DeleteBehavior.Restrict));
     }
 }
