@@ -3,6 +3,7 @@
 using GameAssetsStore.Data.Models;
 using GameAssetsStore.Data.Repositories.Interfaces;
 using GameAssetsStore.Services.Data.Interfaces;
+using GameAssetsStore.Services.Models.Asset;
 using GameAssetsStore.Web.ViewModels.Manage;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -18,6 +19,7 @@ public class AssetService : IAssetService
     private readonly IRepository<GeneralCategory> categoriesRepository;
     private readonly IRepository<SubCategory> subCategoriesRepository;
     private readonly IRepository<ArtStyle> artStyleRepository;
+    private readonly IRepository<ApplicationUser> userRepository;
     private readonly IStorageService storageService;
 
     public AssetService(IRepository<Asset> assetRepository,
@@ -25,6 +27,7 @@ public class AssetService : IAssetService
         IRepository<GeneralCategory> categoriesRepository,
         IRepository<SubCategory> subCategoriesRepository,
         IRepository<ArtStyle> artStyleRepository,
+        IRepository<ApplicationUser> userRepository,
         IStorageService storageService)
     {
         this.assetRepository = assetRepository;
@@ -32,6 +35,7 @@ public class AssetService : IAssetService
         this.categoriesRepository = categoriesRepository;
         this.subCategoriesRepository = subCategoriesRepository;
         this.artStyleRepository = artStyleRepository;
+        this.userRepository = userRepository;
         this.storageService = storageService;
     }
 
@@ -101,6 +105,17 @@ public class AssetService : IAssetService
         return true;
     }
 
+    public async Task<DownloadAssetServiceModel> DownloadAsync(string assetId)
+    {
+        var assetEntity = await this.assetRepository.GetAllAsNoTracking().FirstAsync(a => a.Id.ToString() == assetId);
+
+        var serviceModel = await this.storageService.DownloadAsync(AWSS3AssetsBucketName, assetEntity.FileName, assetId);
+
+        serviceModel.FileName = assetEntity.FileName;
+
+        return serviceModel;
+    }
+
     public Task<List<ManageAssetCardViewModel>> GetShopManagerAssetCardsAsync(string shopId)
     {
         return this.assetRepository.GetAllAsNoTracking()
@@ -134,6 +149,18 @@ public class AssetService : IAssetService
             {
                 return true;
             }
+        }
+
+        return false;
+    }
+
+    public async Task<bool> IsUserPurchasedAssetAsync(string userId, string assetId)
+    {
+        var user = await this.userRepository.GetAllAsNoTracking().FirstAsync(u => u.Id.ToString() == userId);
+
+        if (user.PurchasedAssets.Any(a => a.Id.ToString() == assetId))
+        {
+            return true;
         }
 
         return false;
