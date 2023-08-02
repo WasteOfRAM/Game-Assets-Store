@@ -6,13 +6,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 using static Common.EntityValidationConstants.Categories;
 
-[Table(name: "Sub Category")]
+[Table(name: "SubCategories")]
 public class SubCategory
 {
     public SubCategory()
     {
         this.Id = Guid.NewGuid();
         this.Assets = new HashSet<Asset>();
+        this.GeneralCategories = new HashSet<GeneralCategory>();
     }
 
     [Key]
@@ -27,9 +28,11 @@ public class SubCategory
     [MaxLength(NameMaxLength)]
     public string Name { get; set; } = null!;
 
-    public Guid CategoryId { get; set; }
-    [ForeignKey(nameof(CategoryId))]
-    public virtual GeneralCategory Category { get; set; } = null!;
+    /// <summary>
+    /// The General categories it belongs to.
+    /// </summary>
+    /// <param name="CategoryId"></param>
+    public virtual ICollection<GeneralCategory> GeneralCategories { get; set; }
 
     /// <summary>
     /// All assets in this sub category

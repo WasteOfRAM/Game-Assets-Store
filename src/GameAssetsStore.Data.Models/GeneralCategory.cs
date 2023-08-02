@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 using static Common.EntityValidationConstants.Categories;
 
-[Table(name: "General Category")]
+[Table(name: "GeneralCategories")]
 public class GeneralCategory
 {
     public GeneralCategory()

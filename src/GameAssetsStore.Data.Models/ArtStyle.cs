@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 using static Common.EntityValidationConstants.ArtStyle;
 
-[Table(name: "Art Style")]
+[Table(name: "ArtStyles")]
 public class ArtStyle
 {
     public ArtStyle()
