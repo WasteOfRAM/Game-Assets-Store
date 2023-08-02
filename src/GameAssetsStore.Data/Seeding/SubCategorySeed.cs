@@ -165,7 +165,7 @@ public static class SubCategorySeed
         category = new SubCategory
         {
             Id = new Guid("A9203C28-F272-4C4C-92B8-0D75352A31CB"),
-            Name = "Godot"
+            Name = "Unity"
         };
 
         categories.Add(category);

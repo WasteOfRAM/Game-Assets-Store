@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GameAssetsStore.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230802172811_SeedingAndRelationChanges")]
+    [Migration("20230802174707_SeedingAndRelationChanges")]
     partial class SeedingAndRelationChanges
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -301,42 +301,42 @@ namespace GameAssetsStore.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("dc45848f-0e07-4b14-af74-898767ee30d8"),
+                            Id = new Guid("0263c1c2-da3e-4496-9cda-dcb89213a9d6"),
                             Name = "Modern"
                         },
                         new
                         {
-                            Id = new Guid("6422d0a4-b0df-475c-8350-7390b43d060a"),
+                            Id = new Guid("77bd0468-6c70-4314-936b-b9612604e257"),
                             Name = "Medieval"
                         },
                         new
                         {
-                            Id = new Guid("c0752cd6-b3cf-4740-802b-9a0a8ae4c544"),
+                            Id = new Guid("b8ec1523-e249-45cc-8c48-ef78915a5e52"),
                             Name = "Futuristic"
                         },
                         new
                         {
-                            Id = new Guid("b643c6bc-95a2-4d41-9cca-0469d96d6993"),
+                            Id = new Guid("d5bc94dd-a06c-4744-be19-4206a84ab96c"),
                             Name = "Steampunk"
                         },
                         new
                         {
-                            Id = new Guid("e5739d08-a73a-4dbb-b75d-2c7a2f9e6749"),
+                            Id = new Guid("e7592028-354c-46ce-adec-b41525ccf712"),
                             Name = "Sci-Fi"
                         },
                         new
                         {
-                            Id = new Guid("c5803ccd-ab07-45a0-838f-6aa239277d7b"),
+                            Id = new Guid("9239d5ba-e831-4b1d-9f4a-7016f096d2ad"),
                             Name = "Fantasy"
                         },
                         new
                         {
-                            Id = new Guid("4140686f-0b64-4e75-b41d-5daecf21f738"),
+                            Id = new Guid("d56f1f8f-826b-4889-a1e7-ab10ab63e975"),
                             Name = "Cyberpunk"
                         },
                         new
                         {
-                            Id = new Guid("be91442d-0a38-4b4b-b13c-afb1809bc2ee"),
+                            Id = new Guid("bb41cad1-38dc-4895-bcb4-781d25821bed"),
                             Name = "Retro"
                         });
                 });
@@ -682,7 +682,7 @@ namespace GameAssetsStore.Data.Migrations
                         new
                         {
                             Id = new Guid("a9203c28-f272-4c4c-92b8-0d75352a31cb"),
-                            Name = "Godot"
+                            Name = "Unity"
                         });
                 });
 

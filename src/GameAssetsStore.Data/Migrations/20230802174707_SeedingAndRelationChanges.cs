@@ -174,14 +174,14 @@ namespace GameAssetsStore.Data.Migrations
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
                 {
-                    { new Guid("4140686f-0b64-4e75-b41d-5daecf21f738"), "Cyberpunk" },
-                    { new Guid("6422d0a4-b0df-475c-8350-7390b43d060a"), "Medieval" },
-                    { new Guid("b643c6bc-95a2-4d41-9cca-0469d96d6993"), "Steampunk" },
-                    { new Guid("be91442d-0a38-4b4b-b13c-afb1809bc2ee"), "Retro" },
-                    { new Guid("c0752cd6-b3cf-4740-802b-9a0a8ae4c544"), "Futuristic" },
-                    { new Guid("c5803ccd-ab07-45a0-838f-6aa239277d7b"), "Fantasy" },
-                    { new Guid("dc45848f-0e07-4b14-af74-898767ee30d8"), "Modern" },
-                    { new Guid("e5739d08-a73a-4dbb-b75d-2c7a2f9e6749"), "Sci-Fi" }
+                    { new Guid("0263c1c2-da3e-4496-9cda-dcb89213a9d6"), "Modern" },
+                    { new Guid("77bd0468-6c70-4314-936b-b9612604e257"), "Medieval" },
+                    { new Guid("9239d5ba-e831-4b1d-9f4a-7016f096d2ad"), "Fantasy" },
+                    { new Guid("b8ec1523-e249-45cc-8c48-ef78915a5e52"), "Futuristic" },
+                    { new Guid("bb41cad1-38dc-4895-bcb4-781d25821bed"), "Retro" },
+                    { new Guid("d56f1f8f-826b-4889-a1e7-ab10ab63e975"), "Cyberpunk" },
+                    { new Guid("d5bc94dd-a06c-4744-be19-4206a84ab96c"), "Steampunk" },
+                    { new Guid("e7592028-354c-46ce-adec-b41525ccf712"), "Sci-Fi" }
                 });
 
             migrationBuilder.InsertData(
@@ -214,7 +214,7 @@ namespace GameAssetsStore.Data.Migrations
                     { new Guid("8359654e-6e96-4254-999b-51b0ad1c9e1f"), "Sfx" },
                     { new Guid("89132449-6f33-4a1a-a8a0-24a72e99fab7"), "UI" },
                     { new Guid("a1ae6147-9ed9-4243-8c9c-90d9a2549536"), "VFX 2D" },
-                    { new Guid("a9203c28-f272-4c4c-92b8-0d75352a31cb"), "Godot" },
+                    { new Guid("a9203c28-f272-4c4c-92b8-0d75352a31cb"), "Unity" },
                     { new Guid("abf6b357-436f-43cc-8eb9-7b4cb7a333dd"), "Tile set" },
                     { new Guid("c78774c6-65c5-4d77-ab68-d9b27aef707d"), "Sprite sheet" },
                     { new Guid("ccb576a8-1774-4fb3-81f6-b1ba285da1f3"), "Music" },
@@ -371,42 +371,42 @@ namespace GameAssetsStore.Data.Migrations
             migrationBuilder.DeleteData(
                 table: "ArtStyles",
                 keyColumn: "Id",
-                keyValue: new Guid("4140686f-0b64-4e75-b41d-5daecf21f738"));
+                keyValue: new Guid("0263c1c2-da3e-4496-9cda-dcb89213a9d6"));
 
             migrationBuilder.DeleteData(
                 table: "ArtStyles",
                 keyColumn: "Id",
-                keyValue: new Guid("6422d0a4-b0df-475c-8350-7390b43d060a"));
+                keyValue: new Guid("77bd0468-6c70-4314-936b-b9612604e257"));
 
             migrationBuilder.DeleteData(
                 table: "ArtStyles",
                 keyColumn: "Id",
-                keyValue: new Guid("b643c6bc-95a2-4d41-9cca-0469d96d6993"));
+                keyValue: new Guid("9239d5ba-e831-4b1d-9f4a-7016f096d2ad"));
 
             migrationBuilder.DeleteData(
                 table: "ArtStyles",
                 keyColumn: "Id",
-                keyValue: new Guid("be91442d-0a38-4b4b-b13c-afb1809bc2ee"));
+                keyValue: new Guid("b8ec1523-e249-45cc-8c48-ef78915a5e52"));
 
             migrationBuilder.DeleteData(
                 table: "ArtStyles",
                 keyColumn: "Id",
-                keyValue: new Guid("c0752cd6-b3cf-4740-802b-9a0a8ae4c544"));
+                keyValue: new Guid("bb41cad1-38dc-4895-bcb4-781d25821bed"));
 
             migrationBuilder.DeleteData(
                 table: "ArtStyles",
                 keyColumn: "Id",
-                keyValue: new Guid("c5803ccd-ab07-45a0-838f-6aa239277d7b"));
+                keyValue: new Guid("d56f1f8f-826b-4889-a1e7-ab10ab63e975"));
 
             migrationBuilder.DeleteData(
                 table: "ArtStyles",
                 keyColumn: "Id",
-                keyValue: new Guid("dc45848f-0e07-4b14-af74-898767ee30d8"));
+                keyValue: new Guid("d5bc94dd-a06c-4744-be19-4206a84ab96c"));
 
             migrationBuilder.DeleteData(
                 table: "ArtStyles",
                 keyColumn: "Id",
-                keyValue: new Guid("e5739d08-a73a-4dbb-b75d-2c7a2f9e6749"));
+                keyValue: new Guid("e7592028-354c-46ce-adec-b41525ccf712"));
 
             migrationBuilder.DeleteData(
                 table: "GeneralCategories",
