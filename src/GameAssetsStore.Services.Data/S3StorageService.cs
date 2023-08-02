@@ -1,8 +1,10 @@
 ﻿namespace GameAssetsStore.Services.Data;
 
 using Amazon.S3;
+using Amazon.S3.Model;
 using Amazon.S3.Transfer;
 using GameAssetsStore.Services.Data.Interfaces;
+using GameAssetsStore.Services.Models.Asset;
 using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
 
@@ -17,15 +19,52 @@ public class S3StorageService : IStorageService
 
     public async Task UploadAsync(IFormFile file, string assetId, string container, string encodedFilename)
     {
-        if (file == null || file.Length == 0)
-        {
-            throw new ArgumentNullException(nameof(file), "File is empty");
-        }
-
         var objectKey = $"{assetId}/{encodedFilename}";
 
         using var transferUtility = new TransferUtility(this.S3Client);
 
         await transferUtility.UploadAsync(file.OpenReadStream(), container, objectKey);
+    }
+
+    public async Task<DownloadAssetServiceModel> DownloadAsync(string container, string fileName, string assetId)
+    {
+        MemoryStream memoryStream;
+
+        var objectRequest = new GetObjectRequest
+        {
+            BucketName = container,
+            Key = $"{assetId}/{fileName}"
+        };
+
+        using var response = await this.S3Client.GetObjectAsync(objectRequest);
+
+        if (response.HttpStatusCode == System.Net.HttpStatusCode.OK)
+        {
+            using (memoryStream = new MemoryStream())
+            {
+                await response.ResponseStream.CopyToAsync(memoryStream);
+            }
+
+            return new DownloadAssetServiceModel 
+            {
+                FileStream = memoryStream.ToArray(),
+                ContentType = response.Headers.ContentType
+            };
+        }
+        else
+        {
+            throw new FileNotFoundException("The file was not found");
+        }
+    }
+
+    public async Task DeleteAsync(string container, string fileName, string assetId)
+    {
+        var deleteRequest = new DeleteObjectRequest
+        {
+            BucketName = container,
+            Key = $"{assetId}/{fileName}"
+        };
+
+        await this.S3Client.DeleteObjectAsync(deleteRequest);
     }
 }
