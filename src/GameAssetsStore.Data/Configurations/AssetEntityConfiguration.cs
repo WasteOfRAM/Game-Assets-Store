@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 using Data.Models;
 
+using static Seeding.AssetSeed;
+
 public class AssetEntityConfiguration : IEntityTypeConfiguration<Asset>
 {
     public void Configure(EntityTypeBuilder<Asset> builder)
@@ -26,9 +28,9 @@ public class AssetEntityConfiguration : IEntityTypeConfiguration<Asset>
             .HasMany(e => e.Users)
             .WithMany(e => e.PurchasedAssets)
             .UsingEntity(
-                "UsersAssets", 
+                "UsersPurchasedAssets", 
                 e => e.HasOne(typeof(ApplicationUser)).WithMany().HasForeignKey("UserId").OnDelete(DeleteBehavior.Restrict),
-                e => e.HasOne(typeof(Asset)).WithMany().HasForeignKey("AssetId").OnDelete(DeleteBehavior.Restrict));
+                e => e.HasOne(typeof(Asset)).WithMany().HasForeignKey("PurchasedAssetId").OnDelete(DeleteBehavior.Restrict));
 
         builder
             .HasMany(e => e.GeneralCategories)
@@ -36,7 +38,8 @@ public class AssetEntityConfiguration : IEntityTypeConfiguration<Asset>
             .UsingEntity(
                 "AssetsCategories", 
                 e => e.HasOne(typeof(GeneralCategory)).WithMany().HasForeignKey("CategoryId").OnDelete(DeleteBehavior.Restrict), 
-                e => e.HasOne(typeof(Asset)).WithMany().HasForeignKey("UserId").OnDelete(DeleteBehavior.Restrict));
+                e => e.HasOne(typeof(Asset)).WithMany().HasForeignKey("AssetId").OnDelete(DeleteBehavior.Restrict))
+            .HasData(GenerateAssetsCategories());
 
 
         builder
@@ -45,6 +48,10 @@ public class AssetEntityConfiguration : IEntityTypeConfiguration<Asset>
             .UsingEntity(
                 "AssetsSubCategories", 
                 e => e.HasOne(typeof(SubCategory)).WithMany().HasForeignKey("SubCategoryId").OnDelete(DeleteBehavior.Restrict), 
-                e => e.HasOne(typeof(Asset)).WithMany().HasForeignKey("AssetId").OnDelete(DeleteBehavior.Restrict));
+                e => e.HasOne(typeof(Asset)).WithMany().HasForeignKey("AssetId").OnDelete(DeleteBehavior.Restrict))
+            .HasData(GenerateAssetsSubCategories());
+
+        builder
+            .HasData(GenerateAssets());
     }
 }
