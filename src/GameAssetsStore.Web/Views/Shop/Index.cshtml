@@ -1,0 +1,41 @@
+﻿@model ShopHomePageViewModel
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="container">
+    <div class="col-md-12 bg-dark shadow p-md-2 rounded">
+        <div class="d-flex flex-row pb-1">
+            <div class="p-2">
+                <h5>Latest assets</h5>
+            </div>
+            <div class="p-2">
+                <a href="#">View All</a>
+            </div>
+        </div>
+        <div class="row row-cols-1 row-cols-md-5 g-2">
+            @foreach (var asset in Model.AssetsByUploadDate)
+            {
+                <partial name="_AssetCardPartial" model="asset" />
+            }
+        </div>
+    </div>
+
+    <div class="col-md-12 bg-dark shadow p-md-2 rounded">
+        <div class="d-flex flex-row pb-1">
+            <div class="p-2">
+                <h5>Free assets</h5>
+            </div>
+            <div class="p-2">
+                <a href="#">View All</a>
+            </div>
+        </div>
+        <div class="row row-cols-1 row-cols-md-5 g-2">
+            @foreach (var asset in Model.FreeAssets)
+            {
+                <partial name="_AssetCardPartial" model="asset" />
+            }
+        </div>
+    </div>
+</div>

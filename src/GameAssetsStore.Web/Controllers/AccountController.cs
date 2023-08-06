@@ -18,7 +18,7 @@ public class AccountController : Controller
     {
         if (User.Identity?.IsAuthenticated ?? false)
         {
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Shop");
         }
 
         SignUpInputModel model = new SignUpInputModel();
@@ -31,7 +31,7 @@ public class AccountController : Controller
     {
         if (User.Identity?.IsAuthenticated ?? false)
         {
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Shop");
         }
 
         if (!ModelState.IsValid)
@@ -60,7 +60,7 @@ public class AccountController : Controller
                 return RedirectToAction("SignIn", "Account");
             }
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Shop");
         }
         catch (Exception)
         {
@@ -77,7 +77,7 @@ public class AccountController : Controller
     {
         if (User.Identity?.IsAuthenticated ?? false)
         {
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Shop");
         }
 
         SignInInputModel inputModel = new SignInInputModel();
@@ -90,7 +90,7 @@ public class AccountController : Controller
     {
         if (User.Identity?.IsAuthenticated ?? false)
         {
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Shop");
         }
 
         if (!ModelState.IsValid)
@@ -109,7 +109,7 @@ public class AccountController : Controller
                 return View(inputModel);
             }
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Shop");
         }
         catch (Exception)
         {
@@ -129,6 +129,6 @@ public class AccountController : Controller
             await this.accountService.SignOutAsync();
         }
 
-        return RedirectToAction("Index", "Home");
+        return RedirectToAction("Index", "Shop");
     }
 }

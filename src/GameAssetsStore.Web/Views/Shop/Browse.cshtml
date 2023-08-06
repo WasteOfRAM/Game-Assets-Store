@@ -1,0 +1,23 @@
+﻿@model BrowsePageViewModel
+
+@{
+    ViewData["Title"] = "Browse";
+}
+
+<div class="container">
+    <div class="col-md-12 bg-dark shadow p-md-2 rounded">
+        <div class="row row-cols-1 row-cols-md-5 g-2">
+            @if (Model.FilteredAssets.Count == 0)
+            {
+                <h3>No Results</h3>
+            }
+            else
+            {
+                @foreach (var asset in Model.FilteredAssets)
+                {
+                    <partial name="_AssetCardPartial" model="asset" />
+                }
+            }
+        </div>
+    </div>
+</div>

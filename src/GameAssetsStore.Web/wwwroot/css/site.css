@@ -11,6 +11,16 @@ select:-webkit-autofill:focus {
     transition: background-color 5000s ease-in-out 0s;
 }
 
+::-webkit-scrollbar {
+    width: 5px;
+    margin-bottom: 2px;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+    background-color: #353535;
+}
+
 input::-webkit-file-upload-button {
     display: none;
 }
