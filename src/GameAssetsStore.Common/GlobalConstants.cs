@@ -30,4 +30,11 @@ public static class GlobalConstants
     /// </summary>
     /// <prop name="MaxImageUploadSize"></prop>
     public const int MaxImageUploadSize = 2097152;
+
+
+    /// <summary>
+    /// Number of assets per category on the home(shop) page.
+    /// </summary>
+    /// <prop name="IndexPageAssetCountPerCategory"></prop>
+    public const int IndexPageAssetCountPerCategory = 10;
 }
