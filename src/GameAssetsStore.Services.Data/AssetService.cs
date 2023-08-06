@@ -5,6 +5,7 @@ using GameAssetsStore.Data.Repositories.Interfaces;
 using GameAssetsStore.Services.Data.Interfaces;
 using GameAssetsStore.Services.Models.Asset;
 using GameAssetsStore.Web.ViewModels.Manage;
+using GameAssetsStore.Web.ViewModels.Shop;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Net;
@@ -116,7 +117,27 @@ public class AssetService : IAssetService
         return serviceModel;
     }
 
-    public Task<List<ManageAssetCardViewModel>> GetShopManagerAssetCardsAsync(string shopId)
+    public async Task<AssetPageViewModel> GetAssetPageViewModelAsync(string assetId)
+    {
+        var asset = await this.assetRepository.GetAllAsNoTracking().FirstAsync(a => a.Id.ToString() == assetId);
+
+        var assetModel = new AssetPageViewModel
+        {
+            AssetTile = asset.AssetName,
+            Description = asset.Description,
+            Price = asset.Price
+        };
+
+         var imagesKeys = await this.storageService.GetAssetImagesKeysAsync(assetId, AWSS3ImagesBucketName);
+
+        assetModel.ImagesUrl = imagesKeys
+            .Select(key => string.Format(AWSS3ImageUrl, AWSS3Region, assetId.ToLower(), key))
+            .ToArray();
+
+        return assetModel;
+    }
+
+    public Task<List<ManageAssetCardViewModel>> GetShopManagerAssetViewModelAsync(string shopId)
     {
         return this.assetRepository.GetAllAsNoTracking()
             .Where(a => a.ShopId.ToString() == shopId)

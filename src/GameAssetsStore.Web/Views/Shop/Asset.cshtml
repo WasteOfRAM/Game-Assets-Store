@@ -1,0 +1,84 @@
+﻿@model AssetPageViewModel
+
+@{
+    ViewData["Title"] = "Asset Page";
+
+    int slideIndex = 0;
+    string active = "active";
+    var price = Model.Price == null ? "FREE" : $"{Model.Price:f2}";
+}
+
+<style>
+    .thumbnail-item {
+        cursor: pointer;
+    }
+</style>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 bg-dark shadow p-md-2 rounded">
+            <div id="carouselExampleIndicators" class="carousel" data-bs-interval="false">
+                <div class="carousel-inner">
+                    @foreach (var imageUrl in Model.ImagesUrl)
+                    {
+                        <div class="carousel-item @active">
+                            <div class="ratio ratio-16x9">
+                                <img src="@imageUrl" class="d-block w-100 rounded" alt="...">
+                            </div>
+                        </div>
+
+                        active = "";
+                    }
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+            <div class="overflow-auto d-none d-md-block">
+                <div class="row flex-nowrap pt-md-3 pb-md-3">
+                    @foreach (var imageUrl in Model.ImagesUrl)
+                    {
+                        <div class="col-md-2">
+                            <a class="thumbnail-item" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="@slideIndex" aria-label="Slide @slideIndex">
+                                <div class="ratio ratio-16x9">
+                                    <img src="@imageUrl" class="d-block w-100 rounded" alt="...">
+                                </div>
+                            </a>
+                        </div>
+
+                        slideIndex++;
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div>
+                <h2>@Model.AssetTile</h2>
+            </div>
+            <div>
+                Price: @price
+            </div>
+            <div class="d-grid btn-group pt-md-2">
+                <button class="btn btn-outline-light">Add to Cart</button>
+            </div>
+        </div>
+    </div>
+    @if (Model.Description != null)
+    {
+        <div class="col-md-12 pt-4">
+            <h4>
+                Description:
+            </h4>
+            <hr />
+            <p>
+                @Model.Description
+            </p>
+        </div>
+    }
+</div>

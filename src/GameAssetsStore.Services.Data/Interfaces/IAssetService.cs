@@ -2,6 +2,7 @@
 
 using GameAssetsStore.Services.Models.Asset;
 using GameAssetsStore.Web.ViewModels.Manage;
+using GameAssetsStore.Web.ViewModels.Shop;
 
 public interface IAssetService
 {
@@ -9,7 +10,9 @@ public interface IAssetService
 
     Task<DownloadAssetServiceModel> DownloadAsync(string assetId);
 
-    Task<List<ManageAssetCardViewModel>> GetShopManagerAssetCardsAsync(string shopId);
+    Task<List<ManageAssetCardViewModel>> GetShopManagerAssetViewModelAsync(string shopId);
+
+    Task<AssetPageViewModel> GetAssetPageViewModelAsync(string assetId);
 
     Task ChangeAssetVisibilityAsync(string assetId);
 
