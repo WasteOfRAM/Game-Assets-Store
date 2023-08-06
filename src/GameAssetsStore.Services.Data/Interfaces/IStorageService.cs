@@ -10,4 +10,6 @@ public interface IStorageService
     Task<DownloadAssetServiceModel> DownloadAsync(string container, string fileName, string assetId);
 
     Task DeleteAsync(string container, string fileName, string assetId);
+
+    Task<IEnumerable<string>> GetAssetImagesKeysAsync(string assetId, string container);
 }
