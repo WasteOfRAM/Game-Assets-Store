@@ -1,4 +1,4 @@
-﻿namespace GameAssetsStore.Web.Areas.Shop.Controllers;
+﻿namespace GameAssetsStore.Web.Controllers;
 
 using GameAssetsStore.Services.Data.Interfaces;
 using GameAssetsStore.Utilities;
@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static Common.GlobalConstants;
 
-[Area("Shop")]
 [Authorize(Policy = "ShopOwner")]
 public class ManageController : Controller
 {
@@ -29,25 +28,25 @@ public class ManageController : Controller
     {
         var model = new ManageAssetsViewModel
         {
-            ShopAssets = await this.assetService.GetShopManagerAssetCardsAsync(User.GetShopId()!)
+            ShopAssets = await assetService.GetShopManagerAssetViewModelAsync(User.GetShopId()!)
         };
 
         return View(model);
     }
 
-    [HttpGet("{area}/{controller}/Assets/{action}")]
+    [HttpGet("{controller}/Assets/{action}")]
     public async Task<IActionResult> Create()
     {
         var model = new CreateAssetFormModel
         {
-            Categories = await this.categoryService.GetAllCategoriesWithSubCategoriesAsync(),
-            ArtStyles = await this.artStyleService.GetArtStylesAsync()
+            Categories = await categoryService.GetAllCategoriesWithSubCategoriesAsync(),
+            ArtStyles = await artStyleService.GetArtStylesAsync()
         };
 
         return View(model);
     }
 
-    [HttpPost("{area}/{controller}/Assets/{action}")]
+    [HttpPost("{controller}/Assets/{action}")]
     public async Task<IActionResult> Create(CreateAssetFormModel model)
     {
         try
@@ -72,13 +71,13 @@ public class ManageController : Controller
 
             if (!ModelState.IsValid)
             {
-                model.Categories = await this.categoryService.GetAllCategoriesWithSubCategoriesAsync();
-                model.ArtStyles = await this.artStyleService.GetArtStylesAsync();
+                model.Categories = await categoryService.GetAllCategoriesWithSubCategoriesAsync();
+                model.ArtStyles = await artStyleService.GetArtStylesAsync();
 
                 return View(model);
             }
 
-            var isUploadSuccessful = await this.assetService.CreateAssetAsync(model, User.GetShopId()!);
+            var isUploadSuccessful = await assetService.CreateAssetAsync(model, User.GetShopId()!);
 
             if (!isUploadSuccessful)
             {
@@ -98,10 +97,10 @@ public class ManageController : Controller
         }
     }
 
-    [HttpGet("{area}/{controller}/Assets/{action}")]
+    [HttpGet("{controller}/Assets/{action}")]
     public IActionResult Edit(string assetId)
     {
-        
+
 
         var model = new EditAssetFormModel
         {
@@ -111,14 +110,14 @@ public class ManageController : Controller
         return View(model);
     }
 
-    [HttpPost("{area}/{controller}/Assets/{action}")]
+    [HttpPost("{controller}/Assets/{action}")]
     public async Task<IActionResult> Publish(string assetId)
     {
         try
         {
-            if (await this.assetService.IsUserAssetOwnerAsync(User.GetShopId(), assetId))
+            if (await assetService.IsUserAssetOwnerAsync(User.GetShopId(), assetId))
             {
-                await this.assetService.ChangeAssetVisibilityAsync(assetId);
+                await assetService.ChangeAssetVisibilityAsync(assetId);
             }
 
             return RedirectToAction(nameof(Assets));
