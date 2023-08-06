@@ -1,7 +1,7 @@
 ﻿@model ManageAssetCardViewModel
 
 @{
-    var published = Model.IsPublic ? "published" : "private";
+    var published = Model.IsPublic ? "Published" : "Private";
     var price = Model.Price == null ? "FREE" : $"{Model.Price:f2}";
 }
 
@@ -24,7 +24,7 @@
         <div class="col-md-2 mt-md-4">
             <div class="d-grid btn-group">
                 <a asp-area="" asp-controller="" asp-action="" class="btn btn-outline-light m-md-2">Details</a>
-                <a asp-area="Shop" asp-controller="Manage" asp-action="Edit" asp-route-assetId="@Model.Id.ToString()" class="btn btn-outline-light m-md-2">Edit</a>
+                <a asp-area="" asp-controller="Manage" asp-action="Edit" asp-route-assetId="@Model.Id.ToString()" class="btn btn-outline-light m-md-2">Edit</a>
                 <a asp-area="" asp-controller="Asset" asp-action="Download" asp-route-assetId="@Model.Id.ToString()" class="btn btn-outline-light m-md-2">Download</a>
             </div>
         </div>

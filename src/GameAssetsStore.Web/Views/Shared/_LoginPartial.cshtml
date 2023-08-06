@@ -14,7 +14,7 @@
                 <li><a class="dropdown-item" asp-area="" asp-controller="Settings" asp-action="Profile">Settings</a></li>
                 @if (User.HasClaim(c => c.Type == "urn:shop:shopId"))
                 {
-                    <li><a class="dropdown-item" asp-area="Shop" asp-controller="Manage" asp-action="Assets">Shop</a></li>
+                    <li><a class="dropdown-item" asp-area="" asp-controller="Manage" asp-action="Assets">Shop</a></li>
                 }
                 <li><hr class="dropdown-divider"></li>
                 <li class="nav-item dropdown-item">
