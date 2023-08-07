@@ -1,0 +1,20 @@
+﻿@model Tuple<bool, string>
+
+<div class="row">
+    @if (!Model.Item1)
+    {
+        <div class="col text-center">
+            <form id="publishForm" asp-area="" asp-controller="Manage" asp-action="Publish" asp-route-assetId="@Model.Item2" method="post">
+                <button type="submit" form="publishForm" class="btn btn-success col-3">Publish</button>
+            </form>
+        </div>
+    }
+    else
+    {
+        <div class="col text-center">
+            <form id="publishForm" asp-area="" asp-controller="Manage" asp-action="Publish" asp-route-assetId="@Model.Item2" method="post">
+                <button type="submit" form="publishForm" class="btn btn-warning col-3">Hide</button>
+            </form>
+        </div>
+    }
+</div>

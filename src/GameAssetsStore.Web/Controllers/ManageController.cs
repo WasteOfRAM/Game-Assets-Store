@@ -98,16 +98,51 @@ public class ManageController : Controller
     }
 
     [HttpGet("{controller}/Assets/{action}")]
-    public IActionResult Edit(string assetId)
+    public async Task<IActionResult> Edit(string assetId)
     {
-
-
-        var model = new EditAssetFormModel
-        {
-
-        };
+        var model = await this.assetService.GetEditAssetFormModelAsync(assetId);
 
         return View(model);
+    }
+
+    //[HttpPost("{controller}/Assets/{action}")]
+    //public async Task<IActionResult> Edit(EditAssetFormModel model)
+    //{
+    //    try
+    //    {
+    //        if (!ModelState.IsValid)
+    //        {
+    //            return View(model.Id);
+    //        }
+
+    //        return View(model.Id);
+    //    }
+    //    catch (Exception)
+    //    {
+
+    //        throw;
+    //    }
+    //}
+
+    [HttpPost("{controller}/Assets/{action}")]
+    public async Task<IActionResult> EditAssetInfo(AssetInfoFormModel model)
+    {
+        try
+        {
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction(nameof(Edit), "Manage", new { assetId = model.AssetId });
+            }
+
+            await this.assetService.EditAssetInfoAsync(model);
+
+            return RedirectToAction(nameof(Edit), "Manage", new { assetId = model.AssetId });
+        }
+        catch (Exception)
+        {
+
+            return RedirectToAction(nameof(Edit), "Manage", new { assetId = model.AssetId });
+        }
     }
 
     [HttpPost("{controller}/Assets/{action}")]
@@ -120,13 +155,17 @@ public class ManageController : Controller
                 await assetService.ChangeAssetVisibilityAsync(assetId);
             }
 
-            return RedirectToAction(nameof(Assets));
+            var model = await this.assetService.GetEditAssetFormModelAsync(assetId);
+
+            return RedirectToAction(nameof(Edit), "Manage", new { AssetId = assetId});
         }
         catch (Exception)
         {
             // TODO: Handle it properly
 
-            return RedirectToAction(nameof(Assets));
+            var model = await this.assetService.GetEditAssetFormModelAsync(assetId);
+
+            return RedirectToAction(nameof(Edit), "Manage", new { AssetId = assetId });
         }
     }
 }

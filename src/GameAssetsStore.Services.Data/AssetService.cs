@@ -117,6 +117,20 @@ public class AssetService : IAssetService
         return serviceModel;
     }
 
+    public async Task EditAssetInfoAsync(AssetInfoFormModel model)
+    {
+        var assetEntity = await this.assetRepository.GetAll().FirstAsync(a => a.Id == model.AssetId);
+
+        assetEntity.AssetName = model.AssetTitle;
+        assetEntity.Description = model.Description;
+        assetEntity.Version = model.Version;
+        assetEntity.Price = model.Price;
+
+        this.assetRepository.Update(assetEntity);
+
+        await this.assetRepository.SaveChangesAsync();
+    }
+
     public async Task<AssetPageViewModel> GetAssetPageViewModelAsync(string assetId)
     {
         var asset = await this.assetRepository.GetAllAsNoTracking().FirstAsync(a => a.Id.ToString() == assetId);
@@ -135,6 +149,24 @@ public class AssetService : IAssetService
             .ToArray();
 
         return assetModel;
+    }
+
+    public async Task<EditAssetFormModel> GetEditAssetFormModelAsync(string assetId)
+    {
+        var asset = await this.assetRepository.GetAll().FirstAsync(a => a.Id.ToString() == assetId);
+
+        return new EditAssetFormModel
+        {
+            AssetInfo = new AssetInfoFormModel
+            {
+                AssetId = asset.Id,
+                AssetTitle = asset.AssetName,
+                Description = asset.Description,
+                Version = asset.Version,
+                Price = asset.Price,
+                IsPublished = asset.IsPublic
+            }
+        };
     }
 
     public Task<List<ManageAssetCardViewModel>> GetShopManagerAssetViewModelAsync(string shopId)

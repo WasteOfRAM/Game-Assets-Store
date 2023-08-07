@@ -14,7 +14,11 @@ public interface IAssetService
 
     Task<AssetPageViewModel> GetAssetPageViewModelAsync(string assetId);
 
+    Task<EditAssetFormModel> GetEditAssetFormModelAsync(string assetId);
+
     Task ChangeAssetVisibilityAsync(string assetId);
+
+    Task EditAssetInfoAsync(AssetInfoFormModel model);
 
     Task<bool> IsUserAssetOwnerAsync(string? userShopId, string assetId);
 
