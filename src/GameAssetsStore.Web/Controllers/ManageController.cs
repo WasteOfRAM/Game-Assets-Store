@@ -6,6 +6,7 @@ using GameAssetsStore.Web.Infrastructure.Extensions;
 using GameAssetsStore.Web.ViewModels.Manage;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
 using static Common.GlobalConstants;
 
 [Authorize(Policy = "ShopOwner")]
@@ -100,35 +101,36 @@ public class ManageController : Controller
     [HttpGet("{controller}/Assets/{action}")]
     public async Task<IActionResult> Edit(string assetId)
     {
-        var model = await this.assetService.GetEditAssetFormModelAsync(assetId);
+        try
+        {
+            if (!await assetService.IsUserAssetOwnerAsync(User.GetShopId(), assetId))
+            {
+                return Unauthorized();
+            }
 
-        return View(model);
+            var model = await this.assetService.GetEditAssetFormModelAsync(assetId);
+
+            return View(model);
+        }
+        catch (Exception)
+        {
+            // TODO: Handle it properly
+            throw;
+        }
+
+        
     }
-
-    //[HttpPost("{controller}/Assets/{action}")]
-    //public async Task<IActionResult> Edit(EditAssetFormModel model)
-    //{
-    //    try
-    //    {
-    //        if (!ModelState.IsValid)
-    //        {
-    //            return View(model.Id);
-    //        }
-
-    //        return View(model.Id);
-    //    }
-    //    catch (Exception)
-    //    {
-
-    //        throw;
-    //    }
-    //}
 
     [HttpPost("{controller}/Assets/{action}")]
     public async Task<IActionResult> EditAssetInfo(AssetInfoFormModel model)
     {
         try
         {
+            if (!await assetService.IsUserAssetOwnerAsync(User.GetShopId(), model.AssetId.ToString()))
+            {
+                return Unauthorized();
+            }
+
             if (!ModelState.IsValid)
             {
                 return RedirectToAction(nameof(Edit), "Manage", new { assetId = model.AssetId });
@@ -140,7 +142,7 @@ public class ManageController : Controller
         }
         catch (Exception)
         {
-
+            // TODO: Handle it properly
             return RedirectToAction(nameof(Edit), "Manage", new { assetId = model.AssetId });
         }
     }
@@ -150,10 +152,12 @@ public class ManageController : Controller
     {
         try
         {
-            if (await assetService.IsUserAssetOwnerAsync(User.GetShopId(), assetId))
+            if (!await assetService.IsUserAssetOwnerAsync(User.GetShopId(), assetId))
             {
-                await assetService.ChangeAssetVisibilityAsync(assetId);
+                return Unauthorized();
             }
+            
+            await assetService.ChangeAssetVisibilityAsync(assetId);
 
             var model = await this.assetService.GetEditAssetFormModelAsync(assetId);
 
@@ -168,4 +172,6 @@ public class ManageController : Controller
             return RedirectToAction(nameof(Edit), "Manage", new { AssetId = assetId });
         }
     }
+
+
 }
