@@ -2,7 +2,9 @@
 
 public class EditAssetFormModel
 {
-    public AssetInfoFormModel AssetInfo { get; set; } = null!;
+    public AssetInfoFormModel AssetInfoModel { get; set; } = null!;
 
-    public EditAssetFileFormModel AssetFile { get; set; } = null!;
+    public EditAssetFileFormModel AssetFileModel { get; set; } = null!;
+
+    public DeleteAssetFormModel DeleteModel { get; set; } = null!;
 }

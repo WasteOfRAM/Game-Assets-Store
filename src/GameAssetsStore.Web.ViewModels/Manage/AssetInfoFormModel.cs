@@ -18,7 +18,6 @@ public class AssetInfoFormModel
     [StringLength(DescriptionMaxLength)]
     public string? Description { get; set; }
 
-
     [MaxLength(VersionMaxLength)]
     public string? Version { get; set; }
 

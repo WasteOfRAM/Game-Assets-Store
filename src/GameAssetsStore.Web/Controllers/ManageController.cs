@@ -201,5 +201,35 @@ public class ManageController : Controller
         }
     }
 
+    [HttpPost("{controller}/Assets/{action}")]
+    public async Task<IActionResult> Delete(DeleteAssetFormModel model)
+    {
+        try
+        {
+            if (!await assetService.IsUserAssetOwnerAsync(User.GetShopId(), model.AssetId.ToString()))
+            {
+                return Unauthorized();
+            }
 
+            if (await assetService.IsAssetPurchasedByAnyUserAsync(model.AssetId.ToString()))
+            {
+                ModelState.AddModelError(string.Empty, "Asset have been purchased by one or more users and cannot be deleted");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction(nameof(Edit), "Manage", new { assetId = model.AssetId });
+            }
+
+            await this.assetService.AssetSoftDeleteAsync(model.AssetId.ToString());
+
+            return RedirectToAction(nameof(Assets));
+        }
+        catch (Exception)
+        {
+            // TODO: Handle it properly
+
+            return RedirectToAction(nameof(Edit), "Manage", new { assetId = model.AssetId });
+        }
+    }
 }

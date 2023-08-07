@@ -106,6 +106,24 @@ public class AssetService : IAssetService
         return true;
     }
 
+    public async Task AssetSoftDeleteAsync(string assetId)
+    {
+        var assetEntity = await this.assetRepository.GetAll().FirstAsync(a => a.Id.ToString() == assetId);
+
+        await this.DeleteAllAssetFilesFromStorageAsync(assetEntity.Id.ToString().ToLower(), assetEntity.FileName);
+
+        assetEntity.AssetName = "DELETED";
+        assetEntity.FileName = "DELETED";
+        assetEntity.Description = "DELETED";
+        assetEntity.Version = "DELETED";
+        assetEntity.IsDeleted = true;
+        assetEntity.DeletedOn = DateTime.UtcNow;
+
+        this.assetRepository.Update(assetEntity);
+
+        await this.assetRepository.SaveChangesAsync();
+    }
+
     public async Task<DownloadAssetServiceModel> DownloadAsync(string assetId)
     {
         var assetEntity = await this.assetRepository.GetAllAsNoTracking().FirstAsync(a => a.Id.ToString() == assetId);
@@ -158,7 +176,7 @@ public class AssetService : IAssetService
 
         return new EditAssetFormModel
         {
-            AssetInfo = new AssetInfoFormModel
+            AssetInfoModel = new AssetInfoFormModel
             {
                 AssetId = asset.Id,
                 AssetTitle = asset.AssetName,
@@ -167,17 +185,22 @@ public class AssetService : IAssetService
                 Price = asset.Price,
                 IsPublished = asset.IsPublic
             },
-            AssetFile = new EditAssetFileFormModel
+            AssetFileModel = new EditAssetFileFormModel
             {
                 AssetId = asset.Id,
                 CurrentlyUploadedFileName = asset.FileName
+            },
+            DeleteModel = new DeleteAssetFormModel
+            {
+                AssetId = asset.Id,
+                ConfirmTitle = asset.AssetName
             }
         };
     }
 
     public Task<List<ManageAssetCardViewModel>> GetShopManagerAssetViewModelAsync(string shopId)
     {
-        return this.assetRepository.GetAllAsNoTracking()
+        return this.assetRepository.GetAll()
             .Where(a => a.ShopId.ToString() == shopId && a.IsDeleted == false)
             .Select(a => new ManageAssetCardViewModel
             {
@@ -246,5 +269,29 @@ public class AssetService : IAssetService
 
             await this.storageService.DeleteAsync(AWSS3AssetsBucketName, currentFileName, model.AssetId.ToString().ToLower());
         }
+    }
+
+    private async Task DeleteAllAssetFilesFromStorageAsync(string assetId, string assetFileName)
+    {
+        await this.storageService.DeleteAsync(AWSS3AssetsBucketName, assetFileName, assetId);
+
+        var mediaKeys = await this.storageService.GetAssetImagesKeysAsync(assetId, AWSS3ImagesBucketName);
+
+        foreach (var fileName in mediaKeys)
+        {
+            await this.storageService.DeleteAsync(AWSS3ImagesBucketName, fileName, assetId);
+        }
+    }
+
+    public async Task<bool> IsAssetPurchasedByAnyUserAsync(string assetId)
+    {
+        var assetEntity = await this.assetRepository.GetAllAsNoTracking().Include(a => a.Users).FirstAsync(a => a.Id.ToString() == assetId);
+
+        if (assetEntity.Users.Count() > 0)
+        {
+            return true;
+        }
+
+        return false;
     }
 }

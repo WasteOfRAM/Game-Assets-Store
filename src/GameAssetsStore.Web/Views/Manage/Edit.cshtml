@@ -5,13 +5,16 @@
 }
 
 <div class="container">
-    <partial name="_PublishAssetPartial" model="new Tuple<bool, string>(Model.AssetInfo.IsPublished, Model.AssetInfo.AssetId.ToString())" />
+    <partial name="_PublishAssetPartial" model="new Tuple<bool, string>(Model.AssetInfoModel.IsPublished, Model.AssetInfoModel.AssetId.ToString())" />
     
     <div class="row justify-content-center pt-3">
-        <partial name="_EditAssetInfoPartial" model="@Model.AssetInfo" />
+        <partial name="_EditAssetInfoPartial" model="@Model.AssetInfoModel" />
     </div>
     <div class="row justify-content-center pt-3">
-        <partial name="_UpdateAssetFilePartial" model="@Model.AssetFile" />
+        <partial name="_UpdateAssetFilePartial" model="@Model.AssetFileModel" />
+    </div>
+    <div class="row justify-content-center pt-3">
+        <partial name="_DeleteAssetPartial" model="@Model.DeleteModel" />
     </div>
 </div>
 

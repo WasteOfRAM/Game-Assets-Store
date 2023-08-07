@@ -1,0 +1,23 @@
+﻿@model DeleteAssetFormModel
+
+<div class="col-md-6 bg-dark shadow">
+    <div class="alert alert-danger">
+        <h4 class="text-danger">WARNING!!!</h4>
+        <p class="text-danger">
+            Only non public assets that have no user purchases can be deleted. The deletion is PERMANENT and IRREVERSIBLE.
+        </p>
+    </div>
+    <form method="post" asp-controller="Manage" asp-action="Delete">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="mb-3">
+            <label asp-for="@Model.Title" class="form-label">Type the Title of the asset you wish to delete.</label>
+            <input asp-for="@Model.Title" class="form-control bg-black text-light border-secondary mb-md-3" />
+            <span asp-validation-for="@Model.Title" class="text-danger"></span>
+        </div>
+        <input type="hidden" asp-for="@Model.AssetId" />
+        <input type="hidden" asp-for="@Model.ConfirmTitle" />
+        <div class="col text-center">
+            <button type="submit" class="btn btn-danger mb-md-3 col-3">Delete</button>
+        </div>
+    </form>
+</div>
