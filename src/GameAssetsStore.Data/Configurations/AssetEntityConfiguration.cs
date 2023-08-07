@@ -16,6 +16,10 @@ public class AssetEntityConfiguration : IEntityTypeConfiguration<Asset>
             .HasDefaultValue(0);
 
         builder
+            .Property(e => e.IsDeleted)
+            .HasDefaultValue(false);
+
+        builder
             .Property(e => e.IsPublic)
             .HasDefaultValue(false);
 

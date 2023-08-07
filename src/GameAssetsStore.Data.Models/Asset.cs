@@ -108,7 +108,19 @@ public class Asset
     [Required]
     public bool IsPublic { get; set; }
 
+    /// <summary>
+    /// Implementing a soft delete. Is the asset deleted.
+    /// </summary>
+    /// <param name="IsDeleted"></param>
+    [Comment("Soft delete")]
+    public bool IsDeleted { get; set; }
 
+    /// <summary>
+    /// Implementing a soft delete. Date the asset was deleted.
+    /// </summary>
+    /// <param name="DeletedOn"></param>
+    [Comment("Date the asset was deleted")]
+    public DateTime? DeletedOn { get; set; }
 
     /// <summary>
     /// Users that purchased the product.
