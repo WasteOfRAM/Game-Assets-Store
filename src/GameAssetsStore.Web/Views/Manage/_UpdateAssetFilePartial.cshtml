@@ -1,0 +1,22 @@
+﻿@model EditAssetFileFormModel
+
+<div class="col-md-6 bg-dark shadow">
+    <form method="post" asp-controller="Manage" asp-action="UpdateAssetFile" enctype="multipart/form-data">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="mb-3">
+            <div class="d-flex justify-content-between">
+                <label asp-for="@Model.AssetFile" class="form-label"></label>
+                <p>
+                    Current: @Model.CurrentlyUploadedFileName
+                </p>
+            </div>
+            <input asp-for="@Model.AssetFile" class="form-control bg-black text-light border-secondary mb-md-3" type="file">
+            <span asp-validation-for="@Model.AssetFile" class="text-danger"></span>
+        </div>
+        <input type="hidden" asp-for="@Model.AssetId" />
+        <input type="hidden" asp-for="@Model.CurrentlyUploadedFileName" />
+        <div class="col text-center">
+            <button type="submit" class="btn btn-outline-light mb-md-3 col-3">Upload</button>
+        </div>
+    </form>
+</div>

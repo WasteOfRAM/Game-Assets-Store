@@ -165,6 +165,11 @@ public class AssetService : IAssetService
                 Version = asset.Version,
                 Price = asset.Price,
                 IsPublished = asset.IsPublic
+            },
+            AssetFile = new EditAssetFileFormModel
+            {
+                AssetId = asset.Id,
+                CurrentlyUploadedFileName = asset.FileName
             }
         };
     }
@@ -217,5 +222,27 @@ public class AssetService : IAssetService
         }
 
         return false;
+    }
+
+    public async Task UpdateAssetFileAsync(EditAssetFileFormModel model)
+    {
+        var newFileEncodedName = WebUtility.HtmlEncode(model.AssetFile.FileName);
+        var currentFileName = model.CurrentlyUploadedFileName;
+
+        if (currentFileName == newFileEncodedName)
+        {
+            await this.storageService.UploadAsync(model.AssetFile, model.AssetId.ToString().ToLower(), AWSS3AssetsBucketName, newFileEncodedName);
+        }
+        else
+        {
+            await this.storageService.UploadAsync(model.AssetFile, model.AssetId.ToString().ToLower(), AWSS3AssetsBucketName, newFileEncodedName);
+
+            var assetEntity = await this.assetRepository.GetAll().FirstAsync(a => a.Id == model.AssetId);
+            assetEntity.FileName = newFileEncodedName;
+
+            await this.assetRepository.SaveChangesAsync();
+
+            await this.storageService.DeleteAsync(AWSS3AssetsBucketName, currentFileName, model.AssetId.ToString().ToLower());
+        }
     }
 }

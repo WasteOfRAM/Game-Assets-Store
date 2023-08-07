@@ -148,6 +148,34 @@ public class ManageController : Controller
     }
 
     [HttpPost("{controller}/Assets/{action}")]
+    public async Task<IActionResult> UpdateAssetFile(EditAssetFileFormModel model)
+    {
+        try
+        {
+            if (!await assetService.IsUserAssetOwnerAsync(User.GetShopId(), model.AssetId.ToString()))
+            {
+                return Unauthorized();
+            }
+
+            FileHelpers.FileValidation(model.AssetFile, ModelState, MaxFileUploadSize);
+
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction(nameof(Edit), "Manage", new { assetId = model.AssetId });
+            }
+
+            await this.assetService.UpdateAssetFileAsync(model);
+
+            return RedirectToAction(nameof(Edit), "Manage", new { assetId = model.AssetId });
+        }
+        catch (Exception)
+        {
+            // TODO: Handle it properly
+            return RedirectToAction(nameof(Edit), "Manage", new { assetId = model.AssetId });
+        }
+    }
+
+    [HttpPost("{controller}/Assets/{action}")]
     public async Task<IActionResult> Publish(string assetId)
     {
         try

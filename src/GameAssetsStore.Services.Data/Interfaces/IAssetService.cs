@@ -20,6 +20,8 @@ public interface IAssetService
 
     Task EditAssetInfoAsync(AssetInfoFormModel model);
 
+    Task UpdateAssetFileAsync(EditAssetFileFormModel model);
+
     Task<bool> IsUserAssetOwnerAsync(string? userShopId, string assetId);
 
     Task<bool> IsUserPurchasedAssetAsync(string userId, string assetId);
