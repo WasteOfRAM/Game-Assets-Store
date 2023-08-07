@@ -3,8 +3,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-using Interfaces;
-
 public class ApplicationUser : IdentityUser<Guid>
 {
     public ApplicationUser()
