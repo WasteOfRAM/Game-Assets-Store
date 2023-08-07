@@ -1,6 +1,12 @@
 ﻿@model EditAssetFileFormModel
 
 <div class="col-md-6 bg-dark shadow">
+    <div class="alert alert-danger">
+        <h4 class="text-danger">WARNING!!!</h4>
+        <p class="text-danger">
+            The old file will be deleted upon new file upload.
+        </p>
+    </div>
     <form method="post" asp-controller="Manage" asp-action="UpdateAssetFile" enctype="multipart/form-data">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="mb-3">
@@ -16,7 +22,7 @@
         <input type="hidden" asp-for="@Model.AssetId" />
         <input type="hidden" asp-for="@Model.CurrentlyUploadedFileName" />
         <div class="col text-center">
-            <button type="submit" class="btn btn-outline-light mb-md-3 col-3">Upload</button>
+            <button type="submit" class="btn btn-outline-light mb-md-3 col-3">Update</button>
         </div>
     </form>
 </div>
