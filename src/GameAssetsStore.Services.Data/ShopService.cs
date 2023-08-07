@@ -21,7 +21,7 @@ public class ShopService : IShopService
     public async Task<BrowsePageViewModel> GetAllAssetsAsync(AssetQueryModel queryModel)
     {
         var allAssetsQuery = this.assetRepository.GetAllAsNoTracking()
-            .Where(a => a.IsPublic);
+            .Where(a => a.IsPublic && a.IsDeleted == false);
 
         BrowsePageViewModel viewModel = new BrowsePageViewModel();
 
@@ -50,7 +50,7 @@ public class ShopService : IShopService
         ShopHomePageViewModel model = new ShopHomePageViewModel();
 
         model.AssetsByUploadDate = await this.assetRepository.GetAllAsNoTracking()
-            .Where(a => a.IsPublic)
+            .Where(a => a.IsPublic && a.IsDeleted == false)
             .OrderByDescending(a => a.CreatedOn)
             .Take(IndexPageAssetCountPerCategory)
             .Select(a => new AssetCardViewModel
@@ -63,7 +63,7 @@ public class ShopService : IShopService
             .ToListAsync();
 
         model.FreeAssets = await this.assetRepository.GetAllAsNoTracking()
-            .Where(a => a.IsPublic && a.Price == null)
+            .Where(a => a.IsPublic && a.IsDeleted == false && a.Price == null)
             .Take(IndexPageAssetCountPerCategory)
             .Select(a => new AssetCardViewModel
             {

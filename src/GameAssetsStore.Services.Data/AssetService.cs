@@ -125,6 +125,7 @@ public class AssetService : IAssetService
         assetEntity.Description = model.Description;
         assetEntity.Version = model.Version;
         assetEntity.Price = model.Price;
+        assetEntity.ModifiedOn = DateTime.UtcNow;
 
         this.assetRepository.Update(assetEntity);
 
@@ -177,7 +178,7 @@ public class AssetService : IAssetService
     public Task<List<ManageAssetCardViewModel>> GetShopManagerAssetViewModelAsync(string shopId)
     {
         return this.assetRepository.GetAllAsNoTracking()
-            .Where(a => a.ShopId.ToString() == shopId)
+            .Where(a => a.ShopId.ToString() == shopId && a.IsDeleted == false)
             .Select(a => new ManageAssetCardViewModel
             {
                 Id = a.Id,
@@ -239,6 +240,7 @@ public class AssetService : IAssetService
 
             var assetEntity = await this.assetRepository.GetAll().FirstAsync(a => a.Id == model.AssetId);
             assetEntity.FileName = newFileEncodedName;
+            assetEntity.ModifiedOn = DateTime.UtcNow;
 
             await this.assetRepository.SaveChangesAsync();
 
