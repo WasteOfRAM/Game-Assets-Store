@@ -36,8 +36,8 @@ public class AccountService : IAccountService
 
     public async Task<bool> AddUserClaim(ApplicationUser user, string claimType, string claimValue)
     {
-        var result = await userManager.AddClaimAsync(user, new Claim(claimType, claimValue));
-
+        var result = await this.userManager.AddClaimAsync(user, new Claim(claimType, claimValue));
+        
         return result.Succeeded;
     }
 

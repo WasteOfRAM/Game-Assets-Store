@@ -1,4 +1,11 @@
-﻿<!DOCTYPE html>
+﻿@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Antiforgery
+@using static GameAssetsStore.Common.GlobalConstants;
+
+@{
+    var requestToken = Antiforgery.GetAndStoreTokens(Context).RequestToken;
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -12,7 +19,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm fixed-top navbar-dark bg-dark border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Shop" asp-action="Index">GameAssetsStore.Web</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Shop" asp-action="Index">@ApplicationName</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -24,6 +31,7 @@
                         </li>
                     </ul>
                     <div class="container">
+                        <input id="RequestVerificationToken" type="hidden" value="@requestToken" />
                         <div class="col-md-5">
                             <form method="get" asp-controller="Shop" asp-action="Browse">
                                 <div class="form">
@@ -39,6 +47,7 @@
                             </form>
                         </div>
                     </div>
+                    <partial name="_ShopingCartPartial" />
                     <partial name="_LoginPartial" />
                 </div>
             </div>
@@ -52,7 +61,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2023 - GameAssetsStore.Web
+            &copy; 2023 - @ApplicationName
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

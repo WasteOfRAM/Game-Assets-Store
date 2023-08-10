@@ -2,6 +2,9 @@
 
 public static class GlobalConstants
 {
+    //Application name. TODO: This is a temp name.
+    public const string ApplicationName = "Game Assets Store";
+
     public const int AssetImagesMaxCount = 10;
 
     public const string AWSS3AssetsBucketName = "gas.assets";

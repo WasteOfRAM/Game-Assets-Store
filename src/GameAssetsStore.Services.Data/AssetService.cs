@@ -47,7 +47,7 @@ public class AssetService : IAssetService
         assetEntity.IsPublic = !assetEntity.IsPublic;
 
         this.assetRepository.Update(assetEntity);
-
+        
         await this.assetRepository.SaveChangesAsync();
     }
 
@@ -156,6 +156,7 @@ public class AssetService : IAssetService
 
         var assetModel = new AssetPageViewModel
         {
+            AssetId = asset.Id.ToString().ToLower(),
             AssetTile = asset.AssetName,
             Description = asset.Description,
             Price = asset.Price

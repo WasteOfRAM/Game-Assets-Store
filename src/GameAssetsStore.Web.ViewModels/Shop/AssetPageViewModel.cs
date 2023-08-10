@@ -7,6 +7,8 @@ public class AssetPageViewModel
         this.ImagesUrl = new HashSet<string>();
     }
 
+    public string AssetId { get; set; } = null!;
+
     public string AssetTile { get; set; } = null!;
 
     public decimal? Price { get; set; }
