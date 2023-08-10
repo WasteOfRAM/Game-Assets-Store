@@ -14,14 +14,17 @@ public class AccountController : Controller
     }
 
     [HttpGet("{action}")]
-    public IActionResult SignUp()
+    public IActionResult SignUp(string? returnUrl = null)
     {
         if (User.Identity?.IsAuthenticated ?? false)
         {
             return RedirectToAction("Index", "Shop");
         }
 
-        SignUpInputModel model = new SignUpInputModel();
+        SignUpInputModel model = new SignUpInputModel 
+        {
+            ReturnUrl = returnUrl,
+        };
 
         return View(model);
     }
@@ -60,7 +63,7 @@ public class AccountController : Controller
                 return RedirectToAction("SignIn", "Account");
             }
 
-            return RedirectToAction("Index", "Shop");
+            return Redirect(signUpInputModel.ReturnUrl ?? "/Shop/Index");
         }
         catch (Exception)
         {
@@ -73,14 +76,17 @@ public class AccountController : Controller
     }
 
     [HttpGet("{action}")]
-    public IActionResult SignIn()
+    public IActionResult SignIn(string? returnUrl = null)
     {
         if (User.Identity?.IsAuthenticated ?? false)
         {
             return RedirectToAction("Index", "Shop");
         }
 
-        SignInInputModel inputModel = new SignInInputModel();
+        SignInInputModel inputModel = new SignInInputModel 
+        {
+            ReturnUrl = returnUrl
+        };
 
         return View(inputModel);
     }
@@ -109,7 +115,7 @@ public class AccountController : Controller
                 return View(inputModel);
             }
 
-            return RedirectToAction("Index", "Shop");
+            return Redirect(inputModel.ReturnUrl ?? "/Shop/Index");
         }
         catch (Exception)
         {
