@@ -19,7 +19,6 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
 
     public DbSet<UserProfile> Profiles { get; set; } = null!;
 
-    public DbSet<SocialLink> SocialLinks { get; set; } = null!;
 
     public DbSet<Shop> Shops { get; set; } = null!;
 
@@ -29,7 +28,11 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
 
     public DbSet<ArtStyle> ArtStyles { get; set; } = null!;
 
+    public DbSet<PaymentMethod> PaymentMethods { get; set; } = null!;
+
     public DbSet<Review> Reviews { get; set; } = null!;
+
+    public DbSet<SocialLink> SocialLinks { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

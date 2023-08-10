@@ -2,6 +2,7 @@
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations.Schema;
 
 public class ApplicationUser : IdentityUser<Guid>
 {
@@ -31,7 +32,10 @@ public class ApplicationUser : IdentityUser<Guid>
     /// <param name="PurchasedAssets"></param>
     public virtual ICollection<Asset> PurchasedAssets { get; set; }
 
-    //// TODO: Add summary
-    //public bool IsDeleted { get; set; }
-    //public DateTime? DeletedOn { get; set; }
+    /// <summary>
+    /// A fake payment method for testing.
+    /// </summary>
+    [ForeignKey(nameof(PaymentMethodId))]
+    public Guid? PaymentMethodId { get; set; }
+    public PaymentMethod? PaymentMethod { get; set; }
 }

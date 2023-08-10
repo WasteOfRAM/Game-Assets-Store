@@ -26,14 +26,6 @@ public static class PaymentMethodSeed
 
         paymentMethods.Add(paymentMethod);
 
-        paymentMethod = new PaymentMethod
-        {
-            Id = new Guid("DDF474C6-7D5F-4DE4-9976-88E63BA81956"),
-            Name = "PalPay"
-        };
-
-        paymentMethods.Add(paymentMethod);
-
         return paymentMethods.ToArray();
     }
 }

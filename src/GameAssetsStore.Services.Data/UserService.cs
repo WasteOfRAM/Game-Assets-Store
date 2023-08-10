@@ -18,16 +18,19 @@ public class UserService : IUserService
     private readonly IRepository<ApplicationUser> userRepository;
     private readonly IAccountService accountService;
     private readonly IRepository<Shop> shopRepository;
+    private readonly IRepository<PaymentMethod> paymentMethodRepository;
 
     public UserService(IRepository<UserProfile> profileRepository, 
         IRepository<ApplicationUser> userRepository,
         IAccountService accountService,
-        IRepository<Shop> shopRepository)
+        IRepository<Shop> shopRepository,
+        IRepository<PaymentMethod> paymentMethodRepository)
     {
         this.profileRepository = profileRepository;
         this.userRepository = userRepository;
         this.accountService = accountService;
         this.shopRepository = shopRepository;
+        this.paymentMethodRepository = paymentMethodRepository;
     }
 
     public Task<PublicProfileViewModel?> GetUserProfileAsync(string username)
@@ -94,8 +97,15 @@ public class UserService : IUserService
             ShopName = model.ShopName ?? user.UserName
         };
 
-        user.OwnedShop = shop;
+        var paymentMethod = new PaymentMethod
+        {
+            Name = "Bank"
+        };
 
+        user.OwnedShop = shop;
+        user.PaymentMethod = paymentMethod;
+
+        await this.paymentMethodRepository.AddAsync(paymentMethod);
         await this.shopRepository.AddAsync(shop);
         await this.shopRepository.SaveChangesAsync();
 

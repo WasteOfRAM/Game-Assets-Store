@@ -60,7 +60,4 @@ public class Shop
     /// </summary>
     /// <param name="ShopAssets"></param>
     public virtual ICollection<Asset> ShopAssets { get; set; }
-
-
-    // TODO: Payout info (Where the shop will receive the earnings)
 }

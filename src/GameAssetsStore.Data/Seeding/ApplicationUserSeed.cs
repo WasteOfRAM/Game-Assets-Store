@@ -25,7 +25,8 @@ public static class ApplicationUserSeed
             PhoneNumberConfirmed = true,
             TwoFactorEnabled = false,
             LockoutEnabled = false,
-            AccessFailedCount = 0
+            AccessFailedCount = 0,
+            PaymentMethodId = new Guid("11FC7D8E-9363-47AF-8D0C-E0EF73C471F7")
         };
 
         users.Add(user);
@@ -44,7 +45,8 @@ public static class ApplicationUserSeed
             PhoneNumberConfirmed = true,
             TwoFactorEnabled = false,
             LockoutEnabled = false,
-            AccessFailedCount = 0
+            AccessFailedCount = 0,
+            PaymentMethodId = new Guid("4AB3226D-A16D-49E6-8D91-0BD99CC15D8F")
         };
 
         users.Add(user);
