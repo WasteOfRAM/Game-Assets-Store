@@ -6,6 +6,7 @@ using GameAssetsStore.Web.ViewModels.Shop;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Text.Json;
 
 [Authorize]
 public class ShopController : Controller
@@ -56,6 +57,32 @@ public class ShopController : Controller
 
             throw;
         }
+    }
+
+    [AllowAnonymous]
+    [HttpGet]
+    public IActionResult Cart()
+    {
+        List<ShoppingCartDto> cart = JsonSerializer.Deserialize<List<ShoppingCartDto>>(TempData["ShoppingCart"]!.ToString()!)!;
+
+        return View(cart);
+    }
+
+    [AllowAnonymous]
+    [HttpPost]
+    public IActionResult GetCart([FromBody] ShoppingCartDto[] cartItems)
+    {
+        TempData["ShoppingCart"] = JsonSerializer.Serialize(cartItems);
+
+        return Ok();
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Checkout()
+    {
+        List<ShoppingCartDto> cart = JsonSerializer.Deserialize<List<ShoppingCartDto>>(TempData["ShoppingCart"]!.ToString()!)!;
+
+        return View();
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

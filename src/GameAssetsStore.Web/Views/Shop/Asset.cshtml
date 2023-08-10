@@ -65,7 +65,7 @@
                 Price: @price
             </div>
             <div class="d-grid btn-group pt-md-2">
-                <button class="btn btn-outline-light">Add to Cart</button>
+                <button type="button" class="btn btn-outline-light" onclick="addToCart('@Model.AssetId', '@Model.AssetTile', '@price')">Add to Cart</button>
             </div>
         </div>
     </div>
