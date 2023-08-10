@@ -30,6 +30,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
 
     public DbSet<PaymentMethod> PaymentMethods { get; set; } = null!;
 
+    public DbSet<Transaction> Transactions { get; set; } = null!;
+
     public DbSet<Review> Reviews { get; set; } = null!;
 
     public DbSet<SocialLink> SocialLinks { get; set; } = null!;
