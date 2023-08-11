@@ -3,10 +3,12 @@
 using GameAssetsStore.Data.Models;
 using GameAssetsStore.Data.Repositories.Interfaces;
 using GameAssetsStore.Web.ViewModels.Settings;
+using GameAssetsStore.Web.ViewModels.Shop;
 using GameAssetsStore.Web.ViewModels.User;
 using Microsoft.EntityFrameworkCore;
 using Services.Data.Interfaces;
 using System.Net;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 /// <summary>
@@ -19,18 +21,21 @@ public class UserService : IUserService
     private readonly IAccountService accountService;
     private readonly IRepository<Shop> shopRepository;
     private readonly IRepository<PaymentMethod> paymentMethodRepository;
+    private readonly IRepository<Asset> assetRepository;
 
     public UserService(IRepository<UserProfile> profileRepository, 
         IRepository<ApplicationUser> userRepository,
         IAccountService accountService,
         IRepository<Shop> shopRepository,
-        IRepository<PaymentMethod> paymentMethodRepository)
+        IRepository<PaymentMethod> paymentMethodRepository,
+        IRepository<Asset> assetRepository)
     {
         this.profileRepository = profileRepository;
         this.userRepository = userRepository;
         this.accountService = accountService;
         this.shopRepository = shopRepository;
         this.paymentMethodRepository = paymentMethodRepository;
+        this.assetRepository = assetRepository;
     }
 
     public Task<PublicProfileViewModel?> GetUserProfileAsync(string username)
@@ -124,5 +129,26 @@ public class UserService : IUserService
         }
 
         return true;
+    }
+
+    public async Task AddPurchasedAssetsAsync(string userId, string? assetsJson)
+    {
+        if (assetsJson == null)
+        {
+            throw new NullReferenceException("The cart was not retrieved.");
+        }
+
+        List<ShoppingCartDto> cart = JsonSerializer.Deserialize<List<ShoppingCartDto>>(assetsJson)!;
+
+        var user = await this.userRepository.GetAll().FirstAsync(u => u.Id.ToString() == userId);
+
+        foreach (var asset in cart)
+        {
+            var assetEntity = await this.assetRepository.GetAll().FirstAsync(a => a.Id.ToString() == asset.AssetId);
+
+            user.PurchasedAssets.Add(assetEntity);
+        }
+
+        await this.assetRepository.SaveChangesAsync();
     }
 }

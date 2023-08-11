@@ -14,4 +14,6 @@ public interface IUserService
     Task<Guid> CreateShopAsync(CreateShopInputModel model, string userId);
 
     Task<bool> IsShopNameAvailableAsync(string? shopName);
+
+    Task AddPurchasedAssetsAsync(string userId, string? assetsJson);
 }

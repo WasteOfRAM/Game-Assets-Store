@@ -6,6 +6,8 @@
     int slideIndex = 0;
     string active = "active";
     var price = Model.Price == null ? "FREE" : $"{Model.Price:f2}";
+
+    string disabled = Model.IsAssetInCart ? "disabled" : string.Empty;
 }
 
 <style>
@@ -65,7 +67,14 @@
                 Price: @price
             </div>
             <div class="d-grid btn-group pt-md-2">
-                <button type="button" class="btn btn-outline-light" onclick="addToCart('@Model.AssetId', '@Model.AssetTile', '@price')">Add to Cart</button>
+                @if (Model.IsAssetPurchasedByUser)
+                {
+                    <a asp-area="" asp-controller="Asset" asp-action="Download" asp-route-assetId="@Model.AssetId.ToString()" class="btn btn-outline-light">Download</a>
+                }
+                else
+                {
+                    <button id="addToCartBtn" type="button" class="btn btn-outline-light @disabled" onclick="addToCart('@Model.AssetId', '@Model.AssetTile', '@price')">Add to Cart</button>
+                }
             </div>
         </div>
     </div>

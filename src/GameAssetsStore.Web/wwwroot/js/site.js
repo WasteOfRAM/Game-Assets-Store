@@ -25,17 +25,19 @@ function addToCart(assetId, title, price) {
     }
 
     saveCartToLocalStorage(cart);
+    let e = document.getElementById('addToCartBtn');
+    e.classList.add("disabled");
     getCartItemsCount();
 }
 
-function removeFromCart(assetId) {
+function removeFromCart(assetId, returnUrl) {
     var cart = getCartFromLocalStorage();
 
     cart = cart.filter(item => item.AssetId !== assetId);
 
     saveCartToLocalStorage(cart);
     getCartItemsCount();
-    sendCart();
+    sendCart(returnUrl);
 }
 
 function getCartItemsCount() {
@@ -52,7 +54,7 @@ function getCartItemsCount() {
     e.textContent = count;
 }
 
-async function sendCart() {
+async function sendCart(returnUrl) {
     var cartItems = getCartFromLocalStorage();
     var token = document.getElementById("RequestVerificationToken").value;
 
@@ -66,7 +68,30 @@ async function sendCart() {
         data: JSON.stringify(cartItems),
         success: function (response) {
             
-            window.location.href = "/Shop/Cart";
+            window.location.href = returnUrl;
+        },
+        error: function (error) {
+            // Handle error response
+            console.error('Error sending cart data:', error);
+        }
+    });
+}
+
+async function sendAndClearCart(returnUrl) {
+    var cartItems = getCartFromLocalStorage();
+    var token = document.getElementById("RequestVerificationToken").value;
+
+    $.ajax({
+        url: '/Shop/GetCart',
+        type: 'POST',
+        headers: {
+            RequestVerificationToken: token
+        },
+        contentType: 'application/json',
+        data: JSON.stringify(cartItems),
+        success: function (response) {
+            localStorage.removeItem('Cart');
+            window.location.href = returnUrl;
         },
         error: function (error) {
             // Handle error response

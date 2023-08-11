@@ -9,6 +9,7 @@ using GameAssetsStore.Web.ViewModels.Shop;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Net;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 using static Common.GlobalConstants;
@@ -150,19 +151,35 @@ public class AssetService : IAssetService
         await this.assetRepository.SaveChangesAsync();
     }
 
-    public async Task<AssetPageViewModel> GetAssetPageViewModelAsync(string assetId)
+    public async Task<AssetPageViewModel> GetAssetPageViewModelAsync(string assetId, string userId, string? cartJson)
     {
         var asset = await this.assetRepository.GetAllAsNoTracking().FirstAsync(a => a.Id.ToString() == assetId);
+        var user = await this.userRepository.GetAllAsNoTracking().Include(s => s.OwnedShop).FirstAsync(u => u.Id.ToString() == userId);
 
         var assetModel = new AssetPageViewModel
         {
             AssetId = asset.Id.ToString().ToLower(),
             AssetTile = asset.AssetName,
             Description = asset.Description,
-            Price = asset.Price
+            Price = asset.Price,
+            IsAssetPurchasedByUser = false,
+            IsAssetInCart = false
         };
 
-         var imagesKeys = await this.storageService.GetAssetImagesKeysAsync(assetId, AWSS3ImagesBucketName);
+        if (await this.IsUserPurchasedAssetAsync(userId, asset.Id.ToString()) ||
+            await this.IsUserAssetOwnerAsync(user.OwnedShop?.Id.ToString(), assetId))
+        {
+            assetModel.IsAssetPurchasedByUser = true;
+        }
+
+        if (cartJson != null)
+        {
+            List<ShoppingCartDto> cart = JsonSerializer.Deserialize<List<ShoppingCartDto>>(cartJson)!;
+
+            assetModel.IsAssetInCart = cart.Any(a => a.AssetId == assetId);
+        }
+        
+        var imagesKeys = await this.storageService.GetAssetImagesKeysAsync(assetId, AWSS3ImagesBucketName);
 
         assetModel.ImagesUrl = imagesKeys
             .Select(key => string.Format(AWSS3ImageUrl, AWSS3Region, assetId.ToLower(), key))
@@ -226,7 +243,7 @@ public class AssetService : IAssetService
     {
         if (userShopId != null)
         {
-            var assetEntity = await this.assetRepository.GetAllAsNoTracking().FirstAsync(a => a.Id.ToString() == assetId);
+            var assetEntity = await this.assetRepository.GetAllAsNoTracking().Include(a => a.Shop).FirstAsync(a => a.Id.ToString() == assetId);
 
             if (assetEntity.ShopId.ToString() == userShopId)
             {
@@ -239,7 +256,7 @@ public class AssetService : IAssetService
 
     public async Task<bool> IsUserPurchasedAssetAsync(string userId, string assetId)
     {
-        var user = await this.userRepository.GetAllAsNoTracking().FirstAsync(u => u.Id.ToString() == userId);
+        var user = await this.userRepository.GetAllAsNoTracking().Include(a => a.PurchasedAssets).FirstAsync(u => u.Id.ToString() == userId);
 
         if (user.PurchasedAssets.Any(a => a.Id.ToString() == assetId))
         {

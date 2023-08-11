@@ -15,5 +15,9 @@ public class AssetPageViewModel
 
     public string? Description { get; set; }
 
+    public bool IsAssetInCart { get; set; }
+
+    public bool IsAssetPurchasedByUser { get; set; }
+
     public IEnumerable<string> ImagesUrl { get; set; }
 }

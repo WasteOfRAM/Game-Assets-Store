@@ -14,7 +14,7 @@ public interface IAssetService
 
     Task<List<ManageAssetCardViewModel>> GetShopManagerAssetViewModelAsync(string shopId);
 
-    Task<AssetPageViewModel> GetAssetPageViewModelAsync(string assetId);
+    Task<AssetPageViewModel> GetAssetPageViewModelAsync(string assetId, string userId, string? cartJson);
 
     Task<EditAssetFormModel> GetEditAssetFormModelAsync(string assetId);
 
