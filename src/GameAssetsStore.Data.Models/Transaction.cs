@@ -3,7 +3,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Transactions;
+using Common.Enumerators;
 
 public class Transaction
 {
@@ -20,5 +20,5 @@ public class Transaction
     public TransactionStatus Status { get; set; }
 
     [Column(TypeName = "money")]
-    public double Value { get; set; }
+    public decimal Amount { get; set; }
 }

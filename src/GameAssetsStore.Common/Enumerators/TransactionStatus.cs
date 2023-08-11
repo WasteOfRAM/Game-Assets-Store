@@ -1,6 +1,6 @@
 ﻿namespace GameAssetsStore.Common.Enumerators;
 
-enum TransactionStatus
+public enum TransactionStatus
 {
     Succeeded = 0,
     Failed = 1

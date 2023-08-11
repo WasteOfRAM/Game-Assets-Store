@@ -12,7 +12,7 @@ public class PaymentMethodEntityConfiguration : IEntityTypeConfiguration<Payment
     {
         builder
             .Property(e => e.Balance)
-            .HasDefaultValue(100.00m);
+            .HasDefaultValue(1000.00m);
 
         builder
             .HasData(GeneratePaymentMethods());
