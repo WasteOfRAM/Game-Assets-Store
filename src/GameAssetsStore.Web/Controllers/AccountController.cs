@@ -1,5 +1,6 @@
 ﻿namespace GameAssetsStore.Web.Controllers;
 
+using GameAssetsStore.Web.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Services.Data.Interfaces;
 using ViewModels.Account;
@@ -136,5 +137,21 @@ public class AccountController : Controller
         }
 
         return RedirectToAction("Index", "Shop");
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> AddPaymentMethod(string returnUrl)
+    {
+        try
+        {
+            await this.accountService.AddPaymentMethodAsync(User.GetId()!);
+            
+            return Redirect(returnUrl);
+        }
+        catch (Exception)
+        {
+            // TODO:
+            throw;
+        }
     }
 }

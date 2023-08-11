@@ -71,6 +71,8 @@ builder.Services.AddScoped<IShopService, ShopService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IArtStyleService, ArtStyleService>();
 builder.Services.AddScoped<IStorageService, S3StorageService>();
+builder.Services.AddScoped<ICartService, CartService>();
+builder.Services.AddScoped<ITransactionService, TransactionService>();
 
 builder.Services.Configure<FormOptions>(options =>
 {

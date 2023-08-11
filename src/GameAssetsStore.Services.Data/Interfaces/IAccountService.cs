@@ -24,4 +24,6 @@ public interface IAccountService
     Task<IdentityResult> ChangeEmailAsync(ClaimsPrincipal userPrincipal, string email);
 
     Task<IdentityResult> ChangePasswordAsync(ClaimsPrincipal userPrincipal, string oldPassword, string newPassword);
+
+    Task AddPaymentMethodAsync(string userId);
 }

@@ -21,17 +21,32 @@ public class AccountService : IAccountService
     private readonly UserManager<ApplicationUser> userManager;
     private readonly IRepository<UserProfile> profileRepository;
     private readonly IRepository<ApplicationUser> userRepository;
+    private readonly IRepository<PaymentMethod> paymentMethodRepository;
 
     public AccountService(
         SignInManager<ApplicationUser> signInManager,
         UserManager<ApplicationUser> userManager,
         IRepository<UserProfile> profileRepository,
-        IRepository<ApplicationUser> userRepository)
+        IRepository<ApplicationUser> userRepository,
+        IRepository<PaymentMethod> paymentMethodRepository)
     {
         this.signInManager = signInManager;
         this.userManager = userManager;
         this.profileRepository = profileRepository;
         this.userRepository = userRepository;
+        this.paymentMethodRepository = paymentMethodRepository;
+    }
+
+    public async Task AddPaymentMethodAsync(string userId)
+    {
+        var user = await this.userRepository.GetAll().FirstAsync(u => u.Id.ToString() == userId);
+
+        var paymentMethod = new PaymentMethod { Name = "Bank" };
+
+        await this.paymentMethodRepository.AddAsync(paymentMethod);
+        user.PaymentMethod = paymentMethod;
+
+        await this.userRepository.SaveChangesAsync();
     }
 
     public async Task<bool> AddUserClaim(ApplicationUser user, string claimType, string claimValue)
