@@ -62,11 +62,19 @@ public class UserController : Controller
         }
     }
 
-    [HttpGet()]
+    [HttpGet]
     public async Task<IActionResult> Library()
     {
+        try
+        {
+            var model = await this.userService.GetUserLibraryAssetsAsync(User.GetId()!);
 
+            return View(model);
+        }
+        catch (Exception)
+        {
 
-        return View();
+            throw;
+        }
     }
 }

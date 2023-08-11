@@ -16,4 +16,6 @@ public interface IUserService
     Task<bool> IsShopNameAvailableAsync(string? shopName);
 
     Task AddPurchasedAssetsAsync(string userId, string? assetsJson);
+
+    Task<IEnumerable<LibraryAssetCardViewModel>> GetUserLibraryAssetsAsync(string userId);
 }

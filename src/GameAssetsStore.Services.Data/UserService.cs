@@ -7,9 +7,12 @@ using GameAssetsStore.Web.ViewModels.Shop;
 using GameAssetsStore.Web.ViewModels.User;
 using Microsoft.EntityFrameworkCore;
 using Services.Data.Interfaces;
+using System.Collections.Generic;
 using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
+
+using static Common.GlobalConstants;
 
 /// <summary>
 /// Handling users public profile sections settings.
@@ -23,7 +26,7 @@ public class UserService : IUserService
     private readonly IRepository<PaymentMethod> paymentMethodRepository;
     private readonly IRepository<Asset> assetRepository;
 
-    public UserService(IRepository<UserProfile> profileRepository, 
+    public UserService(IRepository<UserProfile> profileRepository,
         IRepository<ApplicationUser> userRepository,
         IAccountService accountService,
         IRepository<Shop> shopRepository,
@@ -94,7 +97,7 @@ public class UserService : IUserService
     public async Task<Guid> CreateShopAsync(CreateShopInputModel model, string userId)
     {
         var user = await this.userRepository.GetAll().FirstAsync(u => u.Id.ToString() == userId);
-        
+
         var shop = new Shop
         {
             OwningUser = user,
@@ -150,5 +153,20 @@ public class UserService : IUserService
         }
 
         await this.assetRepository.SaveChangesAsync();
+    }
+
+    public async Task<IEnumerable<LibraryAssetCardViewModel>> GetUserLibraryAssetsAsync(string userId)
+    {
+        var user = await this.userRepository.GetAllAsNoTracking()
+            .Include(u => u.PurchasedAssets)
+            .FirstAsync(u => u.Id.ToString() == userId);
+
+        return user.PurchasedAssets
+            .Select(a => new LibraryAssetCardViewModel
+            {
+                Id = a.Id.ToString(),
+                AssetName = a.AssetName,
+                ImageUrl = string.Format(AWSS3ImageUrl, AWSS3Region, a.Id.ToString().ToLower(), "cover")
+            }).ToArray();
     }
 }
