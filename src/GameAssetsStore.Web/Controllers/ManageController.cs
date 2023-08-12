@@ -88,7 +88,7 @@ public class ManageController : Controller
 
             return RedirectToAction(nameof(Assets));
         }
-        catch (Exception e)
+        catch (Exception)
         {
             // TODO: Handle it properly
 

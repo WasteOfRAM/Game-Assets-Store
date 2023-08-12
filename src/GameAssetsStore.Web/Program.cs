@@ -7,6 +7,8 @@ using GameAssetsStore.Data.Repositories;
 using GameAssetsStore.Data.Repositories.Interfaces;
 using GameAssetsStore.Services.Data;
 using GameAssetsStore.Services.Data.Interfaces;
+using GameAssetsStore.Web.Areas.Admin.Services;
+using GameAssetsStore.Web.Areas.Admin.Services.Interfaces;
 using GameAssetsStore.Web.Infrastructure.ModelBinders;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Identity;
@@ -73,6 +75,7 @@ builder.Services.AddScoped<IArtStyleService, ArtStyleService>();
 builder.Services.AddScoped<IStorageService, S3StorageService>();
 builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<ITransactionService, TransactionService>();
+builder.Services.AddScoped<IAdminServices, AdminServices>();
 
 builder.Services.Configure<FormOptions>(options =>
 {

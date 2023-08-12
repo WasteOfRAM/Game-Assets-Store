@@ -40,4 +40,7 @@ public static class GlobalConstants
     /// </summary>
     /// <prop name="IndexPageAssetCountPerCategory"></prop>
     public const int IndexPageAssetCountPerCategory = 10;
+
+    public const string SuperAdminRole = "SuperAdmin";
+    public const string AdminRole = "Admin";
 }

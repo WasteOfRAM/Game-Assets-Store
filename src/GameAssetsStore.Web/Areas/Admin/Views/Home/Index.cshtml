@@ -1,4 +1,4 @@
-﻿@model SignInInputModel
+﻿@model AdminSignInFormModel
 
 @{
     ViewData["Title"] = "Sign In";
@@ -9,17 +9,17 @@
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-floating mb-md-2">
-                <input asp-for="@Model.Username" class="form-control bg-black text-light border-secondary" autocomplete="username" aria-required="true" />
+                <input asp-for="@Model.Username" class="form-control bg-white text-black" autocomplete="username" aria-required="true" />
                 <label asp-for="@Model.Username" class="form-label"></label>
                 <span asp-validation-for="@Model.Username" class="text-danger"></span>
             </div>
             <div class="form-floating mb-md-2">
-                <input asp-for="@Model.Password" class="form-control bg-black text-light border-secondary" autocomplete="current-password" aria-required="true" />
+                <input asp-for="@Model.Password" class="form-control bg-white text-black" autocomplete="current-password" aria-required="true" />
                 <label asp-for="@Model.Password" class="form-label"></label>
                 <span asp-validation-for="@Model.Password" class="text-danger"></span>
             </div>
             <div>
-                <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-outline-light mb-md-2">Sign in</button>
+                <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-outline-dark mb-md-2">Sign in</button>
             </div>
             <div>
                 <div class="checkbox mb-md-2">
