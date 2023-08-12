@@ -25,7 +25,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameAssetsStore.Web.Infrast
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameAssetsStore.Services.Models", "GameAssetsStore.Services.Models\GameAssetsStore.Services.Models.csproj", "{AF955A58-D68D-4AE6-A6DC-98DEF9A4E4EA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameAssetsStore.Utilities", "GameAssetsStore.Utilities\GameAssetsStore.Utilities.csproj", "{AC1E830E-17C4-404D-9329-9D39CA33E254}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameAssetsStore.Utilities", "GameAssetsStore.Utilities\GameAssetsStore.Utilities.csproj", "{AC1E830E-17C4-404D-9329-9D39CA33E254}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameAssetsStore.Services.Tests", "GameAssetStore.Services.Tests\GameAssetsStore.Services.Tests.csproj", "{C8722A5E-D2F5-485C-B4EA-0645C65EF6A3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,6 +71,10 @@ Global
 		{AC1E830E-17C4-404D-9329-9D39CA33E254}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AC1E830E-17C4-404D-9329-9D39CA33E254}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AC1E830E-17C4-404D-9329-9D39CA33E254}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8722A5E-D2F5-485C-B4EA-0645C65EF6A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8722A5E-D2F5-485C-B4EA-0645C65EF6A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8722A5E-D2F5-485C-B4EA-0645C65EF6A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8722A5E-D2F5-485C-B4EA-0645C65EF6A3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
