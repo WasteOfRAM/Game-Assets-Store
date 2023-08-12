@@ -20,7 +20,7 @@ public static class AssetSeed
             Version = "A-3",
             SalesCount = 0,
             CreatedOn = new DateTime(2023, 08, 03, 21, 17, 41),
-            IsPublic = false,
+            IsPublic = true,
             FileName = "spritesheet.zip",
             ArtStyleId = new Guid("9239D5BA-E831-4B1D-9F4A-7016F096D2AD")
         };
@@ -37,7 +37,7 @@ public static class AssetSeed
             Version = "Hm",
             SalesCount = 0,
             CreatedOn = new DateTime(2023, 08, 03, 20, 39, 48),
-            IsPublic = false,
+            IsPublic = true,
             FileName = "torus.zip",
             ArtStyleId = new Guid("E7592028-354C-46CE-ADEC-B41525CCF712")
         };
@@ -71,7 +71,7 @@ public static class AssetSeed
             Version = "z23",
             SalesCount = 0,
             CreatedOn = new DateTime(2023, 08, 03, 20, 51, 0),
-            IsPublic = false,
+            IsPublic = true,
             FileName = "Suzanne.zip",
             ArtStyleId = new Guid("9239D5BA-E831-4B1D-9F4A-7016F096D2AD")
         };
@@ -88,7 +88,7 @@ public static class AssetSeed
             Version = "A-3",
             SalesCount = 0,
             CreatedOn = new DateTime(2023, 08, 03, 20, 37, 28),
-            IsPublic = false,
+            IsPublic = true,
             FileName = "sphere.zip",
             ArtStyleId = new Guid("E7592028-354C-46CE-ADEC-B41525CCF712")
         };
@@ -105,7 +105,7 @@ public static class AssetSeed
             Version = "43.5V",
             SalesCount = 0,
             CreatedOn = new DateTime(2023, 08, 03, 20, 31, 57),
-            IsPublic = false,
+            IsPublic = true,
             FileName = "gear.zip",
             ArtStyleId = new Guid("D5BC94DD-A06C-4744-BE19-4206A84AB96C")
         };
@@ -139,7 +139,7 @@ public static class AssetSeed
             Version = "new",
             SalesCount = 0,
             CreatedOn = new DateTime(2023, 08, 03, 21, 14, 49),
-            IsPublic = false,
+            IsPublic = true,
             FileName = "spritesheet.zip",
             ArtStyleId = new Guid("D56F1F8F-826B-4889-A1E7-AB10AB63E975")
         };
@@ -156,7 +156,7 @@ public static class AssetSeed
             Version = "new",
             SalesCount = 0,
             CreatedOn = new DateTime(2023, 08, 03, 20, 44, 16),
-            IsPublic = false,
+            IsPublic = true,
             FileName = "fiber_set.zip",
             ArtStyleId = new Guid("BB41CAD1-38DC-4895-BCB4-781D25821BED")
         };
@@ -173,7 +173,7 @@ public static class AssetSeed
             Version = "Suzanne",
             SalesCount = 0,
             CreatedOn = new DateTime(2023, 08, 03, 20, 46, 25),
-            IsPublic = false,
+            IsPublic = true,
             FileName = "Suzanne.zip",
             ArtStyleId = new Guid("77BD0468-6C70-4314-936B-B9612604E257")
         };
@@ -207,7 +207,7 @@ public static class AssetSeed
             Version = "0.2",
             SalesCount = 0,
             CreatedOn = new DateTime(2023, 08, 03, 20, 26, 48),
-            IsPublic = false,
+            IsPublic = true,
             FileName = "bolt.zip",
             ArtStyleId = new Guid("0263C1C2-DA3E-4496-9CDA-DCB89213A9D6")
         };

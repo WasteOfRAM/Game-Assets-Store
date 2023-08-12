@@ -3,6 +3,8 @@
 using GameAssetsStore.Data.Models;
 using Microsoft.AspNetCore.Identity;
 
+using static Common.GlobalConstants;
+
 public static class ApplicationUserSeed
 {
     public static ApplicationUser[] GenerateApplicationUsers()
@@ -70,6 +72,24 @@ public static class ApplicationUserSeed
 
         users.Add(user);
 
+        user = new ApplicationUser
+        {
+            Id = new Guid("3BD229CE-A8AD-4C29-A0E8-6F1CDB668076"),
+            UserName = "superadmin",
+            NormalizedUserName = "SUPERADMIN",
+            Email = "superadmin@gameassetstore.com",
+            NormalizedEmail = "SUPERADMIN@GAMEASSETSTORE.COM",
+            EmailConfirmed = true,
+            PasswordHash = "AQAAAAEAACcQAAAAEN3EmWZBaGmDR2XF/aYO+/Xmf7kRZWFBY1yD1ikL9R2wXkr1u8nNrut2EVrXqFTRMQ==",
+            SecurityStamp = "BBRMPJ6KMXZG2JEHIXPFQ7QBH4XZ4324",
+            ConcurrencyStamp = "52728f30-1e14-48d4-8549-2f571eb81c8c",
+            PhoneNumberConfirmed = true,
+            TwoFactorEnabled = false,
+            LockoutEnabled = false,
+            AccessFailedCount = 0
+        };
+
+        users.Add(user);
 
         return users.ToArray();
     }
@@ -101,5 +121,57 @@ public static class ApplicationUserSeed
         claims.Add(claim);
 
         return claims.ToArray();
+    }
+
+    public static IdentityRole<Guid>[] GenerateIdentityRoles()
+    {
+        ICollection<IdentityRole<Guid>> roles = new HashSet<IdentityRole<Guid>>();
+
+        IdentityRole<Guid> role;
+
+        role = new IdentityRole<Guid>
+        {
+            Id = new Guid("ca808a49-1993-4f34-bd87-5f05191a24e2"),
+            Name = SuperAdminRole,
+            NormalizedName = SuperAdminRole.ToUpper(),
+        };
+
+        roles.Add(role);
+
+        role = new IdentityRole<Guid>
+        {
+            Id = new Guid("d1cfb3d4-72f7-4a38-9d52-fda32639e459"),
+            Name = AdminRole,
+            NormalizedName = AdminRole.ToUpper(),
+        };
+
+        roles.Add(role);
+
+        return roles.ToArray();
+    }
+
+    public static IdentityUserRole<Guid>[] GenerateUserRoles()
+    {
+        ICollection<IdentityUserRole<Guid>> userRoles = new HashSet<IdentityUserRole<Guid>>();
+
+        IdentityUserRole<Guid> userRole;
+
+        userRole = new IdentityUserRole<Guid>
+        {
+            RoleId = new Guid("ca808a49-1993-4f34-bd87-5f05191a24e2"),
+            UserId = new Guid("3BD229CE-A8AD-4C29-A0E8-6F1CDB668076")
+        };
+
+        userRoles.Add(userRole);
+
+        userRole = new IdentityUserRole<Guid>
+        {
+            RoleId = new Guid("d1cfb3d4-72f7-4a38-9d52-fda32639e459"),
+            UserId = new Guid("3BD229CE-A8AD-4C29-A0E8-6F1CDB668076")
+        };
+
+        userRoles.Add(userRole);
+
+        return userRoles.ToArray();
     }
 }
