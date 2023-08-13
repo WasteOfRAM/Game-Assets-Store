@@ -1,14 +1,11 @@
 ﻿namespace GameAssetsStore.Services.Tests;
 
 using GameAssetsStore.Data.Models;
-using GameAssetsStore.Data.Repositories.Interfaces;
 using GameAssetsStore.Data.Repositories;
-using GameAssetsStore.Services.Data.Interfaces;
-using Microsoft.EntityFrameworkCore;
-using Moq;
-using GameAssetsStore.Web.ViewModels.Shop;
+using GameAssetsStore.Data.Repositories.Interfaces;
 using GameAssetsStore.Services.Data;
-using System.Xml.Linq;
+using GameAssetsStore.Web.ViewModels.Shop;
+using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
 
 public class CartServiceTests
