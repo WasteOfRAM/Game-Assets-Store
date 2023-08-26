@@ -48,7 +48,7 @@ public class AssetService : IAssetService
         assetEntity.IsPublic = !assetEntity.IsPublic;
 
         this.assetRepository.Update(assetEntity);
-        
+
         await this.assetRepository.SaveChangesAsync();
     }
 
@@ -151,10 +151,10 @@ public class AssetService : IAssetService
         await this.assetRepository.SaveChangesAsync();
     }
 
-    public async Task<AssetPageViewModel> GetAssetPageViewModelAsync(string assetId, string userId, string? cartJson)
+    public async Task<AssetPageViewModel> GetAssetPageViewModelAsync(string assetId, string? userId, string? cartJson)
     {
         var asset = await this.assetRepository.GetAllAsNoTracking().FirstAsync(a => a.Id.ToString() == assetId);
-        var user = await this.userRepository.GetAllAsNoTracking().Include(s => s.OwnedShop).FirstAsync(u => u.Id.ToString() == userId);
+        var user = await this.userRepository.GetAllAsNoTracking().Include(s => s.OwnedShop).FirstOrDefaultAsync(u => u.Id.ToString() == userId);
 
         var assetModel = new AssetPageViewModel
         {
@@ -166,10 +166,13 @@ public class AssetService : IAssetService
             IsAssetInCart = false
         };
 
-        if (await this.IsUserPurchasedAssetAsync(userId, asset.Id.ToString()) ||
-            await this.IsUserAssetOwnerAsync(user.OwnedShop?.Id.ToString(), assetId))
+        if (user != null)
         {
-            assetModel.IsAssetPurchasedByUser = true;
+            if (await this.IsUserPurchasedAssetAsync(user.Id.ToString(), asset.Id.ToString()) ||
+                await this.IsUserAssetOwnerAsync(user.OwnedShop?.Id.ToString(), assetId))
+            {
+                assetModel.IsAssetPurchasedByUser = true;
+            }
         }
 
         if (cartJson != null)
@@ -178,7 +181,7 @@ public class AssetService : IAssetService
 
             assetModel.IsAssetInCart = cart.Any(a => a.AssetId == assetId);
         }
-        
+
         var imagesKeys = await this.storageService.GetAssetImagesKeysAsync(assetId, AWSS3ImagesBucketName);
 
         assetModel.ImagesUrl = imagesKeys

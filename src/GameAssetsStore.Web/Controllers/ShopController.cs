@@ -52,7 +52,7 @@ public class ShopController : Controller
         try
         {
             var tempDataCartJson = TempData.Peek("ShoppingCart")?.ToString();
-            var model = await this.assetService.GetAssetPageViewModelAsync(id, User.GetId()!, tempDataCartJson);
+            var model = await this.assetService.GetAssetPageViewModelAsync(id, User.GetId(), tempDataCartJson);
 
             return View(model);
         }
