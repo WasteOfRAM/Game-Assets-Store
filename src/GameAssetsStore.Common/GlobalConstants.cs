@@ -43,4 +43,6 @@ public static class GlobalConstants
 
     public const string SuperAdminRole = "SuperAdmin";
     public const string AdminRole = "Admin";
+
+    public const string ShopOwnerClaimType = "urn:shop:shopId";
 }

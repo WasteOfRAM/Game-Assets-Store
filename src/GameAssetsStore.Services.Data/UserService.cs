@@ -117,7 +117,7 @@ public class UserService : IUserService
         await this.shopRepository.AddAsync(shop);
         await this.shopRepository.SaveChangesAsync();
 
-        await this.accountService.AddUserClaim(user, "urn:shop:shopId", shop.Id.ToString());
+        await this.accountService.AddUserClaim(user, ShopOwnerClaimType, shop.Id.ToString());
 
         return shop.Id;
     }

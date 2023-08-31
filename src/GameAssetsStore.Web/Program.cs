@@ -21,7 +21,7 @@ using static GameAssetsStore.Common.GlobalConstants;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-var connectionString = builder.Configuration.GetConnectionString("AssetsStoreTestDB");
+var connectionString = builder.Configuration.GetConnectionString("AssetsStoreDevDB");
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
@@ -43,7 +43,7 @@ builder.Services.ConfigureApplicationCookie(options =>
 
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy("ShopOwner", policy => policy.RequireClaim("urn:shop:shopId"));
+    options.AddPolicy("ShopOwner", policy => policy.RequireClaim(ShopOwnerClaimType));
 });
 
 builder.Services.AddControllersWithViews()

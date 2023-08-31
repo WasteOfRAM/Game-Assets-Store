@@ -34,7 +34,7 @@ namespace GameAssetsStore.Data.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("AssetsCategories");
+                    b.ToTable("AssetsCategories", (string)null);
 
                     b.HasData(
                         new
@@ -131,7 +131,7 @@ namespace GameAssetsStore.Data.Migrations
 
                     b.HasIndex("SubCategoryId");
 
-                    b.ToTable("AssetsSubCategories");
+                    b.ToTable("AssetsSubCategories", (string)null);
 
                     b.HasData(
                         new
@@ -258,7 +258,7 @@ namespace GameAssetsStore.Data.Migrations
 
                     b.HasIndex("SubCategoryId");
 
-                    b.ToTable("CategoriesSubCategories");
+                    b.ToTable("CategoriesSubCategories", (string)null);
 
                     b.HasData(
                         new
@@ -561,7 +561,7 @@ namespace GameAssetsStore.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ArtStyles");
+                    b.ToTable("ArtStyles", (string)null);
 
                     b.HasData(
                         new
@@ -682,7 +682,7 @@ namespace GameAssetsStore.Data.Migrations
 
                     b.HasIndex("ShopId");
 
-                    b.ToTable("Assets");
+                    b.ToTable("Assets", (string)null);
 
                     b.HasData(
                         new
@@ -876,7 +876,7 @@ namespace GameAssetsStore.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("GeneralCategories");
+                    b.ToTable("GeneralCategories", (string)null);
 
                     b.HasData(
                         new
@@ -940,7 +940,7 @@ namespace GameAssetsStore.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PaymentMethods");
+                    b.ToTable("PaymentMethods", (string)null);
 
                     b.HasComment("A fake payment method fo testing");
 
@@ -1001,7 +1001,7 @@ namespace GameAssetsStore.Data.Migrations
 
                     b.HasIndex("ReviewedAssetId");
 
-                    b.ToTable("Reviews");
+                    b.ToTable("Reviews", (string)null);
                 });
 
             modelBuilder.Entity("GameAssetsStore.Data.Models.Shop", b =>
@@ -1035,7 +1035,7 @@ namespace GameAssetsStore.Data.Migrations
                     b.HasIndex("ShopName")
                         .IsUnique();
 
-                    b.ToTable("Shops");
+                    b.ToTable("Shops", (string)null);
 
                     b.HasData(
                         new
@@ -1068,7 +1068,7 @@ namespace GameAssetsStore.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("SocialLinks");
+                    b.ToTable("SocialLinks", (string)null);
                 });
 
             modelBuilder.Entity("GameAssetsStore.Data.Models.SubCategory", b =>
@@ -1085,7 +1085,7 @@ namespace GameAssetsStore.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("SubCategories");
+                    b.ToTable("SubCategories", (string)null);
 
                     b.HasData(
                         new
@@ -1207,7 +1207,7 @@ namespace GameAssetsStore.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Transactions");
+                    b.ToTable("Transactions", (string)null);
                 });
 
             modelBuilder.Entity("GameAssetsStore.Data.Models.UserProfile", b =>
@@ -1234,7 +1234,7 @@ namespace GameAssetsStore.Data.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("Profiles");
+                    b.ToTable("Profiles", (string)null);
 
                     b.HasData(
                         new
@@ -1445,7 +1445,7 @@ namespace GameAssetsStore.Data.Migrations
 
                     b.HasIndex("SocialsId");
 
-                    b.ToTable("ShopSocialLink");
+                    b.ToTable("ShopSocialLink", (string)null);
                 });
 
             modelBuilder.Entity("SocialLinkUserProfile", b =>
@@ -1460,7 +1460,7 @@ namespace GameAssetsStore.Data.Migrations
 
                     b.HasIndex("UserProfilesId");
 
-                    b.ToTable("SocialLinkUserProfile");
+                    b.ToTable("SocialLinkUserProfile", (string)null);
                 });
 
             modelBuilder.Entity("UsersPurchasedAssets", b =>
@@ -1475,7 +1475,7 @@ namespace GameAssetsStore.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UsersPurchasedAssets");
+                    b.ToTable("UsersPurchasedAssets", (string)null);
                 });
 
             modelBuilder.Entity("AssetsCategories", b =>

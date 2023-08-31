@@ -7,6 +7,8 @@ using GameAssetsStore.Web.ViewModels.Settings;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
+using static Common.GlobalConstants;
+
 [Authorize]
 public class SettingsController : Controller
 {
@@ -235,7 +237,7 @@ public class SettingsController : Controller
     [HttpGet]
     public IActionResult Shop()
     {
-        if (!User.HasClaim(c => c.Type == "urn:shop:shopId"))
+        if (!User.HasClaim(c => c.Type == ShopOwnerClaimType))
         {
             return RedirectToAction("CreateShop");
         }
