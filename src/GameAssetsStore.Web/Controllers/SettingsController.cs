@@ -248,6 +248,11 @@ public class SettingsController : Controller
     [HttpGet]
     public IActionResult CreateShop()
     {
+        if (User.HasClaim(c => c.Type == ShopOwnerClaimType))
+        {
+            return RedirectToAction("Shop");
+        }
+
         var model = new CreateShopInputModel();
 
         return View(model);
@@ -263,16 +268,25 @@ public class SettingsController : Controller
                 ModelState.AddModelError("", "Shop name already in use. Please chose another one.");
             }
 
+            if (!model.AcceptTerms)
+            {
+                // TODO: better user notification
+                ModelState.AddModelError("", "Terms and conditions must be accepted.");
+                return View(model);
+            }
+
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
+            // TODO: Save what version of the terms is accepted.
+
             var shopId = await this.userService.CreateShopAsync(model, User.GetId()!);
 
             await this.accountService.SignOutAsync();
 
-            return RedirectToAction("SignIn", "Account");
+            return RedirectToAction("SignIn", "Account", new { returnUrl = "/Settings/Shop" });
         }
         catch (Exception)
         {

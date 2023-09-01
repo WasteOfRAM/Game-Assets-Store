@@ -10,14 +10,15 @@
         <div class="col-md-2">
             <partial name="_SettingsNavigationPartial" />
         </div>
-        <div class="col-md-4 border">
+        <div class="col-md-4 bg-dark shadow">
             <h1>
                 @User.Identity!.Name
             </h1>
             <br />
             <div>
-                @*TODO: Add License agreement*@
-                <p>Add License agreement</p>
+                @*TODO: Add terms and conditions or whatever it needs to be called*@
+                <h3 class="d-flex justify-content-center">Terms and conditions</h3>
+                <textarea class="form-control bg-black text-light border-secondary" rows="10" disabled>Add Terms and conditions</textarea>
             </div>
             <br />
             <div>
@@ -35,12 +36,24 @@
                     <input asp-for="@Model.ShopName" class="form-control bg-black text-light border-secondary" autocomplete="ShopName" />
                     <span asp-validation-for="@Model.ShopName" class="text-danger"></span>
                 </div>
+                <div class="form-check">
+                    <input asp-for="@Model.AcceptTerms" class="mt-md-3" type="checkbox" id="acceptTermsCheckbox" /> I have read and agree to the terms and conditions.
+                </div>
                 <br />
                 <div class="d-flex justify-content-center">
-                    <button type="submit" class="btn btn-outline-light">Create Shop</button>
+                    <button type="submit" class="btn btn-outline-light" id="createShopBtn" disabled>Create Shop</button>
                 </div>
                 <br />
             </form>
         </div>
     </div>
 </div>
+
+<script>
+    const checkbox = document.getElementById("acceptTermsCheckbox");
+    const button = document.getElementById("createShopBtn");
+
+    checkbox.addEventListener("change", function () {
+        button.disabled = !checkbox.checked;
+    });
+</script>
