@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Checkout";
 
-    var priceTotalFormated = $"{Model.PriceTotal:f2}";
+    var priceTotalFormatted = $"{Model.PriceTotal:f2}";
 
     string disabled = Model.PaymentMethodId == null ? "disabled" : string.Empty;
 }
@@ -48,11 +48,11 @@
             <hr />
             <div class="d-flex justify-content-end">
                 <h4>
-                    Total: @priceTotalFormated
+                    Total: @priceTotalFormatted
                 </h4>
             </div>
             <div class="d-flex justify-content-end pb-2">
-                <button class="btn btn-outline-light @disabled" onclick="sendAndClearCart('/FakeBankAPI/Index?transactionId=@Model.PaymentMethodId&amount=@priceTotalFormated&returnUrl=/User/Order')">Place Order</button>
+                <button class="btn btn-outline-light @disabled" onclick="sendAndClearCart('/FakeBankAPI/Index?transactionId=@Model.PaymentMethodId&amount=@priceTotalFormatted&returnUrl=/User/Order')">Place Order</button>
             </div>
         </div>
     </div>
