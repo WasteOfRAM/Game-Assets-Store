@@ -5,10 +5,9 @@ using GameAssetsStore.Data;
 using GameAssetsStore.Data.Models;
 using GameAssetsStore.Data.Repositories;
 using GameAssetsStore.Data.Repositories.Interfaces;
-using GameAssetsStore.Services.Data;
-using GameAssetsStore.Services.Data.Interfaces;
 using GameAssetsStore.Web.Areas.Admin.Services;
 using GameAssetsStore.Web.Areas.Admin.Services.Interfaces;
+using GameAssetsStore.Web.Infrastructure.Extensions;
 using GameAssetsStore.Web.Infrastructure.ModelBinders;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Identity;
@@ -66,15 +65,9 @@ builder.Services.AddDefaultAWSOptions(awsOptions);
 builder.Services.AddAWSService<IAmazonS3>();
 
 builder.Services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
-builder.Services.AddScoped<IAccountService, AccountService>();
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IAssetService, AssetService>();
-builder.Services.AddScoped<IShopService, ShopService>();
-builder.Services.AddScoped<ICategoryService, CategoryService>();
-builder.Services.AddScoped<IArtStyleService, ArtStyleService>();
-builder.Services.AddScoped<IStorageService, S3StorageService>();
-builder.Services.AddScoped<ICartService, CartService>();
-builder.Services.AddScoped<ITransactionService, TransactionService>();
+
+builder.Services.AddApplicationServices();
+
 builder.Services.AddScoped<IAdminServices, AdminServices>();
 
 builder.Services.Configure<FormOptions>(options =>
