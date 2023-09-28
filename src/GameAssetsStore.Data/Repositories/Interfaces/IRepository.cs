@@ -4,7 +4,7 @@ public interface IRepository<TEntity> where TEntity : class
 {
     IQueryable<TEntity> GetAll();
 
-    IQueryable<TEntity> GetAllAsNoTracking();
+    Task<TEntity?> GetById(Guid id);
 
     Task AddAsync(TEntity entity);
 
@@ -12,5 +12,5 @@ public interface IRepository<TEntity> where TEntity : class
 
     void Delete(TEntity entity);
 
-    Task<int> SaveChangesAsync();
+    Task<int> SaveAsync();
 }

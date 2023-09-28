@@ -22,7 +22,7 @@ public class AccountController : Controller
             return RedirectToAction("Index", "Shop");
         }
 
-        SignUpInputModel model = new SignUpInputModel 
+        SignUpInputModel model = new()
         {
             ReturnUrl = returnUrl,
         };
@@ -84,7 +84,7 @@ public class AccountController : Controller
             return RedirectToAction("Index", "Shop");
         }
 
-        SignInInputModel inputModel = new SignInInputModel 
+        SignInInputModel inputModel = new()
         {
             ReturnUrl = returnUrl
         };
@@ -129,7 +129,7 @@ public class AccountController : Controller
 
 
     [HttpPost("{action}")]
-    public async Task<IActionResult> SignOut()
+    public async new Task<IActionResult> SignOut()
     {
         if (User.Identity?.IsAuthenticated ?? false)
         {

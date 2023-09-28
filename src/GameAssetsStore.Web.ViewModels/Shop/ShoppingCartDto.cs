@@ -2,7 +2,7 @@
 
 public class ShoppingCartDto
 {
-    public string AssetId { get; set; } = null!;
+    public Guid AssetId { get; set; }
 
     public string Title { get; set; } = null!;
 

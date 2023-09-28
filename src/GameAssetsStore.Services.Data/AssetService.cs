@@ -43,18 +43,18 @@ public class AssetService : IAssetService
 
     public async Task ChangeAssetVisibilityAsync(string assetId)
     {
-        var assetEntity = await this.assetRepository.GetAll().FirstAsync(a => a.Id.ToString() == assetId);
+        var assetEntity = await this.assetRepository.GetById(Guid.Parse(assetId));
 
-        assetEntity.IsPublic = !assetEntity.IsPublic;
+        assetEntity!.IsPublic = !assetEntity.IsPublic;
 
         this.assetRepository.Update(assetEntity);
 
-        await this.assetRepository.SaveChangesAsync();
+        await this.assetRepository.SaveAsync();
     }
 
     public async Task<bool> CreateAssetAsync(CreateAssetFormModel model, string shopId)
     {
-        var artStyleEntity = await this.artStyleRepository.GetAll().FirstAsync(a => a.Id == model.SelectedStyleId);
+        var artStyleEntity = await this.artStyleRepository.GetById(model.SelectedStyleId);
 
         var assetEntity = new Asset()
         {
@@ -62,15 +62,15 @@ public class AssetService : IAssetService
             AssetName = WebUtility.HtmlEncode(model.AssetTitle),
             FileName = WebUtility.HtmlEncode(model.AssetFile.FileName),
             Description = WebUtility.HtmlEncode(model.Description),
-            ArtStyle = artStyleEntity,
+            ArtStyle = artStyleEntity!,
             Version = WebUtility.HtmlEncode(model.Version),
             Price = model.Price
         };
 
-        artStyleEntity.Assets.Add(assetEntity);
+        artStyleEntity!.Assets.Add(assetEntity);
 
         await this.assetRepository.AddAsync(assetEntity);
-        var shop = await this.shopRepository.GetAll().FirstAsync(s => s.Id == assetEntity.ShopId);
+        var shop = await this.shopRepository.GetById(assetEntity.ShopId);
 
         var selectedCategories = model.Categories
             .Where(c => c.SubCategories.Any(sc => sc.IsChecked))
@@ -78,24 +78,24 @@ public class AssetService : IAssetService
 
         foreach (var categoryModel in selectedCategories)
         {
-            var category = await this.categoriesRepository.GetAll().FirstAsync(c => c.Id == categoryModel.Id);
+            var category = await this.categoriesRepository.GetById(categoryModel.Id);
 
             foreach (var subCategoryModel in categoryModel.SubCategories)
             {
                 if (subCategoryModel.IsChecked)
                 {
-                    var subCategory = await this.subCategoriesRepository.GetAll().FirstAsync(sc => sc.Id == subCategoryModel.Id);
+                    var subCategory = await this.subCategoriesRepository.GetById(subCategoryModel.Id);
 
-                    assetEntity.SubCategories.Add(subCategory);
+                    assetEntity.SubCategories.Add(subCategory!);
                 }
             }
 
-            assetEntity.GeneralCategories.Add(category);
+            assetEntity.GeneralCategories.Add(category!);
         }
 
         await this.storageService.UploadAsync(model.AssetFile, assetEntity.Id.ToString(), AWSS3AssetsBucketName, assetEntity.FileName);
 
-        await this.assetRepository.SaveChangesAsync();
+        await this.assetRepository.SaveAsync();
 
         await this.storageService.UploadAsync(model.CoverImage, assetEntity.Id.ToString(), AWSS3ImagesBucketName, "cover");
 
@@ -109,9 +109,9 @@ public class AssetService : IAssetService
 
     public async Task AssetSoftDeleteAsync(string assetId)
     {
-        var assetEntity = await this.assetRepository.GetAll().FirstAsync(a => a.Id.ToString() == assetId);
+        var assetEntity = await this.assetRepository.GetById(Guid.Parse(assetId));
 
-        await this.DeleteAllAssetFilesFromStorageAsync(assetEntity.Id.ToString().ToLower(), assetEntity.FileName);
+        await this.DeleteAllAssetFilesFromStorageAsync(assetEntity!.Id.ToString().ToLower(), assetEntity.FileName);
 
         assetEntity.AssetName = "DELETED";
         assetEntity.FileName = "DELETED";
@@ -122,14 +122,14 @@ public class AssetService : IAssetService
 
         this.assetRepository.Update(assetEntity);
 
-        await this.assetRepository.SaveChangesAsync();
+        await this.assetRepository.SaveAsync();
     }
 
     public async Task<DownloadAssetServiceModel> DownloadAsync(string assetId)
     {
-        var assetEntity = await this.assetRepository.GetAllAsNoTracking().FirstAsync(a => a.Id.ToString() == assetId);
+        var assetEntity = await this.assetRepository.GetById(Guid.Parse(assetId));
 
-        var serviceModel = await this.storageService.DownloadAsync(AWSS3AssetsBucketName, assetEntity.FileName, assetId);
+        var serviceModel = await this.storageService.DownloadAsync(AWSS3AssetsBucketName, assetEntity!.FileName, assetId);
 
         serviceModel.FileName = assetEntity.FileName;
 
@@ -138,9 +138,9 @@ public class AssetService : IAssetService
 
     public async Task EditAssetInfoAsync(AssetInfoFormModel model)
     {
-        var assetEntity = await this.assetRepository.GetAll().FirstAsync(a => a.Id == model.AssetId);
+        var assetEntity = await this.assetRepository.GetById(model.AssetId);
 
-        assetEntity.AssetName = model.AssetTitle;
+        assetEntity!.AssetName = model.AssetTitle;
         assetEntity.Description = model.Description;
         assetEntity.Version = model.Version;
         assetEntity.Price = model.Price;
@@ -148,17 +148,17 @@ public class AssetService : IAssetService
 
         this.assetRepository.Update(assetEntity);
 
-        await this.assetRepository.SaveChangesAsync();
+        await this.assetRepository.SaveAsync();
     }
 
     public async Task<AssetPageViewModel> GetAssetPageViewModelAsync(string assetId, string? userId, string? cartJson)
     {
-        var asset = await this.assetRepository.GetAllAsNoTracking().FirstAsync(a => a.Id.ToString() == assetId);
-        var user = await this.userRepository.GetAllAsNoTracking().Include(s => s.OwnedShop).FirstOrDefaultAsync(u => u.Id.ToString() == userId);
+        var asset = await this.assetRepository.GetById(Guid.Parse(assetId));
+        var user = await this.userRepository.GetAll().Include(s => s.OwnedShop).AsNoTracking().FirstOrDefaultAsync(u => u.Id.ToString() == userId);
 
         var assetModel = new AssetPageViewModel
         {
-            AssetId = asset.Id.ToString().ToLower(),
+            AssetId = asset!.Id.ToString().ToLower(),
             AssetTile = asset.AssetName,
             Description = asset.Description,
             Price = asset.Price,
@@ -179,7 +179,7 @@ public class AssetService : IAssetService
         {
             List<ShoppingCartDto> cart = JsonSerializer.Deserialize<List<ShoppingCartDto>>(cartJson)!;
 
-            assetModel.IsAssetInCart = cart.Any(a => a.AssetId == assetId);
+            assetModel.IsAssetInCart = cart.Any(a => a.AssetId.ToString() == assetId);
         }
 
         var imagesKeys = await this.storageService.GetAssetImagesKeysAsync(assetId, AWSS3ImagesBucketName);
@@ -193,13 +193,13 @@ public class AssetService : IAssetService
 
     public async Task<EditAssetFormModel> GetEditAssetFormModelAsync(string assetId)
     {
-        var asset = await this.assetRepository.GetAll().FirstAsync(a => a.Id.ToString() == assetId);
+        var asset = await this.assetRepository.GetById(Guid.Parse(assetId));
 
         return new EditAssetFormModel
         {
             AssetInfoModel = new AssetInfoFormModel
             {
-                AssetId = asset.Id,
+                AssetId = asset!.Id,
                 AssetTitle = asset.AssetName,
                 Description = asset.Description,
                 Version = asset.Version,
@@ -246,7 +246,7 @@ public class AssetService : IAssetService
     {
         if (userShopId != null)
         {
-            var assetEntity = await this.assetRepository.GetAllAsNoTracking().Include(a => a.Shop).FirstAsync(a => a.Id.ToString() == assetId);
+            var assetEntity = await this.assetRepository.GetAll().Include(a => a.Shop).AsNoTracking().FirstAsync(a => a.Id.ToString() == assetId);
 
             if (assetEntity.ShopId.ToString() == userShopId)
             {
@@ -259,7 +259,7 @@ public class AssetService : IAssetService
 
     public async Task<bool> IsUserPurchasedAssetAsync(string userId, string assetId)
     {
-        var user = await this.userRepository.GetAllAsNoTracking().Include(a => a.PurchasedAssets).FirstAsync(u => u.Id.ToString() == userId);
+        var user = await this.userRepository.GetAll().Include(a => a.PurchasedAssets).AsNoTracking().FirstAsync(u => u.Id.ToString() == userId);
 
         if (user.PurchasedAssets.Any(a => a.Id.ToString() == assetId))
         {
@@ -282,11 +282,11 @@ public class AssetService : IAssetService
         {
             await this.storageService.UploadAsync(model.AssetFile, model.AssetId.ToString().ToLower(), AWSS3AssetsBucketName, newFileEncodedName);
 
-            var assetEntity = await this.assetRepository.GetAll().FirstAsync(a => a.Id == model.AssetId);
-            assetEntity.FileName = newFileEncodedName;
+            var assetEntity = await this.assetRepository.GetById(model.AssetId);
+            assetEntity!.FileName = newFileEncodedName;
             assetEntity.ModifiedOn = DateTime.UtcNow;
 
-            await this.assetRepository.SaveChangesAsync();
+            await this.assetRepository.SaveAsync();
 
             await this.storageService.DeleteAsync(AWSS3AssetsBucketName, currentFileName, model.AssetId.ToString().ToLower());
         }
@@ -306,9 +306,9 @@ public class AssetService : IAssetService
 
     public async Task<bool> IsAssetPurchasedByAnyUserAsync(string assetId)
     {
-        var assetEntity = await this.assetRepository.GetAllAsNoTracking().Include(a => a.Users).FirstAsync(a => a.Id.ToString() == assetId);
+        var assetEntity = await this.assetRepository.GetById(Guid.Parse(assetId));
 
-        if (assetEntity.Users.Count() > 0)
+        if (assetEntity!.Users.Count > 0)
         {
             return true;
         }

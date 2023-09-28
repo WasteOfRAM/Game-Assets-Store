@@ -16,10 +16,9 @@ public class EfRepository<TEntity> : IRepository<TEntity> where TEntity : class
     private readonly ApplicationDbContext dbContext;
     protected DbSet<TEntity> DbSet { get; set; }
 
+    public async Task<TEntity?> GetById(Guid id) => await this.DbSet.FindAsync(id);
 
     public IQueryable<TEntity> GetAll() => this.DbSet;
-
-    public IQueryable<TEntity> GetAllAsNoTracking() => this.DbSet.AsNoTracking();
 
     public async Task AddAsync(TEntity entity) => await this.DbSet.AddAsync(entity);
 
@@ -36,5 +35,5 @@ public class EfRepository<TEntity> : IRepository<TEntity> where TEntity : class
 
     public void Delete(TEntity entity) => this.DbSet.Remove(entity);
 
-    public async Task<int> SaveChangesAsync() => await this.dbContext.SaveChangesAsync();
+    public async Task<int> SaveAsync() => await this.dbContext.SaveChangesAsync();
 }

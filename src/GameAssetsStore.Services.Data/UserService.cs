@@ -43,9 +43,10 @@ public class UserService : IUserService
 
     public Task<PublicProfileViewModel?> GetUserProfileAsync(string username)
     {
-        return Task.FromResult(this.profileRepository.GetAllAsNoTracking()
+        return Task.FromResult(this.profileRepository.GetAll()
             .Where(up => up.User.UserName == username)
             .Include(up => up.SocialLinks)
+            .AsNoTracking()
             .AsEnumerable()
             .Select(up => new PublicProfileViewModel
             {
@@ -60,7 +61,8 @@ public class UserService : IUserService
 
     public async Task<ProfileSettingsFormModel> GetUserPublicProfileAsync(string userId)
     {
-        return await this.profileRepository.GetAllAsNoTracking()
+        return await this.profileRepository.GetAll()
+            .AsNoTracking()
             .Where(p => p.UserId.ToString() == userId)
             .Select(p => new ProfileSettingsFormModel
             {
@@ -90,19 +92,19 @@ public class UserService : IUserService
 
             this.profileRepository.Update(entity);
 
-            await this.profileRepository.SaveChangesAsync();
+            await this.profileRepository.SaveAsync();
         }
     }
 
     public async Task<Guid> CreateShopAsync(CreateShopInputModel model, string userId)
     {
-        var user = await this.userRepository.GetAll().FirstAsync(u => u.Id.ToString() == userId);
+        var user = await this.userRepository.GetById(Guid.Parse(userId));
 
         var shop = new Shop
         {
-            OwningUser = user,
-            OwningUserId = Guid.Parse(userId),
-            ShopName = model.ShopName ?? user.UserName
+            OwningUser = user!,
+            OwningUserId = user!.Id,
+            ShopName = model.ShopName ?? user!.UserName
         };
 
         var paymentMethod = new PaymentMethod
@@ -115,7 +117,7 @@ public class UserService : IUserService
 
         await this.paymentMethodRepository.AddAsync(paymentMethod);
         await this.shopRepository.AddAsync(shop);
-        await this.shopRepository.SaveChangesAsync();
+        await this.shopRepository.SaveAsync();
 
         await this.accountService.AddUserClaim(user, ShopOwnerClaimType, shop.Id.ToString());
 
@@ -125,8 +127,8 @@ public class UserService : IUserService
     public async Task<bool> IsShopNameAvailableAsync(string? shopName)
     {
         if (shopName != null &&
-            await this.userRepository.GetAllAsNoTracking().AnyAsync(u => u.UserName == shopName) ||
-            await this.shopRepository.GetAllAsNoTracking().AnyAsync(s => s.ShopName == shopName))
+            await this.userRepository.GetAll().AsNoTracking().AnyAsync(u => u.UserName == shopName) ||
+            await this.shopRepository.GetAll().AsNoTracking().AnyAsync(s => s.ShopName == shopName))
         {
             return false;
         }
@@ -143,22 +145,23 @@ public class UserService : IUserService
 
         List<ShoppingCartDto> cart = JsonSerializer.Deserialize<List<ShoppingCartDto>>(assetsJson)!;
 
-        var user = await this.userRepository.GetAll().FirstAsync(u => u.Id.ToString() == userId);
+        var user = await this.userRepository.GetById(Guid.Parse(userId));
 
         foreach (var asset in cart)
         {
-            var assetEntity = await this.assetRepository.GetAll().FirstAsync(a => a.Id.ToString() == asset.AssetId);
+            var assetEntity = await this.assetRepository.GetById(asset.AssetId);
 
-            user.PurchasedAssets.Add(assetEntity);
+            user!.PurchasedAssets.Add(assetEntity!);
         }
 
-        await this.assetRepository.SaveChangesAsync();
+        await this.assetRepository.SaveAsync();
     }
 
     public async Task<IEnumerable<LibraryAssetCardViewModel>> GetUserLibraryAssetsAsync(string userId)
     {
-        var user = await this.userRepository.GetAllAsNoTracking()
+        var user = await this.userRepository.GetAll()
             .Include(u => u.PurchasedAssets)
+            .AsNoTracking()
             .FirstAsync(u => u.Id.ToString() == userId);
 
         return user.PurchasedAssets

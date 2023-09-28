@@ -25,6 +25,6 @@ public class TransactionService : ITransactionService
         };
 
         await this.transactionRepository.AddAsync(entity);
-        await this.transactionRepository.SaveChangesAsync();
+        await this.transactionRepository.SaveAsync();
     }
 }

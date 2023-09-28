@@ -19,8 +19,9 @@ public class CategoryService : ICategoryService
 
     public async Task<List<AssetCategoryFormModel>> GetAllCategoriesWithSubCategoriesAsync()
     {
-        return await this.categoriesRepository.GetAllAsNoTracking()
+        return await this.categoriesRepository.GetAll()
             .Include(c => c.SubCategories)
+            .AsNoTracking()
             .Select(c => new AssetCategoryFormModel
             {
                 Id = c.Id,

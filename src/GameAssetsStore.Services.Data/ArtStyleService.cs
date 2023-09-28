@@ -19,7 +19,8 @@ public class ArtStyleService : IArtStyleService
 
     public async Task<List<ArtStyleFormModel>> GetArtStylesAsync()
     {
-        return await this.artStyleRepository.GetAllAsNoTracking()
+        return await this.artStyleRepository.GetAll()
+            .AsNoTracking()
             .Select(a => new ArtStyleFormModel
             {
                 Id = a.Id,

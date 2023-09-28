@@ -39,14 +39,14 @@ public class AccountService : IAccountService
 
     public async Task AddPaymentMethodAsync(string userId)
     {
-        var user = await this.userRepository.GetAll().FirstAsync(u => u.Id.ToString() == userId);
+        var user = await this.userRepository.GetById(Guid.Parse(userId));
 
         var paymentMethod = new PaymentMethod { Name = "Bank" };
 
         await this.paymentMethodRepository.AddAsync(paymentMethod);
-        user.PaymentMethod = paymentMethod;
+        user!.PaymentMethod = paymentMethod;
 
-        await this.userRepository.SaveChangesAsync();
+        await this.userRepository.SaveAsync();
     }
 
     public async Task<bool> AddUserClaim(ApplicationUser user, string claimType, string claimValue)
@@ -80,12 +80,12 @@ public class AccountService : IAccountService
 
     public Task<bool> IsEmailInUseAsync(string email)
     {
-        return this.userRepository.GetAllAsNoTracking().AnyAsync(u => u.Email == email);
+        return this.userRepository.GetAll().AsNoTracking().AnyAsync(u => u.Email == email);
     }
 
     public async Task<bool> IsUsernameInUseAsync(string userName)
     {
-        return await this.userRepository.GetAllAsNoTracking().AnyAsync(u => u.UserName == userName);
+        return await this.userRepository.GetAll().AsNoTracking().AnyAsync(u => u.UserName == userName);
     }
 
     public async Task<IdentityResult> RegisterAsync(SignUpInputModel inputModel)

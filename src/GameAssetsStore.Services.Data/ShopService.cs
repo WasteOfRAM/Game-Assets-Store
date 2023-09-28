@@ -20,10 +20,10 @@ public class ShopService : IShopService
 
     public async Task<BrowsePageViewModel> GetAllAssetsAsync(AssetQueryModel queryModel)
     {
-        var allAssetsQuery = this.assetRepository.GetAllAsNoTracking()
+        var allAssetsQuery = this.assetRepository.GetAll()
             .Where(a => a.IsPublic && a.IsDeleted == false);
 
-        BrowsePageViewModel viewModel = new BrowsePageViewModel();
+        BrowsePageViewModel viewModel = new ();
 
         if (!string.IsNullOrWhiteSpace(queryModel.Search))
         {
@@ -39,7 +39,8 @@ public class ShopService : IShopService
                 Price = a.Price,
                 ImageUrl = string.Format(AWSS3ImageUrl, AWSS3Region, a.Id.ToString().ToLower(), "cover")
             })
-                .ToListAsync();
+            .AsNoTracking()
+            .ToListAsync();
 
         return viewModel;
     }
@@ -47,9 +48,10 @@ public class ShopService : IShopService
 
     public async Task<ShopHomePageViewModel> GetHomePageAssetsAsync()
     {
-        ShopHomePageViewModel model = new ShopHomePageViewModel();
+        ShopHomePageViewModel model = new ();
 
-        model.AssetsByUploadDate = await this.assetRepository.GetAllAsNoTracking()
+        model.AssetsByUploadDate = await this.assetRepository.GetAll()
+            .AsNoTracking()
             .Where(a => a.IsPublic && a.IsDeleted == false)
             .OrderByDescending(a => a.CreatedOn)
             .Take(IndexPageAssetCountPerCategory)
@@ -62,7 +64,8 @@ public class ShopService : IShopService
             })
             .ToListAsync();
 
-        model.FreeAssets = await this.assetRepository.GetAllAsNoTracking()
+        model.FreeAssets = await this.assetRepository.GetAll()
+            .AsNoTracking()
             .Where(a => a.IsPublic && a.IsDeleted == false && a.Price == null)
             .Take(IndexPageAssetCountPerCategory)
             .Select(a => new AssetCardViewModel

@@ -36,14 +36,14 @@ public class CartService : ICartService
 
         foreach (var asset in cart)
         {
-            var assetEntity = await this.assetRepository.GetAllAsNoTracking().FirstAsync(a => a.Id.ToString() == asset.AssetId);
+            var assetEntity = await this.assetRepository.GetById(asset.AssetId);
 
-            checkoutModel.CheckoutAssets.Add(new CheckoutAssetViewModel { AssetId = assetEntity.Id.ToString(), Title = assetEntity.AssetName });
+            checkoutModel.CheckoutAssets.Add(new CheckoutAssetViewModel { AssetId = assetEntity!.Id.ToString(), Title = assetEntity.AssetName });
 
             checkoutModel.PriceTotal += assetEntity.Price ?? 0.0m;
         }
 
-        var user = await this.userRepository.GetAllAsNoTracking().Include(e => e.PaymentMethod).FirstAsync(u => u.Id.ToString() == userId);
+        var user = await this.userRepository.GetAll().Include(e => e.PaymentMethod).AsNoTracking().FirstAsync(u => u.Id.ToString() == userId);
 
         checkoutModel.PaymentMethodId = user.PaymentMethodId?.ToString();
         checkoutModel.PaymentMethodName = user.PaymentMethod?.Name;
