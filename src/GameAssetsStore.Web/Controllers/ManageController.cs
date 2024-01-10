@@ -25,6 +25,7 @@ public class ManageController : Controller
         this.artStyleService = artStyleService;
     }
 
+    [HttpGet]
     public async Task<IActionResult> Assets()
     {
         var model = new ManageAssetsViewModel
@@ -35,7 +36,7 @@ public class ManageController : Controller
         return View(model);
     }
 
-    [HttpGet("{controller}/Assets/{action}")]
+    [HttpGet("Manage/Assets/Create")]
     public async Task<IActionResult> Create()
     {
         var model = new CreateAssetFormModel
@@ -47,7 +48,7 @@ public class ManageController : Controller
         return View(model);
     }
 
-    [HttpPost("{controller}/Assets/{action}")]
+    [HttpPost("Manage/Assets/Create")]
     public async Task<IActionResult> Create(CreateAssetFormModel model)
     {
         try
@@ -98,7 +99,7 @@ public class ManageController : Controller
         }
     }
 
-    [HttpGet("{controller}/Assets/{action}")]
+    [HttpGet("Manage/Assets/Edit")]
     public async Task<IActionResult> Edit(string assetId)
     {
         try
@@ -121,7 +122,7 @@ public class ManageController : Controller
         
     }
 
-    [HttpPost("{controller}/Assets/{action}")]
+    [HttpPost("Manage/Assets/EditAssetInfo")]
     public async Task<IActionResult> EditAssetInfo(AssetInfoFormModel model)
     {
         try
@@ -147,7 +148,7 @@ public class ManageController : Controller
         }
     }
 
-    [HttpPost("{controller}/Assets/{action}")]
+    [HttpPost("Manage/Assets/UpdateAssetFile")]
     public async Task<IActionResult> UpdateAssetFile(EditAssetFileFormModel model)
     {
         try
@@ -175,7 +176,7 @@ public class ManageController : Controller
         }
     }
 
-    [HttpPost("{controller}/Assets/{action}")]
+    [HttpPost("Manage/Assets/Publish")]
     public async Task<IActionResult> Publish(string assetId)
     {
         try
@@ -201,7 +202,7 @@ public class ManageController : Controller
         }
     }
 
-    [HttpPost("{controller}/Assets/{action}")]
+    [HttpPost("Manage/Assets/Delete")]
     public async Task<IActionResult> Delete(DeleteAssetFormModel model)
     {
         try

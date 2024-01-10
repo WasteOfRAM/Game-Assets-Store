@@ -104,7 +104,7 @@ public class UserService : IUserService
         {
             OwningUser = user!,
             OwningUserId = user!.Id,
-            ShopName = model.ShopName ?? user!.UserName
+            ShopName = model.ShopName ?? user.UserName!
         };
 
         var paymentMethod = new PaymentMethod
