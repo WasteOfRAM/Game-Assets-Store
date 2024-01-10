@@ -21,7 +21,7 @@ public class HomeController : Controller
     }
 
     [AllowAnonymous]
-    [HttpGet("{area}")]
+    [HttpGet("admin")]
     public IActionResult Index()
     {
         if (User.Identity?.IsAuthenticated ?? false)
@@ -35,7 +35,7 @@ public class HomeController : Controller
     }
 
     [AllowAnonymous]
-    [HttpPost("{area}")]
+    [HttpPost("admin")]
     public async Task<IActionResult> Index(AdminSignInFormModel model)
     {
         if (User.Identity?.IsAuthenticated ?? false)
@@ -70,7 +70,7 @@ public class HomeController : Controller
         }
     }
 
-    [HttpGet("{action}")]
+    [HttpGet("admin/AddAdmin")]
     public IActionResult AddAdmin()
     {
         AdminSignUpFormModel model = new AdminSignUpFormModel();
@@ -78,7 +78,7 @@ public class HomeController : Controller
         return View(model);
     }
 
-    [HttpPost("{action}")]
+    [HttpPost("admin/AddAdmin")]
     public async Task<IActionResult> AddAdmin(AdminSignUpFormModel signUpInputModel)
     {
         if (!ModelState.IsValid)
@@ -112,7 +112,7 @@ public class HomeController : Controller
         }
     }
 
-    public async Task<IActionResult> SignOut()
+    public new async Task<IActionResult> SignOut()
     {
         if (User.Identity?.IsAuthenticated ?? false)
         {
@@ -122,7 +122,7 @@ public class HomeController : Controller
         return RedirectToAction("Index", "Home", new { area = "Admin" });
     }
 
-    [HttpGet("{area}/{action}")]
+    [HttpGet("admin/Panel")]
     public IActionResult Panel()
     {
         return View();

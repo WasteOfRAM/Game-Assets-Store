@@ -32,6 +32,7 @@ public class CartServiceTests
     public void TearDown()
     {
         this.dbContext.Database.EnsureDeleted();
+        this.dbContext.Dispose();
     }
 
     [Test]

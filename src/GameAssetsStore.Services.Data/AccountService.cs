@@ -59,23 +59,23 @@ public class AccountService : IAccountService
     public async Task<IdentityResult> ChangeEmailAsync(ClaimsPrincipal userPrincipal, string email)
     {
         var user = await this.userManager.GetUserAsync(userPrincipal);
-        var securityToken = await this.userManager.GenerateChangeEmailTokenAsync(user, email);
+        var securityToken = await this.userManager.GenerateChangeEmailTokenAsync(user!, email);
 
-        return await this.userManager.ChangeEmailAsync(user, email, securityToken);
+        return await this.userManager.ChangeEmailAsync(user!, email, securityToken);
     }
 
     public async Task<IdentityResult> ChangePasswordAsync(ClaimsPrincipal userPrincipal, string oldPassword, string newPassword)
     {
         var user = await this.userManager.GetUserAsync(userPrincipal);
 
-        return await this.userManager.ChangePasswordAsync(user, oldPassword, newPassword);
+        return await this.userManager.ChangePasswordAsync(user!, oldPassword, newPassword);
     }
 
     public async Task<IdentityResult> ChangeUsernameAsync(ClaimsPrincipal userPrincipal, string username)
     {
         var user = await this.userManager.GetUserAsync(userPrincipal);
 
-        return await this.userManager.SetUserNameAsync(user, username);
+        return await this.userManager.SetUserNameAsync(user!, username);
     }
 
     public Task<bool> IsEmailInUseAsync(string email)

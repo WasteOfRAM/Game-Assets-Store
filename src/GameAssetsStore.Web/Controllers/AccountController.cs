@@ -14,7 +14,7 @@ public class AccountController : Controller
         this.accountService = accountService;
     }
 
-    [HttpGet("{action}")]
+    [HttpGet("SignUp")]
     public IActionResult SignUp(string? returnUrl = null)
     {
         if (User.Identity?.IsAuthenticated ?? false)
@@ -30,7 +30,7 @@ public class AccountController : Controller
         return View(model);
     }
 
-    [HttpPost("{action}")]
+    [HttpPost("SignUp")]
     public async Task<IActionResult> SignUp(SignUpInputModel signUpInputModel)
     {
         if (User.Identity?.IsAuthenticated ?? false)
@@ -76,7 +76,7 @@ public class AccountController : Controller
         }
     }
 
-    [HttpGet("{action}")]
+    [HttpGet("SignIn")]
     public IActionResult SignIn(string? returnUrl = null)
     {
         if (User.Identity?.IsAuthenticated ?? false)
@@ -92,7 +92,7 @@ public class AccountController : Controller
         return View(inputModel);
     }
 
-    [HttpPost("{action}")]
+    [HttpPost("SignIn")]
     public async Task<IActionResult> SignIn(SignInInputModel inputModel)
     {
         if (User.Identity?.IsAuthenticated ?? false)
@@ -128,7 +128,7 @@ public class AccountController : Controller
     }
 
 
-    [HttpPost("{action}")]
+    [HttpPost("SignOut")]
     public async new Task<IActionResult> SignOut()
     {
         if (User.Identity?.IsAuthenticated ?? false)

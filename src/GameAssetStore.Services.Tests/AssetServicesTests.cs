@@ -65,6 +65,7 @@ public class AssetServicesTests
     public void TearDown()
     {
         this.dbContext.Database.EnsureDeleted();
+        this.dbContext.Dispose();
     }
 
     [Test]
@@ -110,7 +111,7 @@ public class AssetServicesTests
         var result = await assetService.IsUserAssetOwnerAsync(userShopId, assetId);
 
         // Assert
-        Assert.IsTrue(result);
+        Assert.That(result, Is.True);
     }
 
     [Test]
@@ -156,7 +157,7 @@ public class AssetServicesTests
         var result = await assetService.IsUserAssetOwnerAsync(userShopId, assetId);
 
         // Assert
-        Assert.IsFalse(result);
+        Assert.That(result, Is.False);
     }
 
     [Test]
@@ -218,7 +219,7 @@ public class AssetServicesTests
         var result = await assetService.IsAssetPurchasedByAnyUserAsync(assetId);
 
         // Assert
-        Assert.IsTrue(result);
+        Assert.That(result, Is.True);
     }
 
     [Test]
@@ -263,7 +264,7 @@ public class AssetServicesTests
         var result = await assetService.IsAssetPurchasedByAnyUserAsync(assetId);
 
         // Assert
-        Assert.IsFalse(result);
+        Assert.That(result, Is.False);
     }
 
     [Test]
@@ -319,7 +320,7 @@ public class AssetServicesTests
         var result = await assetService.IsUserPurchasedAssetAsync(userId, assetId);
 
         // Assert
-        Assert.IsTrue(result);
+        Assert.That(result, Is.True);
     }
 
     [Test]
@@ -360,7 +361,7 @@ public class AssetServicesTests
         var result = await assetService.IsUserPurchasedAssetAsync(userId, assetId);
 
         // Assert
-        Assert.IsFalse(result);
+        Assert.That(result, Is.False);
     }
 
     [Test]
