@@ -27,6 +27,7 @@ public static class ApplicationBuilderExtensions
     public static IServiceCollection AddApplicationRepositories(this IServiceCollection services)
     {
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IUserProfileRepository, UserProfileRepository>();
 
         return services;
     }

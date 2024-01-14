@@ -18,14 +18,14 @@ public class AccountService : IAccountService
 {
     private readonly SignInManager<ApplicationUser> signInManager;
     private readonly UserManager<ApplicationUser> userManager;
-    private readonly IRepository<UserProfile> profileRepository;
+    private readonly IUserProfileRepository profileRepository;
     private readonly IUserRepository userRepository;
     private readonly IRepository<PaymentMethod> paymentMethodRepository;
 
     public AccountService(
         SignInManager<ApplicationUser> signInManager,
         UserManager<ApplicationUser> userManager,
-        IRepository<UserProfile> profileRepository,
+        IUserProfileRepository profileRepository,
         IUserRepository userRepository,
         IRepository<PaymentMethod> paymentMethodRepository)
     {
