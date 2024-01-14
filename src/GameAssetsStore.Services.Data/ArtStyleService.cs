@@ -4,7 +4,6 @@ using GameAssetsStore.Data.Models;
 using GameAssetsStore.Data.Repositories.Interfaces;
 using GameAssetsStore.Services.Data.Interfaces;
 using GameAssetsStore.Web.ViewModels.Manage;
-using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -19,13 +18,14 @@ public class ArtStyleService : IArtStyleService
 
     public async Task<List<ArtStyleFormModel>> GetArtStylesAsync()
     {
-        return await this.artStyleRepository.GetAll()
-            .AsNoTracking()
+        var allArtStyles = await this.artStyleRepository.GetAllAsNoTracking();
+
+        return allArtStyles
             .Select(a => new ArtStyleFormModel
             {
                 Id = a.Id,
                 Name = a.Name
             })
-            .ToListAsync();
+            .ToList();
     }
 }

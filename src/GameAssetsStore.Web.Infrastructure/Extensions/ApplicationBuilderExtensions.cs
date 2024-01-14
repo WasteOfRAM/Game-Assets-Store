@@ -29,6 +29,7 @@ public static class ApplicationBuilderExtensions
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IUserProfileRepository, UserProfileRepository>();
         services.AddScoped<IPaymentMethodRepository, PaymentMethodRepository>();
+        services.AddScoped<IArtStyleRepository, ArtStyleRepository>();
 
         return services;
     }

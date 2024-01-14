@@ -19,7 +19,7 @@ public class EfRepositoryBase<TEntity> : IRepository<TEntity> where TEntity : cl
 
     public async Task<IEnumerable<TEntity>> GetAll() => await this.DbSet.ToArrayAsync();
 
-    public async Task<IEnumerable<TEntity>> GetAllAsNoTracking() => await this.DbSet.AsNoTracking().ToArrayAsync();
+    public async Task<ICollection<TEntity>> GetAllAsNoTracking() => await this.DbSet.AsNoTracking().ToArrayAsync();
 
     public async Task Add(TEntity entity) => await this.DbSet.AddAsync(entity);
 
