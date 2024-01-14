@@ -49,7 +49,7 @@ public class AssetService : IAssetService
 
         this.assetRepository.Update(assetEntity);
 
-        await this.assetRepository.SaveAsync();
+        await this.assetRepository.Save();
     }
 
     public async Task<bool> CreateAssetAsync(CreateAssetFormModel model, string shopId)
@@ -69,7 +69,7 @@ public class AssetService : IAssetService
 
         artStyleEntity!.Assets.Add(assetEntity);
 
-        await this.assetRepository.AddAsync(assetEntity);
+        await this.assetRepository.Add(assetEntity);
         var shop = await this.shopRepository.GetById(assetEntity.ShopId);
 
         var selectedCategories = model.Categories
@@ -95,7 +95,7 @@ public class AssetService : IAssetService
 
         await this.storageService.UploadAsync(model.AssetFile, assetEntity.Id.ToString(), AWSS3AssetsBucketName, assetEntity.FileName);
 
-        await this.assetRepository.SaveAsync();
+        await this.assetRepository.Save();
 
         await this.storageService.UploadAsync(model.CoverImage, assetEntity.Id.ToString(), AWSS3ImagesBucketName, "cover");
 
@@ -122,7 +122,7 @@ public class AssetService : IAssetService
 
         this.assetRepository.Update(assetEntity);
 
-        await this.assetRepository.SaveAsync();
+        await this.assetRepository.Save();
     }
 
     public async Task<DownloadAssetServiceModel> DownloadAsync(string assetId)
@@ -148,7 +148,7 @@ public class AssetService : IAssetService
 
         this.assetRepository.Update(assetEntity);
 
-        await this.assetRepository.SaveAsync();
+        await this.assetRepository.Save();
     }
 
     public async Task<AssetPageViewModel> GetAssetPageViewModelAsync(string assetId, string? userId, string? cartJson)
@@ -286,7 +286,7 @@ public class AssetService : IAssetService
             assetEntity!.FileName = newFileEncodedName;
             assetEntity.ModifiedOn = DateTime.UtcNow;
 
-            await this.assetRepository.SaveAsync();
+            await this.assetRepository.Save();
 
             await this.storageService.DeleteAsync(AWSS3AssetsBucketName, currentFileName, model.AssetId.ToString().ToLower());
         }

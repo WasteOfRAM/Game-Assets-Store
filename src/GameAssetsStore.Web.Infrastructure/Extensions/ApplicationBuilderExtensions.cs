@@ -4,6 +4,8 @@ using Microsoft.Extensions.DependencyInjection;
 
 using GameAssetsStore.Services.Data;
 using GameAssetsStore.Services.Data.Interfaces;
+using GameAssetsStore.Data.Repositories.Interfaces;
+using GameAssetsStore.Data.Repositories;
 
 public static class ApplicationBuilderExtensions
 {
@@ -18,6 +20,13 @@ public static class ApplicationBuilderExtensions
         services.AddScoped<IStorageService, S3StorageService>();
         services.AddScoped<ICartService, CartService>();
         services.AddScoped<ITransactionService, TransactionService>();
+
+        return services;
+    }
+
+    public static IServiceCollection AddApplicationRepositories(this IServiceCollection services)
+    {
+        services.AddScoped<IUserRepository, UserRepository>();
 
         return services;
     }

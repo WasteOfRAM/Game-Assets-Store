@@ -2,12 +2,11 @@
 
 using Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 using System.Threading.Tasks;
 
-public class EfRepository<TEntity> : IRepository<TEntity> where TEntity : class
+public class EfRepositoryBase<TEntity> : IRepository<TEntity> where TEntity : class
 {
-    public EfRepository(ApplicationDbContext dbContext)
+    public EfRepositoryBase(ApplicationDbContext dbContext)
     {
         this.dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         this.DbSet = this.dbContext.Set<TEntity>();
@@ -18,9 +17,11 @@ public class EfRepository<TEntity> : IRepository<TEntity> where TEntity : class
 
     public async Task<TEntity?> GetById(Guid id) => await this.DbSet.FindAsync(id);
 
-    public IQueryable<TEntity> GetAll() => this.DbSet;
+    public async Task<IEnumerable<TEntity>> GetAll() => await this.DbSet.ToArrayAsync();
 
-    public async Task AddAsync(TEntity entity) => await this.DbSet.AddAsync(entity);
+    public async Task<IEnumerable<TEntity>> GetAllAsNoTracking() => await this.DbSet.AsNoTracking().ToArrayAsync();
+
+    public async Task Add(TEntity entity) => await this.DbSet.AddAsync(entity);
 
     public void Update(TEntity entity)
     {
@@ -35,5 +36,5 @@ public class EfRepository<TEntity> : IRepository<TEntity> where TEntity : class
 
     public void Delete(TEntity entity) => this.DbSet.Remove(entity);
 
-    public async Task<int> SaveAsync() => await this.dbContext.SaveChangesAsync();
+    public async Task<int> Save() => await this.dbContext.SaveChangesAsync();
 }

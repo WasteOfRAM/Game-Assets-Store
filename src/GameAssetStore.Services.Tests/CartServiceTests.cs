@@ -24,8 +24,8 @@ public class CartServiceTests
 
         this.dbContext = new ApplicationDbContext(options);
 
-        this.assetsRepository = new EfRepository<Asset>(this.dbContext);
-        this.applicationUserRepository = new EfRepository<ApplicationUser>(this.dbContext);
+        this.assetsRepository = new EfRepositoryBase<Asset>(this.dbContext);
+        this.applicationUserRepository = new EfRepositoryBase<ApplicationUser>(this.dbContext);
     }
 
     [TearDown]

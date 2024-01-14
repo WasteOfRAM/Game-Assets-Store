@@ -24,7 +24,7 @@ public class TransactionService : ITransactionService
             Amount = amount
         };
 
-        await this.transactionRepository.AddAsync(entity);
-        await this.transactionRepository.SaveAsync();
+        await this.transactionRepository.Add(entity);
+        await this.transactionRepository.Save();
     }
 }

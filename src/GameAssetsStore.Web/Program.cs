@@ -64,8 +64,11 @@ var awsOptions = new AWSOptions
 builder.Services.AddDefaultAWSOptions(awsOptions);
 builder.Services.AddAWSService<IAmazonS3>();
 
-builder.Services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
+// TODO: Remove when not needed.
+builder.Services.AddScoped(typeof(IRepository<>), typeof(EfRepositoryBase<>));
+// -----------------------------
 
+builder.Services.AddApplicationRepositories();
 builder.Services.AddApplicationServices();
 
 builder.Services.AddScoped<IAdminServices, AdminServices>();

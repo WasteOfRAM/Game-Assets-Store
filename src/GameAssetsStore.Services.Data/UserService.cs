@@ -92,7 +92,7 @@ public class UserService : IUserService
 
             this.profileRepository.Update(entity);
 
-            await this.profileRepository.SaveAsync();
+            await this.profileRepository.Save();
         }
     }
 
@@ -115,9 +115,9 @@ public class UserService : IUserService
         user.OwnedShop = shop;
         user.PaymentMethod = paymentMethod;
 
-        await this.paymentMethodRepository.AddAsync(paymentMethod);
-        await this.shopRepository.AddAsync(shop);
-        await this.shopRepository.SaveAsync();
+        await this.paymentMethodRepository.Add(paymentMethod);
+        await this.shopRepository.Add(shop);
+        await this.shopRepository.Save();
 
         await this.accountService.AddUserClaim(user, ShopOwnerClaimType, shop.Id.ToString());
 
@@ -154,7 +154,7 @@ public class UserService : IUserService
             user!.PurchasedAssets.Add(assetEntity!);
         }
 
-        await this.assetRepository.SaveAsync();
+        await this.assetRepository.Save();
     }
 
     public async Task<IEnumerable<LibraryAssetCardViewModel>> GetUserLibraryAssetsAsync(string userId)

@@ -50,12 +50,12 @@ public class AssetServicesTests
 
         //this.dbContext.SaveChanges();
 
-        this.assetsRepository = new EfRepository<Asset>(this.dbContext);
-        this.shopRepository = new EfRepository<Shop>(this.dbContext);
-        this.generalCategoryRepository = new EfRepository<GeneralCategory>(this.dbContext);
-        this.subCategoryRepository = new EfRepository<SubCategory>(this.dbContext);
-        this.artStyleRepository = new EfRepository<ArtStyle>(this.dbContext);
-        this.applicationUserRepository = new EfRepository<ApplicationUser>(this.dbContext);
+        this.assetsRepository = new EfRepositoryBase<Asset>(this.dbContext);
+        this.shopRepository = new EfRepositoryBase<Shop>(this.dbContext);
+        this.generalCategoryRepository = new EfRepositoryBase<GeneralCategory>(this.dbContext);
+        this.subCategoryRepository = new EfRepositoryBase<SubCategory>(this.dbContext);
+        this.artStyleRepository = new EfRepositoryBase<ArtStyle>(this.dbContext);
+        this.applicationUserRepository = new EfRepositoryBase<ApplicationUser>(this.dbContext);
 
         this.mockStorageService = new Mock<IStorageService>();
 

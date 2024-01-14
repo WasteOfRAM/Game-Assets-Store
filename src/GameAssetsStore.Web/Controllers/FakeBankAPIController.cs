@@ -31,7 +31,7 @@
                 account.Balance -= amount;
 
                 this.paymentRepository.Update(account);
-                await this.paymentRepository.SaveAsync();
+                await this.paymentRepository.Save();
             }
 
             string redirectUrl = $"{returnUrl}?status={status}&amount={amount}";

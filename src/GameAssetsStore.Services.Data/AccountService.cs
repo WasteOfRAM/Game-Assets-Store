@@ -9,7 +9,6 @@ using Web.ViewModels.Account;
 using GameAssetsStore.Data.Models;
 using GameAssetsStore.Data.Repositories.Interfaces;
 using System.Security.Claims;
-using Microsoft.EntityFrameworkCore;
 
 
 /// <summary>
@@ -20,14 +19,14 @@ public class AccountService : IAccountService
     private readonly SignInManager<ApplicationUser> signInManager;
     private readonly UserManager<ApplicationUser> userManager;
     private readonly IRepository<UserProfile> profileRepository;
-    private readonly IRepository<ApplicationUser> userRepository;
+    private readonly IUserRepository userRepository;
     private readonly IRepository<PaymentMethod> paymentMethodRepository;
 
     public AccountService(
         SignInManager<ApplicationUser> signInManager,
         UserManager<ApplicationUser> userManager,
         IRepository<UserProfile> profileRepository,
-        IRepository<ApplicationUser> userRepository,
+        IUserRepository userRepository,
         IRepository<PaymentMethod> paymentMethodRepository)
     {
         this.signInManager = signInManager;
@@ -43,10 +42,10 @@ public class AccountService : IAccountService
 
         var paymentMethod = new PaymentMethod { Name = "Bank" };
 
-        await this.paymentMethodRepository.AddAsync(paymentMethod);
+        await this.paymentMethodRepository.Add(paymentMethod);
         user!.PaymentMethod = paymentMethod;
 
-        await this.userRepository.SaveAsync();
+        await this.userRepository.Save();
     }
 
     public async Task<bool> AddUserClaim(ApplicationUser user, string claimType, string claimValue)
@@ -78,14 +77,18 @@ public class AccountService : IAccountService
         return await this.userManager.SetUserNameAsync(user!, username);
     }
 
-    public Task<bool> IsEmailInUseAsync(string email)
+    public async Task<bool> IsEmailInUseAsync(string email)
     {
-        return this.userRepository.GetAll().AsNoTracking().AnyAsync(u => u.Email == email);
+        var user = await userRepository.GetByEmail(email);
+
+        return user is not null;
     }
 
     public async Task<bool> IsUsernameInUseAsync(string userName)
     {
-        return await this.userRepository.GetAll().AsNoTracking().AnyAsync(u => u.UserName == userName);
+        var user = await userRepository.GetByUserName(userName);
+
+        return user is not null;
     }
 
     public async Task<IdentityResult> RegisterAsync(SignUpInputModel inputModel)
@@ -132,7 +135,7 @@ public class AccountService : IAccountService
 
         user.Profile = userProfile;
 
-        await this.profileRepository.AddAsync(userProfile);
+        await this.profileRepository.Add(userProfile);
 
         return user;
     }
