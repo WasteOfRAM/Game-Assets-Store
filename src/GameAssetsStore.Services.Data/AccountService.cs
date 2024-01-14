@@ -20,14 +20,14 @@ public class AccountService : IAccountService
     private readonly UserManager<ApplicationUser> userManager;
     private readonly IUserProfileRepository profileRepository;
     private readonly IUserRepository userRepository;
-    private readonly IRepository<PaymentMethod> paymentMethodRepository;
+    private readonly IPaymentMethodRepository paymentMethodRepository;
 
     public AccountService(
         SignInManager<ApplicationUser> signInManager,
         UserManager<ApplicationUser> userManager,
         IUserProfileRepository profileRepository,
         IUserRepository userRepository,
-        IRepository<PaymentMethod> paymentMethodRepository)
+        IPaymentMethodRepository paymentMethodRepository)
     {
         this.signInManager = signInManager;
         this.userManager = userManager;
