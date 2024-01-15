@@ -112,12 +112,12 @@ public class UserService : IUserService
             Name = "Bank"
         };
 
+        user.OwnedShop = shop;
+        user.PaymentMethod = paymentMethod;
+
         await this.paymentMethodRepository.Add(paymentMethod);
         await this.shopRepository.Add(shop);
         await this.shopRepository.Save();
-
-        user.OwnedShopId = shop.Id;
-        user.PaymentMethod = paymentMethod;
 
         await this.accountService.AddUserClaim(user, ShopOwnerClaimType, shop.Id.ToString());
 

@@ -16,20 +16,20 @@ using static Common.GlobalConstants;
 
 public class AssetService : IAssetService
 {
-    private readonly IAssetRepository assetRepository;
+    private readonly IRepository<Asset> assetRepository;
     private readonly IRepository<Shop> shopRepository;
     private readonly IRepository<GeneralCategory> categoriesRepository;
     private readonly IRepository<SubCategory> subCategoriesRepository;
-    private readonly IArtStyleRepository artStyleRepository;
-    private readonly IUserRepository userRepository;
+    private readonly IRepository<ArtStyle> artStyleRepository;
+    private readonly IRepository<ApplicationUser> userRepository;
     private readonly IStorageService storageService;
 
-    public AssetService(IAssetRepository assetRepository,
+    public AssetService(IRepository<Asset> assetRepository,
         IRepository<Shop> shopRepository,
         IRepository<GeneralCategory> categoriesRepository,
         IRepository<SubCategory> subCategoriesRepository,
-        IArtStyleRepository artStyleRepository,
-        IUserRepository userRepository,
+        IRepository<ArtStyle> artStyleRepository,
+        IRepository<ApplicationUser> userRepository,
         IStorageService storageService)
     {
         this.assetRepository = assetRepository;
@@ -99,7 +99,7 @@ public class AssetService : IAssetService
 
         await this.storageService.UploadAsync(model.CoverImage, assetEntity.Id.ToString(), AWSS3ImagesBucketName, "cover");
 
-        for (int i = 0; i < model.Images.Count; i++)
+        for (int i = 0; i < model.Images.Count(); i++)
         {
             await this.storageService.UploadAsync(model.Images[i], assetEntity.Id.ToString(), AWSS3ImagesBucketName, $"media{i + 1}");
         }
@@ -107,7 +107,6 @@ public class AssetService : IAssetService
         return true;
     }
 
-    // TODO: Override the delete in the repository to perform the soft delete.
     public async Task AssetSoftDeleteAsync(string assetId)
     {
         var assetEntity = await this.assetRepository.GetById(Guid.Parse(assetId));
@@ -154,9 +153,8 @@ public class AssetService : IAssetService
 
     public async Task<AssetPageViewModel> GetAssetPageViewModelAsync(string assetId, string? userId, string? cartJson)
     {
-        ApplicationUser? user;
-
         var asset = await this.assetRepository.GetById(Guid.Parse(assetId));
+        var user = await this.userRepository.GetAll().Include(s => s.OwnedShop).AsNoTracking().FirstOrDefaultAsync(u => u.Id.ToString() == userId);
 
         var assetModel = new AssetPageViewModel
         {
@@ -168,12 +166,10 @@ public class AssetService : IAssetService
             IsAssetInCart = false
         };
 
-        if (userId is not null)
+        if (user != null)
         {
-            user = await this.userRepository.GetById(Guid.Parse(userId));
-
-            if (await this.IsUserPurchasedAssetAsync(user!.Id.ToString(), asset.Id.ToString()) ||
-                await this.IsUserAssetOwnerAsync(user.OwnedShopId.ToString(), assetId))
+            if (await this.IsUserPurchasedAssetAsync(user.Id.ToString(), asset.Id.ToString()) ||
+                await this.IsUserAssetOwnerAsync(user.OwnedShop?.Id.ToString(), assetId))
             {
                 assetModel.IsAssetPurchasedByUser = true;
             }
