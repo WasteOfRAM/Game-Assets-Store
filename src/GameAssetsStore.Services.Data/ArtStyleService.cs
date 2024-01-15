@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 public class ArtStyleService : IArtStyleService
 {
-    private readonly IRepository<ArtStyle> artStyleRepository;
+    private readonly IArtStyleRepository artStyleRepository;
 
-    public ArtStyleService(IRepository<ArtStyle> artStyleRepository)
+    public ArtStyleService(IArtStyleRepository artStyleRepository)
     {
         this.artStyleRepository = artStyleRepository;
     }
