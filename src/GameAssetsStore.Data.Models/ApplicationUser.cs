@@ -24,6 +24,8 @@ public class ApplicationUser : IdentityUser<Guid>
     /// </summary>
     /// <param name="OwnedShop"></param>
     [Comment("Shop profile if created")]
+    [ForeignKey(nameof(OwnedShopId))]
+    public Guid? OwnedShopId { get; set; }
     public virtual Shop? OwnedShop { get; set; }
 
     /// <summary>
