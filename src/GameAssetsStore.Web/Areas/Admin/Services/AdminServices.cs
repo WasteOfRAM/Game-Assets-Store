@@ -14,18 +14,15 @@ public class AdminServices : IAdminServices
     private readonly SignInManager<ApplicationUser> signInManager;
     private readonly UserManager<ApplicationUser> userManager;
     private readonly RoleManager<IdentityRole<Guid>> roleManager;
-    private readonly IRepository<IdentityUserRole<Guid>> roleRepository;
 
     public AdminServices(
         SignInManager<ApplicationUser> signInManager, 
         UserManager<ApplicationUser> userManager,
-        RoleManager<IdentityRole<Guid>> roleManager,
-        IRepository<IdentityUserRole<Guid>> roleRepository)
+        RoleManager<IdentityRole<Guid>> roleManager)
     {
         this.signInManager = signInManager;
         this.userManager = userManager;
         this.roleManager = roleManager;
-        this.roleRepository = roleRepository;
     }
 
     public async Task<IdentityResult> RegisterAsync(AdminSignUpFormModel inputModel)
