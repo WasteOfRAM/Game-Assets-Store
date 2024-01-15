@@ -15,15 +15,15 @@ public class EfRepositoryBase<TEntity> : IRepository<TEntity> where TEntity : cl
     private readonly ApplicationDbContext dbContext;
     protected DbSet<TEntity> DbSet { get; set; }
 
-    public async Task<TEntity?> GetById(Guid id) => await this.DbSet.FindAsync(id);
+    public virtual async Task<TEntity?> GetById(Guid id) => await this.DbSet.FindAsync(id);
 
-    public async Task<IEnumerable<TEntity>> GetAll() => await this.DbSet.ToArrayAsync();
+    public virtual async Task<IEnumerable<TEntity>> GetAll() => await this.DbSet.ToArrayAsync();
 
-    public async Task<ICollection<TEntity>> GetAllAsNoTracking() => await this.DbSet.AsNoTracking().ToArrayAsync();
+    public virtual async Task<ICollection<TEntity>> GetAllAsNoTracking() => await this.DbSet.AsNoTracking().ToArrayAsync();
 
-    public async Task Add(TEntity entity) => await this.DbSet.AddAsync(entity);
+    public virtual async Task Add(TEntity entity) => await this.DbSet.AddAsync(entity);
 
-    public void Update(TEntity entity)
+    public virtual void Update(TEntity entity)
     {
         var entry = this.dbContext.Entry(entity);
         if (entry.State == EntityState.Detached)
@@ -34,7 +34,7 @@ public class EfRepositoryBase<TEntity> : IRepository<TEntity> where TEntity : cl
         entry.State = EntityState.Modified;
     }
 
-    public void Delete(TEntity entity) => this.DbSet.Remove(entity);
+    public virtual void Delete(TEntity entity) => this.DbSet.Remove(entity);
 
     public async Task<int> Save() => await this.dbContext.SaveChangesAsync();
 }
