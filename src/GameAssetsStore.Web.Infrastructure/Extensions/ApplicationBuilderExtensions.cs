@@ -30,6 +30,11 @@ public static class ApplicationBuilderExtensions
         services.AddScoped<IUserProfileRepository, UserProfileRepository>();
         services.AddScoped<IPaymentMethodRepository, PaymentMethodRepository>();
         services.AddScoped<IArtStyleRepository, ArtStyleRepository>();
+        services.AddScoped<IAssetRepository, AssetRepository>();
+        services.AddScoped<IGeneralCategoryRepository, GeneralCategoryRepository>();
+        services.AddScoped<IShopRepository, ShopRepository>();
+        services.AddScoped<ISubCategoryRepository, SubCategoryRepository>();
+        services.AddScoped<ITransactionRepository, TransactionRepository>();
 
         return services;
     }
