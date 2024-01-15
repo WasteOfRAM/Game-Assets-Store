@@ -10,8 +10,8 @@ using System.Text.Json;
 
 public class CartServiceTests
 {
-    private IRepository<Asset> assetsRepository;
-    private IRepository<ApplicationUser> applicationUserRepository;
+    private IAssetRepository assetsRepository;
+    private IUserRepository applicationUserRepository;
 
     private ApplicationDbContext dbContext;
 
@@ -24,8 +24,8 @@ public class CartServiceTests
 
         this.dbContext = new ApplicationDbContext(options);
 
-        this.assetsRepository = new EfRepositoryBase<Asset>(this.dbContext);
-        this.applicationUserRepository = new EfRepositoryBase<ApplicationUser>(this.dbContext);
+        this.assetsRepository = new AssetRepository(this.dbContext);
+        this.applicationUserRepository = new UserRepository(this.dbContext);
     }
 
     [TearDown]

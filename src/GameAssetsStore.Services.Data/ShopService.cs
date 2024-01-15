@@ -11,47 +11,42 @@ using static Common.GlobalConstants;
 
 public class ShopService : IShopService
 {
-    private readonly IRepository<Asset> assetRepository;
+    private readonly IAssetRepository assetRepository;
 
-    public ShopService(IRepository<Asset> assetRepository)
+    public ShopService(IAssetRepository assetRepository)
     {
         this.assetRepository = assetRepository;
     }
 
     public async Task<BrowsePageViewModel> GetAllAssetsAsync(AssetQueryModel queryModel)
     {
-        var allAssetsQuery = this.assetRepository.GetAll()
-            .Where(a => a.IsPublic && a.IsDeleted == false);
+        var filteredAssets = await this.assetRepository.GetAllFiltered(queryModel);
 
-        BrowsePageViewModel viewModel = new ();
-
-        if (!string.IsNullOrWhiteSpace(queryModel.Search))
+        BrowsePageViewModel viewModel = new()
         {
-            allAssetsQuery = allAssetsQuery
-                .Where(a => a.AssetName.ToUpper().Contains(queryModel.Search.ToUpper()));
-        }
-
-        viewModel.FilteredAssets = await allAssetsQuery
-            .Select(a => new AssetCardViewModel
-            {
-                Id = a.Id.ToString().ToLower(),
-                AssetName = a.AssetName,
-                Price = a.Price,
-                ImageUrl = string.Format(AWSS3ImageUrl, AWSS3Region, a.Id.ToString().ToLower(), "cover")
-            })
-            .AsNoTracking()
-            .ToListAsync();
+            FilteredAssets = filteredAssets
+                .Select(a => new AssetCardViewModel
+                {
+                    Id = a.Id.ToString().ToLower(),
+                    AssetName = a.AssetName,
+                    Price = a.Price,
+                    ImageUrl = string.Format(AWSS3ImageUrl, AWSS3Region, a.Id.ToString().ToLower(), "cover")
+                })
+                .ToList()
+        };
 
         return viewModel;
     }
 
-
     public async Task<ShopHomePageViewModel> GetHomePageAssetsAsync()
     {
-        ShopHomePageViewModel model = new ();
+        // TODO: Change implementation when assetRepository.GetAllFiltered() is ready
 
-        model.AssetsByUploadDate = await this.assetRepository.GetAll()
-            .AsNoTracking()
+        ShopHomePageViewModel model = new();
+
+        var assetsByDate = await this.assetRepository.GetAllFiltered(new AssetQueryModel());
+
+        model.AssetsByUploadDate = assetsByDate
             .Where(a => a.IsPublic && a.IsDeleted == false)
             .OrderByDescending(a => a.CreatedOn)
             .Take(IndexPageAssetCountPerCategory)
@@ -62,10 +57,11 @@ public class ShopService : IShopService
                 Price = a.Price,
                 ImageUrl = string.Format(AWSS3ImageUrl, AWSS3Region, a.Id.ToString().ToLower(), "cover")
             })
-            .ToListAsync();
+            .ToList();
 
-        model.FreeAssets = await this.assetRepository.GetAll()
-            .AsNoTracking()
+        var freeAssets = await this.assetRepository.GetAllFiltered(new AssetQueryModel());
+
+        model.FreeAssets = freeAssets
             .Where(a => a.IsPublic && a.IsDeleted == false && a.Price == null)
             .Take(IndexPageAssetCountPerCategory)
             .Select(a => new AssetCardViewModel
@@ -75,7 +71,7 @@ public class ShopService : IShopService
                 Price = a.Price,
                 ImageUrl = string.Format(AWSS3ImageUrl, AWSS3Region, a.Id.ToString().ToLower(), "cover")
             })
-            .ToListAsync();
+            .ToList();
 
         return model;
     }

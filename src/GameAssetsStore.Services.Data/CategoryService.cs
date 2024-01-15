@@ -1,27 +1,25 @@
 ﻿namespace GameAssetsStore.Services.Data;
 
-using GameAssetsStore.Data.Models;
 using GameAssetsStore.Data.Repositories.Interfaces;
 using GameAssetsStore.Services.Data.Interfaces;
 using GameAssetsStore.Web.ViewModels.Manage;
-using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 public class CategoryService : ICategoryService
 {
-    private readonly IRepository<GeneralCategory> categoriesRepository;
+    private readonly IGeneralCategoryRepository categoriesRepository;
 
-    public CategoryService(IRepository<GeneralCategory> categoriesRepository)
+    public CategoryService(IGeneralCategoryRepository categoriesRepository)
     {
         this.categoriesRepository = categoriesRepository;
     }
 
     public async Task<List<AssetCategoryFormModel>> GetAllCategoriesWithSubCategoriesAsync()
     {
-        return await this.categoriesRepository.GetAll()
-            .Include(c => c.SubCategories)
-            .AsNoTracking()
+        var allCategories = await this.categoriesRepository.GetAllWithSubCategories();
+
+        return allCategories
             .Select(c => new AssetCategoryFormModel
             {
                 Id = c.Id,
@@ -33,6 +31,6 @@ public class CategoryService : ICategoryService
                         Name = sc.Name
                     }).ToList()
             })
-            .ToListAsync();
+            .ToList();
     }
 }

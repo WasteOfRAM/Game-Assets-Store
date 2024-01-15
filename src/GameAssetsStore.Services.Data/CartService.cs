@@ -43,7 +43,7 @@ public class CartService : ICartService
 
         var user = await this.userRepository.GetById(Guid.Parse(userId));
 
-        checkoutModel.PaymentMethodId = user.PaymentMethodId?.ToString();
+        checkoutModel.PaymentMethodId = user!.PaymentMethodId?.ToString();
         checkoutModel.PaymentMethodName = user.PaymentMethod?.Name;
 
         return checkoutModel;

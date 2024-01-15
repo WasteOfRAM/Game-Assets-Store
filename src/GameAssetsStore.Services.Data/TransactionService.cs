@@ -8,9 +8,9 @@ using Common.Enumerators;
 
 public class TransactionService : ITransactionService
 {
-    private readonly IRepository<Transaction> transactionRepository;
+    private readonly ITransactionRepository transactionRepository;
 
-    public TransactionService(IRepository<Transaction> transactionRepository)
+    public TransactionService(ITransactionRepository transactionRepository)
     {
         this.transactionRepository = transactionRepository;
     }

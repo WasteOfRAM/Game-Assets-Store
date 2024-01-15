@@ -5,15 +5,17 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
 
+    // TODO
+
     /// <summary>
     /// Controller just for testing purposes.
     /// Working directly with the repository only for the test.
     /// </summary>
     public class FakeBankAPIController : Controller
     {
-        private readonly IRepository<PaymentMethod> paymentRepository;
+        private readonly IPaymentMethodRepository paymentRepository;
 
-        public FakeBankAPIController(IRepository<PaymentMethod> paymentRepository)
+        public FakeBankAPIController(IPaymentMethodRepository paymentRepository)
         {
             this.paymentRepository = paymentRepository;
         }
@@ -21,10 +23,10 @@
         [HttpGet]
         public async Task<IActionResult> Index(string transactionId, decimal amount, string returnUrl)
         {
-            var account = await this.paymentRepository.GetAll().FirstAsync(p => p.Id.ToString() == transactionId);
+            var account = await this.paymentRepository.GetById(Guid.Parse(transactionId));
             string status = "Failed";
 
-            if (account.Balance >= amount)
+            if (account!.Balance >= amount)
             {
                 status = "Succeeded";
 
