@@ -17,17 +17,17 @@ using static Common.GlobalConstants;
 public class AssetService : IAssetService
 {
     private readonly IAssetRepository assetRepository;
-    private readonly IRepository<Shop> shopRepository;
-    private readonly IRepository<GeneralCategory> categoriesRepository;
-    private readonly IRepository<SubCategory> subCategoriesRepository;
+    private readonly IShopRepository shopRepository;
+    private readonly IGeneralCategoryRepository categoriesRepository;
+    private readonly ISubCategoryRepository subCategoriesRepository;
     private readonly IArtStyleRepository artStyleRepository;
     private readonly IUserRepository userRepository;
     private readonly IStorageService storageService;
 
     public AssetService(IAssetRepository assetRepository,
-        IRepository<Shop> shopRepository,
-        IRepository<GeneralCategory> categoriesRepository,
-        IRepository<SubCategory> subCategoriesRepository,
+        IShopRepository shopRepository,
+        IGeneralCategoryRepository categoriesRepository,
+        ISubCategoryRepository subCategoriesRepository,
         IArtStyleRepository artStyleRepository,
         IUserRepository userRepository,
         IStorageService storageService)
@@ -223,10 +223,11 @@ public class AssetService : IAssetService
         };
     }
 
-    public Task<List<ManageAssetCardViewModel>> GetShopManagerAssetViewModelAsync(string shopId)
+    public async Task<List<ManageAssetCardViewModel>> GetShopManagerAssetViewModelAsync(string shopId)
     {
-        return this.assetRepository.GetAll()
-            .Where(a => a.ShopId.ToString() == shopId && a.IsDeleted == false)
+        var assetsByShop = await this.assetRepository.GetAllByShop(shopId);
+
+        return assetsByShop
             .Select(a => new ManageAssetCardViewModel
             {
                 Id = a.Id,
@@ -242,7 +243,7 @@ public class AssetService : IAssetService
                 ModifiedOn = a.ModifiedOn,
                 IsPublic = a.IsPublic
             })
-            .ToListAsync();
+            .ToList();
 
     }
 
@@ -250,9 +251,9 @@ public class AssetService : IAssetService
     {
         if (userShopId != null)
         {
-            var assetEntity = await this.assetRepository.GetAll().Include(a => a.Shop).AsNoTracking().FirstAsync(a => a.Id.ToString() == assetId);
+            var assetEntity = await this.assetRepository.GetById(Guid.Parse(assetId));
 
-            if (assetEntity.ShopId.ToString() == userShopId)
+            if (assetEntity?.ShopId.ToString() == userShopId)
             {
                 return true;
             }
@@ -263,9 +264,9 @@ public class AssetService : IAssetService
 
     public async Task<bool> IsUserPurchasedAssetAsync(string userId, string assetId)
     {
-        var user = await this.userRepository.GetAll().Include(a => a.PurchasedAssets).AsNoTracking().FirstAsync(u => u.Id.ToString() == userId);
+        var user = await this.userRepository.GetById(Guid.Parse(userId));
 
-        if (user.PurchasedAssets.Any(a => a.Id.ToString() == assetId))
+        if (user!.PurchasedAssets.Any(a => a.Id.ToString() == assetId))
         {
             return true;
         }
