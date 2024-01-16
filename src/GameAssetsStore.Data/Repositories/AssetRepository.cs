@@ -15,7 +15,7 @@ public class AssetRepository : EfRepositoryBase<Asset>, IAssetRepository
 
     public async Task<IEnumerable<Asset>> GetAllByShop(string shopId)
     {
-        return await this.DbSet.Where(a => a.ShopId.ToString() == shopId).ToListAsync();
+        return await this.DbSet.Include(a => a.ArtStyle).Where(a => a.ShopId.ToString() == shopId).ToListAsync();
     }
 
     public async Task<IEnumerable<Asset>> GetAllFiltered(AssetQueryModel assetQueryModel)
@@ -25,7 +25,7 @@ public class AssetRepository : EfRepositoryBase<Asset>, IAssetRepository
         if (!string.IsNullOrWhiteSpace(assetQueryModel.Search))
         {
             allAssetsQuery = allAssetsQuery
-                .Where(a => a.AssetName.Contains(assetQueryModel.Search, StringComparison.CurrentCultureIgnoreCase));
+                .Where(a => a.AssetName.ToUpper().Contains(assetQueryModel.Search.ToUpper()));
         }
 
         return await allAssetsQuery.ToArrayAsync();
