@@ -6,7 +6,6 @@ using GameAssetsStore.Services.Data.Interfaces;
 using GameAssetsStore.Services.Models.Asset;
 using GameAssetsStore.Web.ViewModels.Manage;
 using GameAssetsStore.Web.ViewModels.Shop;
-using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Net;
 using System.Text.Json;
@@ -247,6 +246,7 @@ public class AssetService : IAssetService
 
     }
 
+    // TODO: Optimization? (possibly move it in the repository not sure yet) ???
     public async Task<bool> IsUserAssetOwnerAsync(string? userShopId, string assetId)
     {
         if (userShopId != null)
@@ -262,11 +262,12 @@ public class AssetService : IAssetService
         return false;
     }
 
+    // TODO: Optimization? (possibly move it in the repository not sure yet) ???
     public async Task<bool> IsUserPurchasedAssetAsync(string userId, string assetId)
     {
-        var user = await this.userRepository.GetById(Guid.Parse(userId));
+        var purchasedAssets = await this.userRepository.GetPurchasedAssets(Guid.Parse(userId));
 
-        if (user!.PurchasedAssets.Any(a => a.Id.ToString() == assetId))
+        if (purchasedAssets.Any(a => a.Id.ToString() == assetId))
         {
             return true;
         }
