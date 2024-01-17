@@ -106,21 +106,13 @@ public class AssetService : IAssetService
         return true;
     }
 
-    // TODO: Override the delete in the repository to perform the soft delete.
-    public async Task AssetSoftDeleteAsync(string assetId)
+    public async Task DeleteAssetAsync(string assetId)
     {
         var assetEntity = await this.assetRepository.GetById(Guid.Parse(assetId));
 
         await this.DeleteAllAssetFilesFromStorageAsync(assetEntity!.Id.ToString().ToLower(), assetEntity.FileName);
 
-        assetEntity.AssetName = "DELETED";
-        assetEntity.FileName = "DELETED";
-        assetEntity.Description = "DELETED";
-        assetEntity.Version = "DELETED";
-        assetEntity.IsDeleted = true;
-        assetEntity.DeletedOn = DateTime.UtcNow;
-
-        this.assetRepository.Update(assetEntity);
+        this.assetRepository.Delete(assetEntity);
 
         await this.assetRepository.Save();
     }

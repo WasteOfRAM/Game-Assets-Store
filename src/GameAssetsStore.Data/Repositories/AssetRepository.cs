@@ -15,7 +15,10 @@ public class AssetRepository : EfRepositoryBase<Asset>, IAssetRepository
 
     public async Task<IEnumerable<Asset>> GetAllByShop(string shopId)
     {
-        return await this.DbSet.Include(a => a.ArtStyle).Where(a => a.ShopId.ToString() == shopId).ToListAsync();
+        return await this.DbSet
+            .Include(a => a.ArtStyle)
+            .Where(a => a.ShopId.ToString() == shopId && a.IsDeleted == false)
+            .ToListAsync();
     }
 
     public async Task<IEnumerable<Asset>> GetAllFiltered(AssetQueryModel assetQueryModel)
@@ -29,5 +32,25 @@ public class AssetRepository : EfRepositoryBase<Asset>, IAssetRepository
         }
 
         return await allAssetsQuery.ToArrayAsync();
+    }
+
+    public override void Delete(Asset entity)
+    {
+        entity.AssetName = "DELETED";
+        entity.FileName = "DELETED";
+        entity.Description = "DELETED";
+        entity.Version = "DELETED";
+        entity.IsDeleted = true;
+        entity.IsPublic = false;
+        entity.DeletedOn = DateTime.UtcNow;
+
+        var entry = this.DbSet.Entry(entity);
+
+        if (entry.State == EntityState.Detached)
+        {
+            this.DbSet.Attach(entity);
+        }
+
+        entry.State = EntityState.Modified;
     }
 }
