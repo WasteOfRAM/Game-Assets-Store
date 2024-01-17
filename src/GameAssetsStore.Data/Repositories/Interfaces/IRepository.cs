@@ -2,15 +2,17 @@
 
 public interface IRepository<TEntity> where TEntity : class
 {
-    IQueryable<TEntity> GetAll();
+    Task<IEnumerable<TEntity>> GetAll();
+
+    Task<ICollection<TEntity>> GetAllAsNoTracking();
 
     Task<TEntity?> GetById(Guid id);
 
-    Task AddAsync(TEntity entity);
+    Task Add(TEntity entity);
 
     void Update(TEntity entity);
 
     void Delete(TEntity entity);
 
-    Task<int> SaveAsync();
+    Task<int> Save();
 }

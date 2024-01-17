@@ -8,9 +8,9 @@ using Common.Enumerators;
 
 public class TransactionService : ITransactionService
 {
-    private readonly IRepository<Transaction> transactionRepository;
+    private readonly ITransactionRepository transactionRepository;
 
-    public TransactionService(IRepository<Transaction> transactionRepository)
+    public TransactionService(ITransactionRepository transactionRepository)
     {
         this.transactionRepository = transactionRepository;
     }
@@ -24,7 +24,7 @@ public class TransactionService : ITransactionService
             Amount = amount
         };
 
-        await this.transactionRepository.AddAsync(entity);
-        await this.transactionRepository.SaveAsync();
+        await this.transactionRepository.Add(entity);
+        await this.transactionRepository.Save();
     }
 }

@@ -22,12 +22,12 @@ using static GameAssetsStore.Data.Seeding.ApplicationUserSeed;
 
 public class AssetServicesTests
 {
-    private IRepository<Asset> assetsRepository;
-    private IRepository<Shop> shopRepository;
-    private IRepository<GeneralCategory> generalCategoryRepository;
-    private IRepository<SubCategory> subCategoryRepository;
-    private IRepository<ArtStyle> artStyleRepository;
-    private IRepository<ApplicationUser> applicationUserRepository;
+    private IAssetRepository assetsRepository;
+    private IShopRepository shopRepository;
+    private IGeneralCategoryRepository generalCategoryRepository;
+    private ISubCategoryRepository subCategoryRepository;
+    private IArtStyleRepository artStyleRepository;
+    private IUserRepository applicationUserRepository;
     private Mock<IStorageService> mockStorageService;
 
     private ApplicationDbContext dbContext;
@@ -50,12 +50,12 @@ public class AssetServicesTests
 
         //this.dbContext.SaveChanges();
 
-        this.assetsRepository = new EfRepository<Asset>(this.dbContext);
-        this.shopRepository = new EfRepository<Shop>(this.dbContext);
-        this.generalCategoryRepository = new EfRepository<GeneralCategory>(this.dbContext);
-        this.subCategoryRepository = new EfRepository<SubCategory>(this.dbContext);
-        this.artStyleRepository = new EfRepository<ArtStyle>(this.dbContext);
-        this.applicationUserRepository = new EfRepository<ApplicationUser>(this.dbContext);
+        this.assetsRepository = new AssetRepository(this.dbContext);
+        this.shopRepository = new ShopRepository(this.dbContext);
+        this.generalCategoryRepository = new GeneralCategoryRepository(this.dbContext);
+        this.subCategoryRepository = new SubCategoryRepository(this.dbContext);
+        this.artStyleRepository = new ArtStyleRepository(this.dbContext);
+        this.applicationUserRepository = new UserRepository(this.dbContext);
 
         this.mockStorageService = new Mock<IStorageService>();
 

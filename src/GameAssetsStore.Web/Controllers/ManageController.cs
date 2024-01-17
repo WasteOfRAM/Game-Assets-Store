@@ -222,7 +222,7 @@ public class ManageController : Controller
                 return RedirectToAction(nameof(Edit), "Manage", new { assetId = model.AssetId });
             }
 
-            await this.assetService.AssetSoftDeleteAsync(model.AssetId.ToString());
+            await this.assetService.DeleteAssetAsync(model.AssetId.ToString());
 
             return RedirectToAction(nameof(Assets));
         }

@@ -28,6 +28,7 @@ public static class ApplicationUserSeed
             TwoFactorEnabled = false,
             LockoutEnabled = false,
             AccessFailedCount = 0,
+            OwnedShopId = new Guid("25C159F2-7159-4DA5-A5E1-8D0081C6E2E1"),
             PaymentMethodId = new Guid("11FC7D8E-9363-47AF-8D0C-E0EF73C471F7")
         };
 
@@ -48,6 +49,7 @@ public static class ApplicationUserSeed
             TwoFactorEnabled = false,
             LockoutEnabled = false,
             AccessFailedCount = 0,
+            OwnedShopId = new Guid("D83EDC2E-D407-4411-B750-E7E55FB28FC4"),
             PaymentMethodId = new Guid("4AB3226D-A16D-49E6-8D91-0BD99CC15D8F")
         };
 

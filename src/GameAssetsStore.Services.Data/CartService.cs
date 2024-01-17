@@ -1,22 +1,20 @@
 ﻿namespace GameAssetsStore.Services.Data;
 
-using GameAssetsStore.Data.Models;
 using GameAssetsStore.Data.Repositories.Interfaces;
 using GameAssetsStore.Services.Data.Interfaces;
 using GameAssetsStore.Web.ViewModels.Shop;
-using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Text.Json;
 using System.Threading.Tasks;
 
 public class CartService : ICartService
 {
-    private readonly IRepository<Asset> assetRepository;
-    private readonly IRepository<ApplicationUser> userRepository;
+    private readonly IAssetRepository assetRepository;
+    private readonly IUserRepository userRepository;
 
     public CartService(
-        IRepository<Asset> assetRepository,
-        IRepository<ApplicationUser> userRepository)
+        IAssetRepository assetRepository,
+        IUserRepository userRepository)
     {
         this.assetRepository = assetRepository;
         this.userRepository = userRepository;
@@ -43,9 +41,9 @@ public class CartService : ICartService
             checkoutModel.PriceTotal += assetEntity.Price ?? 0.0m;
         }
 
-        var user = await this.userRepository.GetAll().Include(e => e.PaymentMethod).AsNoTracking().FirstAsync(u => u.Id.ToString() == userId);
+        var user = await this.userRepository.GetById(Guid.Parse(userId));
 
-        checkoutModel.PaymentMethodId = user.PaymentMethodId?.ToString();
+        checkoutModel.PaymentMethodId = user!.PaymentMethodId?.ToString();
         checkoutModel.PaymentMethodName = user.PaymentMethod?.Name;
 
         return checkoutModel;

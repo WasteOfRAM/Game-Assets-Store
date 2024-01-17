@@ -10,7 +10,7 @@ public interface IAssetService
 
     Task<DownloadAssetServiceModel> DownloadAsync(string assetId);
 
-    Task AssetSoftDeleteAsync(string assetId);
+    Task DeleteAssetAsync(string assetId);
 
     Task<List<ManageAssetCardViewModel>> GetShopManagerAssetViewModelAsync(string shopId);
 

@@ -6,7 +6,6 @@ using GameAssetsStore.Services.Data.Interfaces;
 using GameAssetsStore.Services.Models.Asset;
 using GameAssetsStore.Web.ViewModels.Manage;
 using GameAssetsStore.Web.ViewModels.Shop;
-using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Net;
 using System.Text.Json;
@@ -16,20 +15,20 @@ using static Common.GlobalConstants;
 
 public class AssetService : IAssetService
 {
-    private readonly IRepository<Asset> assetRepository;
-    private readonly IRepository<Shop> shopRepository;
-    private readonly IRepository<GeneralCategory> categoriesRepository;
-    private readonly IRepository<SubCategory> subCategoriesRepository;
-    private readonly IRepository<ArtStyle> artStyleRepository;
-    private readonly IRepository<ApplicationUser> userRepository;
+    private readonly IAssetRepository assetRepository;
+    private readonly IShopRepository shopRepository;
+    private readonly IGeneralCategoryRepository categoriesRepository;
+    private readonly ISubCategoryRepository subCategoriesRepository;
+    private readonly IArtStyleRepository artStyleRepository;
+    private readonly IUserRepository userRepository;
     private readonly IStorageService storageService;
 
-    public AssetService(IRepository<Asset> assetRepository,
-        IRepository<Shop> shopRepository,
-        IRepository<GeneralCategory> categoriesRepository,
-        IRepository<SubCategory> subCategoriesRepository,
-        IRepository<ArtStyle> artStyleRepository,
-        IRepository<ApplicationUser> userRepository,
+    public AssetService(IAssetRepository assetRepository,
+        IShopRepository shopRepository,
+        IGeneralCategoryRepository categoriesRepository,
+        ISubCategoryRepository subCategoriesRepository,
+        IArtStyleRepository artStyleRepository,
+        IUserRepository userRepository,
         IStorageService storageService)
     {
         this.assetRepository = assetRepository;
@@ -49,7 +48,7 @@ public class AssetService : IAssetService
 
         this.assetRepository.Update(assetEntity);
 
-        await this.assetRepository.SaveAsync();
+        await this.assetRepository.Save();
     }
 
     public async Task<bool> CreateAssetAsync(CreateAssetFormModel model, string shopId)
@@ -69,7 +68,7 @@ public class AssetService : IAssetService
 
         artStyleEntity!.Assets.Add(assetEntity);
 
-        await this.assetRepository.AddAsync(assetEntity);
+        await this.assetRepository.Add(assetEntity);
         var shop = await this.shopRepository.GetById(assetEntity.ShopId);
 
         var selectedCategories = model.Categories
@@ -95,11 +94,11 @@ public class AssetService : IAssetService
 
         await this.storageService.UploadAsync(model.AssetFile, assetEntity.Id.ToString(), AWSS3AssetsBucketName, assetEntity.FileName);
 
-        await this.assetRepository.SaveAsync();
+        await this.assetRepository.Save();
 
         await this.storageService.UploadAsync(model.CoverImage, assetEntity.Id.ToString(), AWSS3ImagesBucketName, "cover");
 
-        for (int i = 0; i < model.Images.Count(); i++)
+        for (int i = 0; i < model.Images.Count; i++)
         {
             await this.storageService.UploadAsync(model.Images[i], assetEntity.Id.ToString(), AWSS3ImagesBucketName, $"media{i + 1}");
         }
@@ -107,22 +106,15 @@ public class AssetService : IAssetService
         return true;
     }
 
-    public async Task AssetSoftDeleteAsync(string assetId)
+    public async Task DeleteAssetAsync(string assetId)
     {
         var assetEntity = await this.assetRepository.GetById(Guid.Parse(assetId));
 
         await this.DeleteAllAssetFilesFromStorageAsync(assetEntity!.Id.ToString().ToLower(), assetEntity.FileName);
 
-        assetEntity.AssetName = "DELETED";
-        assetEntity.FileName = "DELETED";
-        assetEntity.Description = "DELETED";
-        assetEntity.Version = "DELETED";
-        assetEntity.IsDeleted = true;
-        assetEntity.DeletedOn = DateTime.UtcNow;
+        this.assetRepository.Delete(assetEntity);
 
-        this.assetRepository.Update(assetEntity);
-
-        await this.assetRepository.SaveAsync();
+        await this.assetRepository.Save();
     }
 
     public async Task<DownloadAssetServiceModel> DownloadAsync(string assetId)
@@ -148,13 +140,14 @@ public class AssetService : IAssetService
 
         this.assetRepository.Update(assetEntity);
 
-        await this.assetRepository.SaveAsync();
+        await this.assetRepository.Save();
     }
 
     public async Task<AssetPageViewModel> GetAssetPageViewModelAsync(string assetId, string? userId, string? cartJson)
     {
+        ApplicationUser? user;
+
         var asset = await this.assetRepository.GetById(Guid.Parse(assetId));
-        var user = await this.userRepository.GetAll().Include(s => s.OwnedShop).AsNoTracking().FirstOrDefaultAsync(u => u.Id.ToString() == userId);
 
         var assetModel = new AssetPageViewModel
         {
@@ -166,10 +159,12 @@ public class AssetService : IAssetService
             IsAssetInCart = false
         };
 
-        if (user != null)
+        if (userId is not null)
         {
-            if (await this.IsUserPurchasedAssetAsync(user.Id.ToString(), asset.Id.ToString()) ||
-                await this.IsUserAssetOwnerAsync(user.OwnedShop?.Id.ToString(), assetId))
+            user = await this.userRepository.GetById(Guid.Parse(userId));
+
+            if (await this.IsUserPurchasedAssetAsync(user!.Id.ToString(), asset.Id.ToString()) ||
+                await this.IsUserAssetOwnerAsync(user.OwnedShopId.ToString(), assetId))
             {
                 assetModel.IsAssetPurchasedByUser = true;
             }
@@ -219,10 +214,11 @@ public class AssetService : IAssetService
         };
     }
 
-    public Task<List<ManageAssetCardViewModel>> GetShopManagerAssetViewModelAsync(string shopId)
+    public async Task<List<ManageAssetCardViewModel>> GetShopManagerAssetViewModelAsync(string shopId)
     {
-        return this.assetRepository.GetAll()
-            .Where(a => a.ShopId.ToString() == shopId && a.IsDeleted == false)
+        var assetsByShop = await this.assetRepository.GetAllByShop(shopId);
+
+        return assetsByShop
             .Select(a => new ManageAssetCardViewModel
             {
                 Id = a.Id,
@@ -238,17 +234,18 @@ public class AssetService : IAssetService
                 ModifiedOn = a.ModifiedOn,
                 IsPublic = a.IsPublic
             })
-            .ToListAsync();
+            .ToList();
 
     }
 
+    // TODO: Optimization? (possibly move it in the repository not sure yet) ???
     public async Task<bool> IsUserAssetOwnerAsync(string? userShopId, string assetId)
     {
         if (userShopId != null)
         {
-            var assetEntity = await this.assetRepository.GetAll().Include(a => a.Shop).AsNoTracking().FirstAsync(a => a.Id.ToString() == assetId);
+            var assetEntity = await this.assetRepository.GetById(Guid.Parse(assetId));
 
-            if (assetEntity.ShopId.ToString() == userShopId)
+            if (assetEntity?.ShopId.ToString() == userShopId)
             {
                 return true;
             }
@@ -257,11 +254,12 @@ public class AssetService : IAssetService
         return false;
     }
 
+    // TODO: Optimization? (possibly move it in the repository not sure yet) ???
     public async Task<bool> IsUserPurchasedAssetAsync(string userId, string assetId)
     {
-        var user = await this.userRepository.GetAll().Include(a => a.PurchasedAssets).AsNoTracking().FirstAsync(u => u.Id.ToString() == userId);
+        var purchasedAssets = await this.userRepository.GetPurchasedAssets(Guid.Parse(userId));
 
-        if (user.PurchasedAssets.Any(a => a.Id.ToString() == assetId))
+        if (purchasedAssets.Any(a => a.Id.ToString() == assetId))
         {
             return true;
         }
@@ -286,7 +284,7 @@ public class AssetService : IAssetService
             assetEntity!.FileName = newFileEncodedName;
             assetEntity.ModifiedOn = DateTime.UtcNow;
 
-            await this.assetRepository.SaveAsync();
+            await this.assetRepository.Save();
 
             await this.storageService.DeleteAsync(AWSS3AssetsBucketName, currentFileName, model.AssetId.ToString().ToLower());
         }

@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\GameAssetsStore.Data.Models\GameAssetsStore.Data.Models.csproj" />
+    <ProjectReference Include="..\GameAssetsStore.Web.ViewModels\GameAssetsStore.Web.ViewModels.csproj" />
   </ItemGroup>
 
 </Project>

@@ -4,28 +4,28 @@ using GameAssetsStore.Data.Models;
 using GameAssetsStore.Data.Repositories.Interfaces;
 using GameAssetsStore.Services.Data.Interfaces;
 using GameAssetsStore.Web.ViewModels.Manage;
-using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 public class ArtStyleService : IArtStyleService
 {
-    private readonly IRepository<ArtStyle> artStyleRepository;
+    private readonly IArtStyleRepository artStyleRepository;
 
-    public ArtStyleService(IRepository<ArtStyle> artStyleRepository)
+    public ArtStyleService(IArtStyleRepository artStyleRepository)
     {
         this.artStyleRepository = artStyleRepository;
     }
 
     public async Task<List<ArtStyleFormModel>> GetArtStylesAsync()
     {
-        return await this.artStyleRepository.GetAll()
-            .AsNoTracking()
+        var allArtStyles = await this.artStyleRepository.GetAllAsNoTracking();
+
+        return allArtStyles
             .Select(a => new ArtStyleFormModel
             {
                 Id = a.Id,
                 Name = a.Name
             })
-            .ToListAsync();
+            .ToList();
     }
 }

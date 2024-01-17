@@ -19,19 +19,19 @@ using static Common.GlobalConstants;
 /// </summary>
 public class UserService : IUserService
 {
-    private readonly IRepository<UserProfile> profileRepository;
-    private readonly IRepository<ApplicationUser> userRepository;
+    private readonly IUserProfileRepository profileRepository;
+    private readonly IUserRepository userRepository;
     private readonly IAccountService accountService;
-    private readonly IRepository<Shop> shopRepository;
-    private readonly IRepository<PaymentMethod> paymentMethodRepository;
-    private readonly IRepository<Asset> assetRepository;
+    private readonly IShopRepository shopRepository;
+    private readonly IPaymentMethodRepository paymentMethodRepository;
+    private readonly IAssetRepository assetRepository;
 
-    public UserService(IRepository<UserProfile> profileRepository,
-        IRepository<ApplicationUser> userRepository,
+    public UserService(IUserProfileRepository profileRepository,
+        IUserRepository userRepository,
         IAccountService accountService,
-        IRepository<Shop> shopRepository,
-        IRepository<PaymentMethod> paymentMethodRepository,
-        IRepository<Asset> assetRepository)
+        IShopRepository shopRepository,
+        IPaymentMethodRepository paymentMethodRepository,
+        IAssetRepository assetRepository)
     {
         this.profileRepository = profileRepository;
         this.userRepository = userRepository;
@@ -41,48 +41,46 @@ public class UserService : IUserService
         this.assetRepository = assetRepository;
     }
 
-    public Task<PublicProfileViewModel?> GetUserProfileAsync(string username)
+    public async Task<PublicProfileViewModel?> GetUserProfileAsync(string username)
     {
-        return Task.FromResult(this.profileRepository.GetAll()
-            .Where(up => up.User.UserName == username)
-            .Include(up => up.SocialLinks)
-            .AsNoTracking()
-            .AsEnumerable()
-            .Select(up => new PublicProfileViewModel
+        var userProfile = await this.profileRepository.GetByUsername(username);
+
+        if (userProfile is not null)
+        {
+            return new PublicProfileViewModel
             {
-                Id = up.Id,
+                Id = userProfile.Id,
                 Username = username,
-                About = up.About,
-                PublicEmail = up.PublicEmail,
-                Website = up.Website,
-                SocialLinks = up.SocialLinks.ToDictionary(l => l.SocialType.ToString(), l => l.LinkUrl)
-            }).FirstOrDefault());
+                About = userProfile.About,
+                PublicEmail = userProfile.PublicEmail,
+                Website = userProfile.Website,
+                SocialLinks = userProfile.SocialLinks.ToDictionary(l => l.SocialType.ToString(), l => l.LinkUrl)
+            };
+        }
+
+        return null;
     }
 
     public async Task<ProfileSettingsFormModel> GetUserPublicProfileAsync(string userId)
     {
-        return await this.profileRepository.GetAll()
-            .AsNoTracking()
-            .Where(p => p.UserId.ToString() == userId)
-            .Select(p => new ProfileSettingsFormModel
+        var userProfile = await this.profileRepository.GetByUserId(Guid.Parse(userId));
+
+        return new ProfileSettingsFormModel
             {
-                Id = p.Id,
-                About = p.About,
-                PublicEmail = p.PublicEmail,
-                Website = p.Website
-            })
-            .FirstAsync();
+                Id = userProfile!.Id,
+                About = userProfile.About,
+                PublicEmail = userProfile.PublicEmail,
+                Website = userProfile.Website
+            };
     }
 
     public async Task UpdateUserPublicProfileAsync(ProfileSettingsFormModel model, string userId)
     {
-        var entity = await this.profileRepository.GetAll()
-            .Where(p => p.UserId.ToString() == userId)
-            .FirstAsync();
+        var entity = await this.profileRepository.GetByUserId(Guid.Parse(userId));
 
         var aboutEncoded = WebUtility.HtmlEncode(model.About);
 
-        if (entity.About != aboutEncoded ||
+        if (entity!.About != aboutEncoded ||
             entity.PublicEmail != model.PublicEmail ||
             entity.Website != model.Website)
         {
@@ -92,7 +90,7 @@ public class UserService : IUserService
 
             this.profileRepository.Update(entity);
 
-            await this.profileRepository.SaveAsync();
+            await this.profileRepository.Save();
         }
     }
 
@@ -112,12 +110,12 @@ public class UserService : IUserService
             Name = "Bank"
         };
 
-        user.OwnedShop = shop;
-        user.PaymentMethod = paymentMethod;
+        await this.paymentMethodRepository.Add(paymentMethod);
+        await this.shopRepository.Add(shop);
+        await this.shopRepository.Save();
 
-        await this.paymentMethodRepository.AddAsync(paymentMethod);
-        await this.shopRepository.AddAsync(shop);
-        await this.shopRepository.SaveAsync();
+        user.OwnedShopId = shop.Id;
+        user.PaymentMethod = paymentMethod;
 
         await this.accountService.AddUserClaim(user, ShopOwnerClaimType, shop.Id.ToString());
 
@@ -127,8 +125,8 @@ public class UserService : IUserService
     public async Task<bool> IsShopNameAvailableAsync(string? shopName)
     {
         if (shopName != null &&
-            await this.userRepository.GetAll().AsNoTracking().AnyAsync(u => u.UserName == shopName) ||
-            await this.shopRepository.GetAll().AsNoTracking().AnyAsync(s => s.ShopName == shopName))
+            await this.userRepository.IsUsernameInUse(shopName) ||
+            await this.shopRepository.IsShopNameInUse(shopName!))
         {
             return false;
         }
@@ -154,17 +152,14 @@ public class UserService : IUserService
             user!.PurchasedAssets.Add(assetEntity!);
         }
 
-        await this.assetRepository.SaveAsync();
+        await this.assetRepository.Save();
     }
 
     public async Task<IEnumerable<LibraryAssetCardViewModel>> GetUserLibraryAssetsAsync(string userId)
     {
-        var user = await this.userRepository.GetAll()
-            .Include(u => u.PurchasedAssets)
-            .AsNoTracking()
-            .FirstAsync(u => u.Id.ToString() == userId);
+        var purchasedAssets = await this.userRepository.GetPurchasedAssets(Guid.Parse(userId));
 
-        return user.PurchasedAssets
+        return purchasedAssets
             .Select(a => new LibraryAssetCardViewModel
             {
                 Id = a.Id.ToString(),
