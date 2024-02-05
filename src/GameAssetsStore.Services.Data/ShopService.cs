@@ -1,10 +1,8 @@
 ﻿namespace GameAssetsStore.Services.Data;
 
-using GameAssetsStore.Data.Models;
 using GameAssetsStore.Data.Repositories.Interfaces;
 using GameAssetsStore.Services.Data.Interfaces;
 using GameAssetsStore.Web.ViewModels.Shop;
-using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 
 using static Common.GlobalConstants;
@@ -41,6 +39,7 @@ public class ShopService : IShopService
     public async Task<ShopHomePageViewModel> GetHomePageAssetsAsync()
     {
         // TODO: Change implementation when assetRepository.GetAllFiltered() is ready
+        // with pagination and ordering.
 
         ShopHomePageViewModel model = new();
 

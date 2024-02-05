@@ -30,13 +30,22 @@ public class ShopController : Controller
     [HttpGet]
     public async Task<IActionResult> Index()
     {
-        var model = await this.shopService.GetHomePageAssetsAsync();
+        try
+        {
+            var model = await this.shopService.GetHomePageAssetsAsync();
 
-        return View(model);
+            return View(model);
+        }
+        catch (Exception)
+        {
+            // TODO: 
+
+            throw;
+        }
     }
 
     [AllowAnonymous]
-    [HttpGet("{action}/{*path}")]
+    [HttpGet("[action]/{*path}")]
     public async Task<IActionResult> Browse(
         [FromRoute] string? path, 
         [FromQuery] string? search,
