@@ -9,9 +9,13 @@
 
   <ItemGroup>
     <Compile Remove="Areas\Identity\**" />
+    <Compile Remove="Views\Asset\**" />
     <Content Remove="Areas\Identity\**" />
+    <Content Remove="Views\Asset\**" />
     <EmbeddedResource Remove="Areas\Identity\**" />
+    <EmbeddedResource Remove="Views\Asset\**" />
     <None Remove="Areas\Identity\**" />
+    <None Remove="Views\Asset\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -35,10 +39,6 @@
     <ProjectReference Include="..\GameAssetsStore.Services.Data\GameAssetsStore.Services.Data.csproj" />
     <ProjectReference Include="..\GameAssetsStore.Web.Infrastructure\GameAssetsStore.Web.Infrastructure.csproj" />
     <ProjectReference Include="..\GameAssetsStore.Web.ViewModels\GameAssetsStore.Web.ViewModels.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Views\Asset\" />
   </ItemGroup>
 
 </Project>

@@ -36,13 +36,34 @@ public class ShopController : Controller
     }
 
     [AllowAnonymous]
-    [HttpGet]
-    public async Task<IActionResult> Browse([FromQuery] AssetQueryModel queryModel)
+    [HttpGet("{action}/{*path}")]
+    public async Task<IActionResult> Browse(
+        [FromRoute] string? path, 
+        [FromQuery] string? search,
+        [FromQuery] string[]? artStyle = null)
     {
-        var model = await this.shopService.GetAllAssetsAsync(queryModel);
+        try
+        {
+            string[]? pathParameters = path?.Split('/');
 
+            AssetQueryModel queryModel = new()
+            {
+                Search = search,
+                ArtStyles = artStyle,
+                Category = pathParameters?[0],
+                SubCategories = pathParameters?[1..]
+            };
 
-        return View(model);
+            var model = await this.shopService.GetAllAssetsAsync(queryModel);
+
+            return View(model);
+        }
+        catch (Exception)
+        {
+            // TODO: 
+
+            throw;
+        }
     }
 
     [AllowAnonymous]
