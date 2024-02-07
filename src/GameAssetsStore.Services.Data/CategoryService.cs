@@ -15,7 +15,7 @@ public class CategoryService : ICategoryService
         this.categoriesRepository = categoriesRepository;
     }
 
-    public async Task<List<AssetCategoryFormModel>> GetAllCategoriesWithSubCategoriesAsync()
+    public async Task<List<AssetCategoryFormModel>> GetAllCategoriesWithSubCategories()
     {
         var allCategories = await this.categoriesRepository.GetAllWithSubCategories();
 

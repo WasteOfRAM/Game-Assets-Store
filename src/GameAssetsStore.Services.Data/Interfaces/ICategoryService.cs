@@ -4,5 +4,5 @@ using GameAssetsStore.Web.ViewModels.Manage;
 
 public interface ICategoryService
 {
-    Task<List<AssetCategoryFormModel>> GetAllCategoriesWithSubCategoriesAsync();
+    Task<List<AssetCategoryFormModel>> GetAllCategoriesWithSubCategories();
 }

@@ -52,7 +52,7 @@ public class AssetRepository : EfRepositoryBase<Asset>, IAssetRepository
 
         // TODO: Include methods added only for testing remove it when done.
 
-        return await allAssetsQuery.AsNoTracking().Include(a => a.GeneralCategories).Include(a => a.SubCategories).Include(a => a.ArtStyle).ToListAsync();
+        return await allAssetsQuery.AsNoTracking().Include(a => a.GeneralCategories).Include(a => a.SubCategories).Include(a => a.ArtStyle).AsSplitQuery().ToListAsync();
     }
 
     public override void Delete(Asset entity)

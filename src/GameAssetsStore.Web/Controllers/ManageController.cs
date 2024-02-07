@@ -41,7 +41,7 @@ public class ManageController : Controller
     {
         var model = new CreateAssetFormModel
         {
-            Categories = await categoryService.GetAllCategoriesWithSubCategoriesAsync(),
+            Categories = await categoryService.GetAllCategoriesWithSubCategories(),
             ArtStyles = await artStyleService.GetArtStylesAsync()
         };
 
@@ -73,7 +73,7 @@ public class ManageController : Controller
 
             if (!ModelState.IsValid)
             {
-                model.Categories = await categoryService.GetAllCategoriesWithSubCategoriesAsync();
+                model.Categories = await categoryService.GetAllCategoriesWithSubCategories();
                 model.ArtStyles = await artStyleService.GetArtStylesAsync();
 
                 return View(model);
