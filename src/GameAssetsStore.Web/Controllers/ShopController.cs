@@ -15,15 +15,18 @@ public class ShopController : Controller
     private readonly IAssetService assetService;
     private readonly IShopService shopService;
     private readonly ICartService cartService;
+    private readonly ICategoryService categoryService;
 
     public ShopController(
         IAssetService assetService,
         IShopService shopService,
-        ICartService cartService)
+        ICartService cartService,
+        ICategoryService categoryService)
     {
         this.assetService = assetService;
         this.shopService = shopService;
         this.cartService = cartService;
+        this.categoryService = categoryService;
     }
 
     [AllowAnonymous]
@@ -46,9 +49,8 @@ public class ShopController : Controller
 
     [AllowAnonymous]
     [HttpGet("[action]/{*path}")]
-    public async Task<IActionResult> Browse(
-        [FromRoute] string? path, 
-        [FromQuery] string? search,
+    public async Task<IActionResult> Browse([FromRoute] string? path, 
+        [FromQuery] string? search, 
         [FromQuery] string[]? artStyle = null)
     {
         try
@@ -64,6 +66,8 @@ public class ShopController : Controller
             };
 
             var model = await this.shopService.GetAllAssetsAsync(queryModel);
+
+            model.CategoriesList = await this.categoryService.GetAllCategoriesWithSubCategories();
 
             return View(model);
         }
